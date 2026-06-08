@@ -1,40 +1,28 @@
-# See https://docs.github.com/get-started/getting-started-with-git/ignoring-files for more about ignoring files.
+# Dependencies
+node_modules/
 
-# Compiled output
-/dist
-/tmp
-/out-tsc
-/bazel-out
+# Angular build output
+/portfolio/dist/
+/portfolio/.angular/
+/portfolio/coverage/
 
-# Node
-/node_modules
-npm-debug.log
-yarn-error.log
+# Sanity Studio build output
+/sanity-studio/dist/
+/sanity-studio/.sanity/
 
-# IDEs and editors
+# Logs
+*.log
+
+# Environment variables
+.env
+
+# IDE
+.vscode/
 .idea/
-.project
-.classpath
-.c9/
-*.launch
-.settings/
-*.sublime-workspace
 
-# Visual Studio Code
-.vscode/*
-.history/*
-
-# Miscellaneous
-/.angular/cache
-.sass-cache/
-/connect.lock
-/coverage
-/libpeerconnection.log
-testem.log
-/typings
-__screenshots__/
-.claude/
-
-# System files
+# System
 .DS_Store
 Thumbs.db
+
+# Claude Code
+/.claude/
