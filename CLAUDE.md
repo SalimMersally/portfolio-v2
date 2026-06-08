@@ -86,6 +86,21 @@ Component styles use `styleUrl` (scoped SCSS). Never add hardcoded color/font/sp
 
 Lives in `sanity-studio/` — Sanity v5 + React 19, separate `npm install` and build. Schemas are in `sanity-studio/schemas/index.ts`. Has its own `sanity.cli.ts` (required by v5) and `sanity.config.ts`.
 
+## Design reference
+
+The HTML/CSS prototype (Option A — modern style) lives in `.claude/design/`. Use it as the source of truth for layout, spacing, colours, and component structure when building or styling anything.
+
+| File | Purpose |
+|---|---|
+| `.claude/design/index.html` | Main portfolio page — all sections (Navbar, Hero, Experience, Skills, Projects, Books, Footer) |
+| `.claude/design/blog.html` | Blog page layout |
+| `.claude/design/styles.css` | Global CSS custom properties, layout, and base styles |
+| `.claude/design/sections.css` | Per-section styles |
+| `.claude/design/app.js` | Interactive behaviour (nav scroll, theme toggle, etc.) |
+| `.claude/design/screenshots/` | PNGs of rendered design states (`01-sections.png` … `04-sections.png`, `preview-a.png`) |
+
+When implementing a new section or component, open the corresponding block in `index.html` and the relevant CSS files first. Never invent colours, fonts, or spacing — derive them from the prototype's CSS variables.
+
 ## Roadmap (Stage 1 remaining)
 
 See `.claude/requirement.md` for the full spec. Outstanding items:
