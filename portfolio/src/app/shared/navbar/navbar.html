@@ -1,0 +1,61 @@
+<nav class="nav" [class.scrolled]="scrolled()">
+  <div class="nav-inner container">
+    <a routerLink="/" fragment="introduction" class="nav-logo">
+      <span class="nav-logo-icon" aria-hidden="true">
+        <svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg">
+          <rect x="1" y="1" width="30" height="30" rx="7" fill="currentColor" fill-opacity="0.12" stroke="currentColor" stroke-width="1.5" stroke-opacity="0.45"/>
+          <path d="M7.511 22.154 5.77 26.269C7.155 28.129 8.976 29 11.588 29C17.642 29 23.578 24.093 23.578 19.027C23.578 17.405 22.985 16.574 20.017 14.279C17.128 12.023 16.653 11.35 16.653 9.648C16.653 7.037 18.592 4.86 20.927 4.86C22.589 4.86 23.183 5.572 23.618 8.105L26.23 6.245C25.992 4.108 24.805 3 22.708 3C18.632 3 14.002 7.472 14.002 11.429C14.002 13.25 14.793 14.476 17.128 16.297C19.819 18.434 20.531 19.502 20.531 21.323C20.531 24.449 17.563 27.14 14.12 27.14C12.419 27.14 10.677 26.388 9.609 25.201C8.778 24.291 8.461 23.46 8.145 21.718Z" fill="currentColor"/>
+        </svg>
+      </span>
+      <span class="nav-logo-mark">Salim</span><span class="nav-logo-dot"> .</span>
+    </a>
+
+    <ul class="nav-links" [class.open]="mobileOpen()">
+      @for (section of sections; track section) {
+        <li>
+          <a
+            routerLink="/"
+            [fragment]="section"
+            class="nav-link"
+            [class.active]="activeSection() === section"
+            (click)="closeMobile()"
+          >{{ section | titlecase }}</a>
+        </li>
+      }
+      <li class="nav-blog-item">
+        <span class="nav-link nav-link-disabled">Blog</span>
+        <span class="nav-coming-soon">coming soon</span>
+      </li>
+    </ul>
+
+    <div class="nav-actions">
+      <button class="theme-toggle" (click)="theme.toggleMode()" aria-label="Toggle dark/light mode">
+        <!-- Sun (shown in dark mode) -->
+        <svg class="icon-sun" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+          <circle cx="12" cy="12" r="5"/>
+          <line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/>
+          <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+          <line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/>
+          <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+        </svg>
+        <!-- Moon (shown in light mode) -->
+        <svg class="icon-moon" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+          <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+        </svg>
+      </button>
+
+      <button
+        class="nav-mobile-toggle"
+        (click)="toggleMobile()"
+        [attr.aria-expanded]="mobileOpen()"
+        aria-label="Toggle menu"
+      >
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+          <line x1="3" y1="6" x2="21" y2="6"/>
+          <line x1="3" y1="12" x2="21" y2="12"/>
+          <line x1="3" y1="18" x2="21" y2="18"/>
+        </svg>
+      </button>
+    </div>
+  </div>
+</nav>

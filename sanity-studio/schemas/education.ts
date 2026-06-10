@@ -5,8 +5,15 @@ export const education = defineType({
   title: 'Education',
   type: 'document',
   fields: [
-    defineField({ name: 'degree', title: 'Degree', type: 'string', validation: (r) => r.required() }),
-    defineField({ name: 'field', title: 'Field of Study', type: 'string', validation: (r) => r.required() }),
+    defineField({
+      name: 'type',
+      title: 'Type',
+      type: 'string',
+      options: { list: ['university', 'bootcamp'], layout: 'radio' },
+      initialValue: 'university',
+    }),
+    defineField({ name: 'degree', title: 'Degree / Program Name', type: 'string', validation: (r) => r.required() }),
+    defineField({ name: 'field', title: 'Field of Study', type: 'string' }),
     defineField({ name: 'institution', title: 'Institution', type: 'string', validation: (r) => r.required() }),
     defineField({ name: 'location', title: 'Location', type: 'string' }),
     defineField({
@@ -23,6 +30,20 @@ export const education = defineType({
       title: 'Highlights / Activities',
       type: 'array',
       of: [{ type: 'string' }],
+    }),
+    defineField({
+      name: 'technologies',
+      title: 'Technologies',
+      type: 'array',
+      of: [{ type: 'string' }],
+      description: 'For bootcamps — tech stack covered',
+    }),
+    defineField({
+      name: 'credential',
+      title: 'Degree / Certificate Image',
+      type: 'image',
+      options: { hotspot: true },
+      description: 'Upload a scan or photo of the degree/certificate',
     }),
     defineField({ name: 'order', title: 'Display Order', type: 'number' }),
   ],

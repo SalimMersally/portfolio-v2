@@ -1,0 +1,20 @@
+<section class="section section-alt" id="skills">
+  <div class="container">
+    <p class="section-label" appReveal>03 / Skills</p>
+    <h2 class="section-title" appReveal="1">Technical Expertise</h2>
+    <div class="section-divider" appReveal="2"></div>
+
+    <div class="skills-grid">
+      @for (group of (groups.value() ?? []); track group._id; let i = $index) {
+        <div class="skills-category" [appReveal]="((i % 4) + 1).toString()">
+          <h3 class="skills-category-name">{{ group.category }}</h3>
+          <div class="skills-tags">
+            @for (item of group.items; track $index) {
+              <span class="skill-tag">{{ item }}</span>
+            }
+          </div>
+        </div>
+      }
+    </div>
+  </div>
+</section>

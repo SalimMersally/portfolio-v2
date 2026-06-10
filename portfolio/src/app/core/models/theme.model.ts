@@ -3,11 +3,8 @@ export type BorderRadius = 'sharp' | 'rounded' | 'pill';
 export type SpacingDensity = 'compact' | 'comfortable' | 'spacious';
 
 export interface Theme {
-  colorAccent?: string;
-  colorBg?: string;
-  colorSurface?: string;
-  colorText?: string;
-  colorTextMuted?: string;
+  accentHue?: number;
+  accentChroma?: number;
   fontHeading?: string;
   fontBody?: string;
   fontMono?: string;

@@ -1,0 +1,84 @@
+<section class="section" id="education">
+  <div class="container">
+    <p class="section-label" appReveal>04 / Education</p>
+    <h2 class="section-title" appReveal="1">Education & Training</h2>
+    <div class="section-divider" appReveal="2"></div>
+
+    <div class="edu-grid">
+      @for (edu of (items.value() ?? []); track edu._id; let i = $index) {
+        <div
+          class="edu-card"
+          [class.edu-card--bootcamp]="edu.type === 'bootcamp'"
+          [appReveal]="(i % 2 === 0 ? '3' : '4')"
+        >
+          <div class="edu-card-top">
+            <div class="edu-card-header">
+              <div class="edu-logo">
+                <img [src]="edu.logoUrl" [alt]="edu.institution" />
+              </div>
+              <div class="edu-header-text">
+                <h3 class="edu-institution">{{ edu.institution }}</h3>
+                <p class="edu-location">{{ edu.location }}</p>
+              </div>
+              <span class="edu-type-badge">{{ edu.type === 'bootcamp' ? 'Bootcamp' : 'University' }}</span>
+            </div>
+
+            <p class="edu-degree">
+              {{ edu.degree }}
+              @if (edu.field) {
+                <span class="edu-field"> &nbsp;·&nbsp; {{ edu.field }}</span>
+              }
+            </p>
+
+            @if (edu.highlights.length) {
+              <ul class="edu-highlights">
+                @for (h of edu.highlights; track $index) {
+                  <li>{{ h }}</li>
+                }
+              </ul>
+            }
+
+            @if (edu.type === 'university' && edu.gpa) {
+              <div class="edu-gpa-block">
+                <span class="edu-gpa-label">GPA</span>
+                <span class="edu-gpa-value">{{ edu.gpa }}</span>
+              </div>
+            }
+            @if (edu.technologies?.length) {
+              <div class="edu-tech">
+                @for (t of (edu.technologies ?? []); track $index) {
+                  <span class="edu-tech-tag">{{ t }}</span>
+                }
+              </div>
+            }
+          </div>
+
+          <div class="edu-footer">
+            <span class="edu-dates">
+              {{ formatDate(edu.startDate) }} — {{ edu.endDate ? formatDate(edu.endDate) : 'Present' }}
+            </span>
+            <button class="edu-credential-btn" (click)="openCredential(edu.credentialUrl)">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="3" y="3" width="18" height="18" rx="2"/><path d="M9 9h6M9 12h6M9 15h4"/>
+              </svg>
+              {{ edu.type === 'university' ? 'View Degree' : 'View Certificate' }}
+            </button>
+          </div>
+        </div>
+      }
+    </div>
+  </div>
+</section>
+
+@if (activeCredential()) {
+  <div class="credential-overlay" (click)="closeCredential()">
+    <button class="credential-close" (click)="closeCredential()" aria-label="Close">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round">
+        <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+      </svg>
+    </button>
+    <div class="credential-frame" (click)="$event.stopPropagation()">
+      <img [src]="activeCredential()" alt="Certificate" class="credential-img" />
+    </div>
+  </div>
+}

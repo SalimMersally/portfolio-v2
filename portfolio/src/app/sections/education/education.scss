@@ -1,0 +1,289 @@
+.edu-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(420px, 1fr));
+  gap: 1.5rem;
+}
+
+.edu-card {
+  background: var(--color-surface-2);
+  border: 1px solid var(--color-border);
+  border-radius: calc(var(--radius) * 1.5);
+  padding: 1.75rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  position: relative;
+  overflow: hidden;
+  transition: border-color var(--t), transform var(--t), box-shadow var(--t);
+
+  &::after {
+    content: '';
+    position: absolute;
+    inset: 0 0 auto 0;
+    height: 2px;
+    background: var(--color-accent);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.35s ease;
+  }
+
+  &:hover {
+    border-color: oklch(from var(--color-accent) l c h / 0.4);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 28px oklch(0 0 0 / 0.2);
+
+    &::after { transform: scaleX(1); }
+  }
+}
+
+.edu-card-top {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  flex: 1;
+}
+
+.edu-card-header {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.edu-logo {
+  width: 52px; height: 52px;
+  border-radius: var(--radius);
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  display: flex; align-items: center; justify-content: center;
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  font-weight: 600;
+  color: var(--color-accent);
+  letter-spacing: 0.04em;
+  flex-shrink: 0;
+  overflow: hidden;
+
+  img { width: 100%; height: 100%; object-fit: contain; padding: 4px; }
+}
+
+.edu-header-text {
+  flex: 1;
+  min-width: 0;
+}
+
+.edu-institution {
+  font-family: var(--font-heading);
+  font-size: 1.15rem;
+  font-weight: 700;
+  letter-spacing: -0.015em;
+  line-height: 1.2;
+}
+
+.edu-location {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  color: var(--color-text-muted);
+  letter-spacing: 0.05em;
+  margin-top: 0.25rem;
+}
+
+.edu-type-badge {
+  font-family: var(--font-mono);
+  font-size: 0.62rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 0.25em 0.75em;
+  border-radius: 99px;
+  background: var(--color-accent-subtle);
+  color: var(--color-accent);
+  border: 1px solid oklch(from var(--color-accent) l c h / 0.3);
+  white-space: nowrap;
+  flex-shrink: 0;
+  align-self: flex-start;
+}
+
+.edu-degree {
+  font-size: 0.925rem;
+  font-weight: 500;
+  color: var(--color-text);
+  line-height: 1.4;
+  padding-top: 1.25rem;
+  border-top: 1px solid var(--color-border);
+}
+
+.edu-field {
+  color: var(--color-text-muted);
+  font-weight: 400;
+}
+
+.edu-highlights {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+
+  li {
+    font-size: 0.875rem;
+    color: var(--color-text-muted);
+    line-height: 1.55;
+    padding-left: 1.1rem;
+    position: relative;
+    text-wrap: pretty;
+
+    &::before {
+      content: '›';
+      position: absolute;
+      left: 0;
+      color: var(--color-accent);
+      font-weight: 700;
+    }
+  }
+}
+
+.edu-tech {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+}
+
+.edu-tech-tag {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  color: var(--color-accent);
+  background: var(--color-accent-subtle);
+  border: 1px solid oklch(from var(--color-accent) l c h / 0.2);
+  padding: 0.2em 0.6em;
+  border-radius: 4px;
+}
+
+.edu-footer {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-top: 1.5rem;
+  padding-top: 1.25rem;
+  border-top: 1px solid var(--color-border);
+}
+
+.edu-gpa-block {
+  display: flex;
+  align-items: baseline;
+  gap: 0.5rem;
+  padding: 0.75rem 1rem;
+  background: var(--color-accent-subtle);
+  border: 1px solid oklch(from var(--color-accent) l c h / 0.25);
+  border-radius: calc(var(--radius));
+}
+
+.edu-gpa-label {
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--color-accent);
+}
+
+.edu-gpa-value {
+  font-family: var(--font-heading);
+  font-size: 1.1rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: var(--color-accent);
+}
+
+.edu-dates {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  color: var(--color-text-muted);
+}
+
+.edu-credential-btn {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  color: var(--color-text-muted);
+  border: 1px solid var(--color-border);
+  padding: 0.3em 0.75em;
+  border-radius: 99px;
+  transition: color var(--t), border-color var(--t), background var(--t);
+  white-space: nowrap;
+
+  &:hover {
+    color: var(--color-accent);
+    border-color: var(--color-accent);
+    background: var(--color-accent-subtle);
+  }
+}
+
+// ── Credential lightbox ──────────────────────────────────────────────────────
+
+.credential-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  background: oklch(0 0 0 / 0.82);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+  backdrop-filter: blur(6px);
+  animation: overlay-in 0.2s ease;
+  cursor: zoom-out;
+}
+
+@keyframes overlay-in {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+.credential-close {
+  position: fixed;
+  top: 1.25rem;
+  right: 1.25rem;
+  width: 40px; height: 40px;
+  border-radius: 50%;
+  background: var(--color-surface-2);
+  border: 1px solid var(--color-border);
+  color: var(--color-text);
+  display: flex; align-items: center; justify-content: center;
+  transition: background var(--t), color var(--t), transform var(--t);
+  z-index: 1001;
+
+  &:hover {
+    background: var(--color-accent);
+    color: oklch(0.10 0 0);
+    transform: rotate(90deg);
+  }
+}
+
+.credential-frame {
+  max-width: min(900px, 100%);
+  max-height: calc(100vh - 4rem);
+  border-radius: calc(var(--radius) * 1.5);
+  overflow: hidden;
+  box-shadow: 0 32px 80px oklch(0 0 0 / 0.5);
+  animation: frame-in 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+  cursor: default;
+}
+
+@keyframes frame-in {
+  from { opacity: 0; transform: scale(0.92); }
+  to   { opacity: 1; transform: scale(1); }
+}
+
+.credential-img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  max-height: calc(100vh - 4rem);
+}
+
+@media (max-width: 900px) {
+  .edu-grid { grid-template-columns: 1fr; }
+}

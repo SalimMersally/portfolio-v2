@@ -22,9 +22,8 @@ export class SanityService {
     return this.client.fetch<SiteSettings>(
       `*[_type == "siteSettings"][0] {
         name, title, tagline,
-        "avatarUrl": avatar.asset->url,
-        email, phone, location, github, linkedin,
-        contactFormEnabled
+        "cvUrl": cv.asset->url,
+        email, phone, location, github, linkedin
       }`,
     );
   }
@@ -54,10 +53,11 @@ export class SanityService {
 
   getEducation(): Promise<Education[]> {
     return this.client.fetch<Education[]>(
-      `*[_type == "education"] | order(startDate desc) {
-        _id, degree, field, institution, location,
+      `*[_type == "education"] | order(order asc) {
+        _id, type, degree, field, institution, location,
         "logoUrl": logo.asset->url,
-        gpa, startDate, endDate, highlights, order
+        "credentialUrl": credential.asset->url,
+        gpa, startDate, endDate, highlights, technologies, order
       }`,
     );
   }
@@ -65,9 +65,7 @@ export class SanityService {
   getProjects(): Promise<Project[]> {
     return this.client.fetch<Project[]>(
       `*[_type == "project"] | order(order asc) {
-        _id, title, "slug": slug.current, description,
-        "thumbnailUrl": thumbnail.asset->url,
-        techStack, githubUrl, liveUrl, featured, order
+        _id, title, description, date, techStack, githubUrl, liveUrl, order
       }`,
     );
   }
@@ -77,7 +75,7 @@ export class SanityService {
       `*[_type == "book"] | order(order asc) {
         _id, title, author,
         "coverUrl": cover.asset->url,
-        rating, note, status, finishedDate, order
+        status, order
       }`,
     );
   }

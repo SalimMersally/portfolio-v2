@@ -14,6 +14,7 @@ export const project = defineType({
       validation: (r) => r.required(),
     }),
     defineField({ name: 'description', title: 'Description', type: 'text', rows: 3, validation: (r) => r.required() }),
+    defineField({ name: 'date', title: 'Date', type: 'date', validation: (r) => r.required() }),
     defineField({
       name: 'thumbnail',
       title: 'Thumbnail',

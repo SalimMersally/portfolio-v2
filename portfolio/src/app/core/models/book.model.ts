@@ -4,10 +4,8 @@ export interface Book {
   _id: string;
   title: string;
   author: string;
-  coverUrl?: string;
-  rating?: number;
-  note?: string;
+  coverUrl: string;
   status: BookStatus;
-  finishedDate?: string;
-  order?: number;
+  rating?: number;
+  order: number;
 }

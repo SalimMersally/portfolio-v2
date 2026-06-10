@@ -1,0 +1,92 @@
+<section class="section" id="experience">
+  <div class="container">
+    <p class="section-label" appReveal>02 / Experience</p>
+    <h2 class="section-title" appReveal="1">Where I've Worked</h2>
+    <div class="section-divider" appReveal="2"></div>
+
+    @if (totalExperience(); as xp) {
+      <div class="xp-banner" appReveal="3">
+        <div class="xp-numbers">
+          <div class="xp-chunk">
+            <span class="xp-n">{{ xp.years }}</span>
+            <span class="xp-u">yrs</span>
+          </div>
+          @if (xp.months > 0) {
+            <span class="xp-dot">·</span>
+            <div class="xp-chunk">
+              <span class="xp-n">{{ xp.months }}</span>
+              <span class="xp-u">mos</span>
+            </div>
+          }
+        </div>
+        <p class="xp-desc">
+          of professional experience
+          <span class="xp-since">· since {{ xp.since }}</span>
+        </p>
+      </div>
+    }
+
+    @if (allTechs().length > 0) {
+      <app-skill-filter [skills]="allTechs()" appReveal="4" />
+    }
+
+    <div class="timeline">
+      @for (group of filteredGroups(); track group.company) {
+        <div class="timeline-company" appReveal>
+          <div class="timeline-company-header">
+            <div class="timeline-logo">
+              @if (group.logoUrl) {
+                <img [src]="group.logoUrl" [alt]="group.company" />
+              } @else {
+                {{ initials(group.company) }}
+              }
+            </div>
+            <div>
+              <h3 class="timeline-company-name">{{ group.company }}</h3>
+              @if (group.location) {
+                <p class="timeline-company-loc">{{ group.location }}</p>
+              }
+            </div>
+          </div>
+
+          <div class="timeline-roles">
+            @for (role of group.roles; track role._id; let first = $first) {
+              <div class="timeline-role">
+                <div class="timeline-role-header">
+                  <span class="timeline-role-title">{{ role.role }}</span>
+                  @if (role.current) {
+                    <span class="timeline-badge">Current</span>
+                  }
+                  <span class="timeline-role-date">
+                    {{ formatDate(role.startDate) }} — {{ role.current ? 'Present' : (role.endDate ? formatDate(role.endDate) : '') }}
+                  </span>
+                </div>
+                <ul class="timeline-bullets">
+                  @for (bullet of role.bullets; track $index) {
+                    <li>{{ bullet }}</li>
+                  }
+                </ul>
+                @if (role.technologies?.length) {
+                  <div class="timeline-tech">
+                    @for (tech of role.technologies; track $index) {
+                      <button
+                        class="timeline-tech-tag"
+                        [class.active]="filter.activeSkills().includes(tech)"
+                        (click)="filter.toggle(tech)"
+                        [attr.aria-pressed]="filter.activeSkills().includes(tech)"
+                      >{{ tech }}</button>
+                    }
+                  </div>
+                }
+              </div>
+            }
+          </div>
+        </div>
+      }
+
+      @if (filteredGroups().length === 0 && filter.activeSkills().length) {
+        <p class="filter-empty">No experience entries match the selected skills. <button class="filter-empty-clear" (click)="filter.clear()">Clear filter</button></p>
+      }
+    </div>
+  </div>
+</section>

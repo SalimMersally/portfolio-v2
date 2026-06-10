@@ -2,6 +2,8 @@ import { inject, Injectable, signal } from '@angular/core';
 import { ColorMode, Theme } from '../models/theme.model';
 import { SanityService } from './sanity.service';
 
+const STORAGE_KEY = 'color-mode';
+
 const RADIUS_MAP: Record<string, string> = {
   sharp: '0px',
   rounded: '8px',
@@ -21,6 +23,9 @@ export class ThemeService {
   private readonly sanity = inject(SanityService);
 
   async init(): Promise<void> {
+    // Resolve and apply mode before the network fetch to avoid any flash.
+    this.applyMode(this.resolveMode());
+
     const theme = await this.sanity.getTheme().catch(() => null);
     if (theme) {
       this.applyTheme(theme);
@@ -29,21 +34,35 @@ export class ThemeService {
 
   toggleMode(): void {
     const next: ColorMode = this.mode() === 'dark' ? 'light' : 'dark';
-    this.mode.set(next);
-    document.documentElement.setAttribute('data-theme', next);
+    this.applyMode(next);
+    localStorage.setItem(STORAGE_KEY, next);
+  }
+
+  private resolveMode(): ColorMode {
+    const stored = localStorage.getItem(STORAGE_KEY);
+    if (stored === 'light' || stored === 'dark') return stored;
+    return window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
+  }
+
+  private applyMode(mode: ColorMode): void {
+    this.mode.set(mode);
+    if (mode === 'light') {
+      document.documentElement.setAttribute('data-theme', 'light');
+    } else {
+      document.documentElement.removeAttribute('data-theme');
+    }
   }
 
   private applyTheme(theme: Theme): void {
     const root = document.documentElement;
-    const mode = theme.defaultMode ?? 'dark';
-    this.mode.set(mode);
-    root.setAttribute('data-theme', mode);
 
-    if (theme.colorAccent) root.style.setProperty('--color-accent', theme.colorAccent);
-    if (theme.colorBg) root.style.setProperty('--color-bg', theme.colorBg);
-    if (theme.colorSurface) root.style.setProperty('--color-surface', theme.colorSurface);
-    if (theme.colorText) root.style.setProperty('--color-text', theme.colorText);
-    if (theme.colorTextMuted) root.style.setProperty('--color-text-muted', theme.colorTextMuted);
+    // Mode is owned by localStorage/system — never overridden by Sanity.
+    if (theme.accentHue !== undefined) {
+      root.style.setProperty('--accent-h', String(theme.accentHue));
+    }
+    if (theme.accentChroma !== undefined) {
+      root.style.setProperty('--accent-c', String(theme.accentChroma));
+    }
 
     const headingFont = theme.fontHeading ?? 'Inter';
     const bodyFont = theme.fontBody ?? 'Inter';

@@ -1,0 +1,53 @@
+.contact-wrap {
+  max-width: 560px;
+}
+
+.contact-intro {
+  font-size: 1rem;
+  color: var(--color-text-muted);
+  line-height: 1.75;
+  margin-bottom: 2rem;
+  text-wrap: pretty;
+}
+
+.contact-email {
+  display: inline-block;
+  font-family: var(--font-heading);
+  font-size: clamp(1.1rem, 3vw, 1.6rem);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: var(--color-text);
+  border-bottom: 2px solid var(--color-accent);
+  padding-bottom: 0.15em;
+  margin-bottom: 2rem;
+  transition: color var(--t), border-color var(--t);
+
+  &:hover { color: var(--color-accent); }
+}
+
+.contact-socials {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.contact-social-link {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--color-text-muted);
+  border: 1px solid var(--color-border);
+  background: var(--color-surface-2);
+  padding: 0.55rem 1.1rem;
+  border-radius: var(--radius);
+  transition: color var(--t), border-color var(--t), background var(--t), transform var(--t);
+
+  &:hover {
+    color: var(--color-accent);
+    border-color: var(--color-accent);
+    background: var(--color-accent-subtle);
+    transform: translateY(-2px);
+  }
+}

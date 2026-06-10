@@ -13,8 +13,6 @@ export const book = defineType({
       type: 'image',
       options: { hotspot: true },
     }),
-    defineField({ name: 'rating', title: 'Rating (1–5)', type: 'number', validation: (r) => r.min(1).max(5) }),
-    defineField({ name: 'note', title: 'Short Note / Takeaway', type: 'text', rows: 2 }),
     defineField({
       name: 'status',
       title: 'Status',
@@ -23,8 +21,13 @@ export const book = defineType({
       initialValue: 'read',
       validation: (r) => r.required(),
     }),
-    defineField({ name: 'finishedDate', title: 'Finished Date', type: 'date' }),
-    defineField({ name: 'order', title: 'Display Order', type: 'number' }),
+    defineField({
+      name: 'rating',
+      title: 'Rating (1–5)',
+      type: 'number',
+      validation: (r) => r.min(1).max(5),
+    }),
+    defineField({ name: 'order', title: 'Display Order', type: 'number', validation: (r) => r.required() }),
   ],
   preview: {
     select: { title: 'title', subtitle: 'author', media: 'cover' },
