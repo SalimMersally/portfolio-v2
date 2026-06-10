@@ -101,10 +101,10 @@ async function seed() {
   ]);
   console.log("✔  media assets uploaded\n");
 
-  // ── Site Settings ──────────────────────────────────────────────────────────
+  // ── Profile ────────────────────────────────────────────────────────────────
   await upsert({
-    _id: "siteSettings",
-    _type: "siteSettings",
+    _id: "profile",
+    _type: "profile",
     name: "Salim Al Mersally",
     title: "Senior Software Engineer",
     tagline: "Building distributed systems, one service at a time.",
@@ -115,22 +115,7 @@ async function seed() {
     linkedin: "https://linkedin.com/in/salim-al-mersally",
     ...(cvFile ? { cv: cvFile } : {}),
   });
-  console.log("✔  siteSettings");
-
-  // ── Theme ──────────────────────────────────────────────────────────────────
-  await upsert({
-    _id: "theme",
-    _type: "theme",
-    accentHue: 258,
-    accentChroma: 0.22,
-    fontHeading: "Inter",
-    fontBody: "Inter",
-    fontMono: "JetBrains Mono",
-    defaultMode: "dark",
-    borderRadius: "rounded",
-    spacing: "comfortable",
-  });
-  console.log("✔  theme");
+  console.log("✔  profile");
 
   // ── Experience ─────────────────────────────────────────────────────────────
   await Promise.all([

@@ -6,7 +6,7 @@
   <div class="hero-orb hero-orb-3" aria-hidden="true"></div>
 
   <div class="hero-content">
-    @if (settings.value(); as s) {
+    @if (profile(); as s) {
       <p class="hero-eyebrow">Hello, I'm</p>
       <h1 class="hero-name">{{ s.name }}</h1>
       <p class="hero-title">{{ s.title }}</p>

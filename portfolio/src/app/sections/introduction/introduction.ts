@@ -1,5 +1,5 @@
-import { Component, inject, resource } from '@angular/core';
-import { SanityService } from '../../core/services/sanity.service';
+import { Component, input } from '@angular/core';
+import { Profile } from '../../core/models/profile.model';
 
 @Component({
   selector: 'app-introduction',
@@ -7,6 +7,5 @@ import { SanityService } from '../../core/services/sanity.service';
   styleUrl: './introduction.scss',
 })
 export class Introduction {
-  private readonly sanity = inject(SanityService);
-  protected readonly settings = resource({ loader: () => this.sanity.getSiteSettings() });
+  readonly profile = input.required<Profile>();
 }

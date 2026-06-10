@@ -4,10 +4,10 @@ import { environment } from '../../../environments/environment';
 import { Book } from '../models/book.model';
 import { Education } from '../models/education.model';
 import { Experience } from '../models/experience.model';
+import { PortfolioData } from '../models/portfolio-data.model';
+import { Profile } from '../models/profile.model';
 import { Project } from '../models/project.model';
-import { SiteSettings } from '../models/site-settings.model';
 import { SkillGroup } from '../models/skill.model';
-import { Theme } from '../models/theme.model';
 
 @Injectable({ providedIn: 'root' })
 export class SanityService {
@@ -18,18 +18,14 @@ export class SanityService {
     useCdn: true,
   });
 
-  getSiteSettings(): Promise<SiteSettings> {
-    return this.client.fetch<SiteSettings>(
-      `*[_type == "siteSettings"][0] {
+  getProfile(): Promise<Profile> {
+    return this.client.fetch<Profile>(
+      `*[_type == "profile"][0] {
         name, title, tagline,
         "cvUrl": cv.asset->url,
         email, phone, location, github, linkedin
       }`,
     );
-  }
-
-  getTheme(): Promise<Theme> {
-    return this.client.fetch<Theme>(`*[_type == "theme"][0]`);
   }
 
   getExperiences(): Promise<Experience[]> {
@@ -78,5 +74,23 @@ export class SanityService {
         status, order
       }`,
     );
+  }
+
+  getAllPortfolioData(): Promise<PortfolioData> {
+    return Promise.all([
+      this.getProfile(),
+      this.getExperiences(),
+      this.getSkills(),
+      this.getEducation(),
+      this.getProjects(),
+      this.getBooks(),
+    ]).then(([profile, experiences, skills, education, projects, books]) => ({
+      profile,
+      experiences,
+      skills,
+      education,
+      projects,
+      books,
+    }));
   }
 }

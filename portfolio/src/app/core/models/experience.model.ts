@@ -11,3 +11,18 @@ export interface Experience {
   technologies: string[];
   order: number;
 }
+
+export function validateExperience(e: Experience): boolean {
+  return !!(
+    e?._id &&
+    e.company &&
+    e.role &&
+    e.location &&
+    e.startDate &&
+    e.current != null &&
+    Array.isArray(e.bullets) &&
+    e.bullets.length > 0 &&
+    Array.isArray(e.technologies) &&
+    e.order != null
+  );
+}

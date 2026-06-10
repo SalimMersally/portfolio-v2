@@ -55,19 +55,29 @@ Zoneless — no `zone.js` anywhere. `provideZonelessChangeDetection()` is regist
 ```
 Sanity Studio (sanity-studio/)
   └─ GROQ queries via @sanity/client
-       └─ SanityService  (portfolio/src/app/core/services/sanity.service.ts)  ← to be built
-            └─ Section components consume typed signals
+       └─ SanityService.getAllPortfolioData()   (portfolio/src/app/core/services/sanity.service.ts)
+            └─ HomeComponent validates + holds signal<PortfolioData>
+                 └─ Section components receive data via input.required<T>()
 ```
 
-`ThemeService` (`portfolio/src/app/core/services/theme.service.ts`) fetches the theme document from Sanity on app init and injects CSS custom properties onto `document.documentElement`. All component styles reference `var(--color-*)` / `var(--font-*)` — never hardcoded values.
+`HomeComponent` fetches everything in one call, runs `validatePortfolioData()` (each model has a `validateX()` function), and navigates to `/error` on any failure. Sections only render after the data signal is set to `'ready'`.
+
+`ThemeService` (`portfolio/src/app/core/services/theme.service.ts`) reads `localStorage` (`color-mode` key) on init, falling back to `prefers-color-scheme`. It sets / removes the `data-theme="light"` attribute on `<html>` — dark is the default (no attribute). All component styles reference `var(--color-*)` / `var(--font-*)` — never hardcoded values.
 
 ### Routing
 
-Two routes, both lazy-loaded:
-- `/` → `portfolio/src/app/pages/home/` — contains all portfolio sections
-- `/blog` → `portfolio/src/app/pages/blog/` — Stage 2 placeholder
+Three lazy-loaded routes:
+- `/` → `portfolio/src/app/pages/home/` — all portfolio sections
+- `/error` → `portfolio/src/app/pages/error/` — shown on Sanity fetch/validation failure
+- `/**` → `portfolio/src/app/pages/not-found/` — 404
 
-Section components live in `portfolio/src/app/sections/` (one directory per section). They are imported directly into `HomeComponent`, not routed separately. Navigation uses anchor links (`/#experience`, `/#skills`, etc.) with smooth scroll.
+Section components live in `portfolio/src/app/sections/` (one directory per section). They are imported directly into `HomeComponent`, not routed separately. Navigation uses anchor links (`/#experience`, `/#skills`, etc.) with smooth scroll. The `SECTIONS` constant in `Navbar` (`portfolio/src/app/shared/navbar/navbar.ts`) defines which sections appear in the nav.
+
+### Shared pieces
+
+- **`RevealDirective`** (`portfolio/src/app/shared/directives/reveal.directive.ts`) — `[appReveal]` attribute directive; uses `IntersectionObserver` to add `.in-view` when an element scrolls into view. Accepts an optional delay string (`"1"`–`"4"`) that maps to `.reveal-delay-N` CSS classes.
+- **`FilterService`** (`portfolio/src/app/core/services/filter.service.ts`) — tracks `activeSkills signal<string[]>`. Provided at `ExperienceSection` level (not root), so each section gets its own instance. The `SkillFilter` dropdown component reads from it via `inject(FilterService)`.
+- **`SkillFilter`** (`portfolio/src/app/shared/components/skill-filter/`) — shared dropdown used by `ExperienceSection` to filter roles by technology.
 
 ### Styling
 
@@ -101,10 +111,8 @@ The HTML/CSS prototype (Option A — modern style) lives in `.claude/design/`. U
 
 When implementing a new section or component, open the corresponding block in `index.html` and the relevant CSS files first. Never invent colours, fonts, or spacing — derive them from the prototype's CSS variables.
 
-## Roadmap (Stage 1 remaining)
+## Roadmap (Stage 2)
 
-See `.claude/requirement.md` for the full spec. Outstanding items:
-- `SanityService` + `ThemeService` in `portfolio/src/app/core/services/`
-- TypeScript models in `portfolio/src/app/core/models/`
-- All section components + Navbar + Footer
+See `.claude/requirement.md` for the full spec. Stage 1 (all sections, services, models, Navbar, Footer) is complete. Outstanding:
+- `/blog` page + `post` schema (Sanity schema exists; Angular page is a stub)
 - Vercel deployment + Sanity webhook

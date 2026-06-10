@@ -1,7 +1,6 @@
-import { Component, computed, inject, resource } from '@angular/core';
+import { Component, computed, inject, input } from '@angular/core';
 import { Experience } from '../../core/models/experience.model';
 import { FilterService } from '../../core/services/filter.service';
-import { SanityService } from '../../core/services/sanity.service';
 import { SkillFilter } from '../../shared/components/skill-filter/skill-filter';
 import { RevealDirective } from '../../shared/directives/reveal.directive';
 import { formatDate, initials } from '../../shared/utils/format-date';
@@ -21,14 +20,12 @@ interface ExperienceGroup {
   providers: [FilterService],
 })
 export class ExperienceSection {
-  private readonly sanity = inject(SanityService);
+  readonly experiences = input.required<Experience[]>();
   protected readonly filter = inject(FilterService);
 
-  private readonly data = resource({ loader: () => this.sanity.getExperiences() });
-
   readonly totalExperience = computed(() => {
-    const list = this.data.value();
-    if (!list?.length) return null;
+    const list = this.experiences();
+    if (!list.length) return null;
     const oldest = list.reduce(
       (min, exp) => (exp.startDate < min ? exp.startDate : min),
       list[0].startDate,
@@ -46,7 +43,7 @@ export class ExperienceSection {
 
   readonly allTechs = computed(() => {
     const freq = new Map<string, number>();
-    (this.data.value() ?? []).forEach((exp) =>
+    this.experiences().forEach((exp) =>
       exp.technologies.forEach((t) => freq.set(t, (freq.get(t) ?? 0) + 1)),
     );
     return [...freq.entries()]
@@ -55,9 +52,8 @@ export class ExperienceSection {
   });
 
   readonly groups = computed<ExperienceGroup[]>(() => {
-    const list = this.data.value() ?? [];
     const map = new Map<string, ExperienceGroup>();
-    for (const exp of list) {
+    for (const exp of this.experiences()) {
       if (!map.has(exp.company)) {
         map.set(exp.company, {
           company: exp.company,

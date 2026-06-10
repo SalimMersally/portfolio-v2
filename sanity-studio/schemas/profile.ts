@@ -1,8 +1,8 @@
 import { defineType, defineField } from 'sanity';
 
-export const siteSettings = defineType({
-  name: 'siteSettings',
-  title: 'Site Settings',
+export const profile = defineType({
+  name: 'profile',
+  title: 'Profile',
   type: 'document',
   fields: [
     defineField({ name: 'name', title: 'Full Name', type: 'string', validation: (r) => r.required() }),

@@ -5,7 +5,7 @@
     <div class="section-divider" appReveal="2"></div>
 
     <div class="skills-grid">
-      @for (group of (groups.value() ?? []); track group._id; let i = $index) {
+      @for (group of groups(); track group._id; let i = $index) {
         <div class="skills-category" [appReveal]="((i % 4) + 1).toString()">
           <h3 class="skills-category-name">{{ group.category }}</h3>
           <div class="skills-tags">

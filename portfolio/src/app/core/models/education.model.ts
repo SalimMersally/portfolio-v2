@@ -19,3 +19,18 @@ export interface Education {
   // optional metadata
   endDate?: string;
 }
+
+export function validateEducation(e: Education): boolean {
+  return !!(
+    e?._id &&
+    e.type &&
+    e.degree &&
+    e.institution &&
+    e.location &&
+    e.startDate &&
+    e.logoUrl &&
+    e.credentialUrl &&
+    Array.isArray(e.highlights) &&
+    e.order != null
+  );
+}

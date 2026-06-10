@@ -1,5 +1,5 @@
-import { Component, inject, resource } from '@angular/core';
-import { SanityService } from '../../core/services/sanity.service';
+import { Component, input } from '@angular/core';
+import { SkillGroup } from '../../core/models/skill.model';
 import { RevealDirective } from '../../shared/directives/reveal.directive';
 
 @Component({
@@ -9,6 +9,5 @@ import { RevealDirective } from '../../shared/directives/reveal.directive';
   imports: [RevealDirective],
 })
 export class Skills {
-  private readonly sanity = inject(SanityService);
-  readonly groups = resource({ loader: () => this.sanity.getSkills() });
+  readonly groups = input.required<SkillGroup[]>();
 }

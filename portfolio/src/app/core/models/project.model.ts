@@ -11,3 +11,14 @@ export interface Project {
   featured: boolean;
   order: number;
 }
+
+export function validateProject(p: Project): boolean {
+  return !!(
+    p?._id &&
+    p.title &&
+    p.description &&
+    p.date &&
+    Array.isArray(p.techStack) &&
+    p.order != null
+  );
+}

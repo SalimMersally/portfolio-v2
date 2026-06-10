@@ -1,5 +1,4 @@
-import { siteSettings } from './siteSettings';
-import { theme } from './theme';
+import { profile } from './profile';
 import { experience } from './experience';
 import { skill } from './skill';
 import { education } from './education';
@@ -8,8 +7,7 @@ import { book } from './book';
 import { post } from './post';
 
 export const schemaTypes = [
-  siteSettings,
-  theme,
+  profile,
   experience,
   skill,
   education,

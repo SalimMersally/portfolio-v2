@@ -6,11 +6,11 @@ export const routes: Routes = [
     loadComponent: () => import('./pages/home/home').then((m) => m.Home),
   },
   {
-    path: 'blog',
-    loadComponent: () => import('./pages/blog/blog').then((m) => m.Blog),
+    path: 'error',
+    loadComponent: () => import('./pages/error/error-page').then((m) => m.ErrorPage),
   },
   {
     path: '**',
-    redirectTo: '',
+    loadComponent: () => import('./pages/not-found/not-found').then((m) => m.NotFound),
   },
 ];

@@ -9,3 +9,7 @@ export interface Book {
   rating?: number;
   order: number;
 }
+
+export function validateBook(b: Book): boolean {
+  return !!(b?._id && b.title && b.author && b.coverUrl && b.status && b.order != null);
+}

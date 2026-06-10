@@ -1,5 +1,5 @@
-import { Component, computed, inject, resource } from '@angular/core';
-import { SanityService } from '../../core/services/sanity.service';
+import { Component, computed, input } from '@angular/core';
+import { Book } from '../../core/models/book.model';
 import { RevealDirective } from '../../shared/directives/reveal.directive';
 import { initials } from '../../shared/utils/format-date';
 
@@ -10,11 +10,10 @@ import { initials } from '../../shared/utils/format-date';
   imports: [RevealDirective],
 })
 export class Books {
-  private readonly sanity = inject(SanityService);
-  private readonly data = resource({ loader: () => this.sanity.getBooks() });
+  readonly books = input.required<Book[]>();
 
-  readonly currentlyReading = computed(() => (this.data.value() ?? []).filter((b) => b.status === 'reading'));
-  readonly haveRead = computed(() => (this.data.value() ?? []).filter((b) => b.status === 'read'));
+  readonly currentlyReading = computed(() => this.books().filter((b) => b.status === 'reading'));
+  readonly haveRead = computed(() => this.books().filter((b) => b.status === 'read'));
 
   readonly initials = initials;
 }

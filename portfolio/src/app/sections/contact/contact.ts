@@ -1,5 +1,5 @@
-import { Component, inject, resource } from '@angular/core';
-import { SanityService } from '../../core/services/sanity.service';
+import { Component, input } from '@angular/core';
+import { Profile } from '../../core/models/profile.model';
 import { RevealDirective } from '../../shared/directives/reveal.directive';
 
 @Component({
@@ -9,6 +9,5 @@ import { RevealDirective } from '../../shared/directives/reveal.directive';
   imports: [RevealDirective],
 })
 export class Contact {
-  private readonly sanity = inject(SanityService);
-  readonly settings = resource({ loader: () => this.sanity.getSiteSettings() });
+  readonly profile = input.required<Profile>();
 }
