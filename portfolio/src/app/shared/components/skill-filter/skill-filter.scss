@@ -25,7 +25,10 @@
   border-radius: var(--radius);
   cursor: pointer;
   user-select: none;
-  transition: color var(--t), border-color var(--t), background var(--t);
+  transition:
+    color var(--t),
+    border-color var(--t),
+    background var(--t);
 
   &:hover {
     color: var(--color-text);
@@ -48,7 +51,9 @@
   flex-shrink: 0;
   opacity: 0.7;
 
-  .sf-trigger.is-active & { opacity: 1; }
+  .sf-trigger.is-active & {
+    opacity: 1;
+  }
 }
 
 .sf-label {
@@ -65,7 +70,7 @@
   height: 1.4em;
   padding: 0 0.3em;
   background: var(--color-accent);
-  color: oklch(0.10 0 0);
+  color: oklch(0.1 0 0);
   border-radius: 99px;
   font-size: 0.65rem;
   font-weight: 700;
@@ -97,7 +102,9 @@
   cursor: pointer;
   transition: color var(--t);
 
-  &:hover { color: var(--color-text); }
+  &:hover {
+    color: var(--color-text);
+  }
 }
 
 // ── Panel ───────────────────────────────────────────────────────────────────
@@ -117,8 +124,14 @@
 }
 
 @keyframes sf-appear {
-  from { opacity: 0; transform: translateY(-6px) scale(0.98); }
-  to   { opacity: 1; transform: translateY(0) scale(1); }
+  from {
+    opacity: 0;
+    transform: translateY(-6px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
 }
 
 // ── Search row ──────────────────────────────────────────────────────────────
@@ -142,17 +155,22 @@
   outline: none;
   min-width: 0;
 
-  &::placeholder { color: var(--color-text-muted); }
+  &::placeholder {
+    color: var(--color-text-muted);
+  }
 }
 
 .sf-search-clear {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 18px; height: 18px;
+  width: 18px;
+  height: 18px;
   border-radius: 50%;
   color: var(--color-text-muted);
-  transition: color var(--t), background var(--t);
+  transition:
+    color var(--t),
+    background var(--t);
   flex-shrink: 0;
 
   &:hover {
@@ -185,7 +203,9 @@
   padding: 0.42em 0.6em;
   border-radius: calc(var(--radius) * 0.75);
   cursor: pointer;
-  transition: background var(--t), color var(--t);
+  transition:
+    background var(--t),
+    color var(--t);
 
   &:hover {
     background: var(--color-surface);
@@ -195,22 +215,30 @@
   &.is-checked {
     color: var(--color-accent);
 
-    &:hover { background: var(--color-accent-subtle); }
+    &:hover {
+      background: var(--color-accent-subtle);
+    }
   }
 }
 
 .sf-checkbox {
-  width: 14px; height: 14px;
+  width: 14px;
+  height: 14px;
   border-radius: 3px;
   border: 1.5px solid var(--color-border);
-  display: flex; align-items: center; justify-content: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   flex-shrink: 0;
-  transition: background var(--t), border-color var(--t), color var(--t);
+  transition:
+    background var(--t),
+    border-color var(--t),
+    color var(--t);
 
   .sf-item.is-checked & {
     background: var(--color-accent);
     border-color: var(--color-accent);
-    color: oklch(0.10 0 0);
+    color: oklch(0.1 0 0);
   }
 }
 

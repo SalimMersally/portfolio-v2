@@ -58,7 +58,8 @@
                     <span class="timeline-badge">Current</span>
                   }
                   <span class="timeline-role-date">
-                    {{ formatDate(role.startDate) }} — {{ role.current ? 'Present' : (role.endDate ? formatDate(role.endDate) : '') }}
+                    {{ formatDate(role.startDate) }} —
+                    {{ role.current ? 'Present' : role.endDate ? formatDate(role.endDate) : '' }}
                   </span>
                 </div>
                 <ul class="timeline-bullets">
@@ -74,7 +75,9 @@
                         [class.active]="filter.activeSkills().includes(tech)"
                         (click)="filter.toggle(tech)"
                         [attr.aria-pressed]="filter.activeSkills().includes(tech)"
-                      >{{ tech }}</button>
+                      >
+                        {{ tech }}
+                      </button>
                     }
                   </div>
                 }
@@ -85,7 +88,10 @@
       }
 
       @if (filteredGroups().length === 0 && filter.activeSkills().length) {
-        <p class="filter-empty">No experience entries match the selected skills. <button class="filter-empty-clear" (click)="filter.clear()">Clear filter</button></p>
+        <p class="filter-empty">
+          No experience entries match the selected skills.
+          <button class="filter-empty-clear" (click)="filter.clear()">Clear filter</button>
+        </p>
       }
     </div>
   </div>

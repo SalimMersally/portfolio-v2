@@ -22,10 +22,10 @@
   transition: opacity var(--t-slow);
 }
 
-:host-context([data-theme="light"]) .hero-bg {
+:host-context([data-theme='light']) .hero-bg {
   background-image: radial-gradient(
     circle,
-    oklch(0.50 var(--accent-c) var(--accent-h) / 0.16) 1.2px,
+    oklch(0.5 var(--accent-c) var(--accent-h) / 0.16) 1.2px,
     transparent 1.2px
   );
 }
@@ -49,40 +49,65 @@
 }
 
 .hero-orb-1 {
-  width: 560px; height: 560px;
+  width: 560px;
+  height: 560px;
   background: oklch(0.65 var(--accent-c) var(--accent-h) / 0.16);
-  top: -160px; left: -120px;
+  top: -160px;
+  left: -120px;
   animation: orb1 16s ease-in-out infinite;
 }
 
 .hero-orb-2 {
-  width: 440px; height: 440px;
-  background: oklch(0.68 var(--accent-c) calc(var(--accent-h) + 25) / 0.10);
-  bottom: -80px; right: -80px;
+  width: 440px;
+  height: 440px;
+  background: oklch(0.68 var(--accent-c) calc(var(--accent-h) + 25) / 0.1);
+  bottom: -80px;
+  right: -80px;
   animation: orb2 20s ease-in-out infinite;
 }
 
 .hero-orb-3 {
-  width: 320px; height: 320px;
+  width: 320px;
+  height: 320px;
   background: oklch(0.62 var(--accent-c) calc(var(--accent-h) - 20) / 0.08);
-  top: 50%; left: 65%;
+  top: 50%;
+  left: 65%;
   transform: translate(-50%, -50%);
   animation: orb3 24s ease-in-out infinite;
 }
 
 @keyframes orb1 {
-  0%,100% { transform: translate(0, 0) scale(1); }
-  33%     { transform: translate(70px, 50px) scale(1.12); }
-  66%     { transform: translate(-30px, 90px) scale(0.88); }
+  0%,
+  100% {
+    transform: translate(0, 0) scale(1);
+  }
+  33% {
+    transform: translate(70px, 50px) scale(1.12);
+  }
+  66% {
+    transform: translate(-30px, 90px) scale(0.88);
+  }
 }
 @keyframes orb2 {
-  0%,100% { transform: translate(0, 0) scale(1); }
-  33%     { transform: translate(-60px, -40px) scale(1.15); }
-  66%     { transform: translate(30px, -70px) scale(0.85); }
+  0%,
+  100% {
+    transform: translate(0, 0) scale(1);
+  }
+  33% {
+    transform: translate(-60px, -40px) scale(1.15);
+  }
+  66% {
+    transform: translate(30px, -70px) scale(0.85);
+  }
 }
 @keyframes orb3 {
-  0%,100% { transform: translate(-50%, -50%) scale(1); }
-  50%     { transform: translate(-50%, -50%) translate(-50px, 50px) scale(1.25); }
+  0%,
+  100% {
+    transform: translate(-50%, -50%) scale(1);
+  }
+  50% {
+    transform: translate(-50%, -50%) translate(-50px, 50px) scale(1.25);
+  }
 }
 
 .hero-content {
@@ -92,7 +117,6 @@
   padding: 3rem 1.5rem 6rem;
   max-width: 680px;
 }
-
 
 .hero-eyebrow {
   font-family: var(--font-mono);
@@ -150,7 +174,11 @@
   background: var(--color-surface);
   padding: 0.55rem 1.15rem;
   border-radius: var(--radius);
-  transition: color var(--t), border-color var(--t), background var(--t), transform var(--t);
+  transition:
+    color var(--t),
+    border-color var(--t),
+    background var(--t),
+    transform var(--t);
 
   &:hover {
     color: var(--color-accent);
@@ -186,6 +214,13 @@
 }
 
 @keyframes scroll-pulse {
-  0%, 100% { opacity: 0.3; transform: scaleY(1); }
-  50%      { opacity: 0.8; transform: scaleY(1.1); }
+  0%,
+  100% {
+    opacity: 0.3;
+    transform: scaleY(1);
+  }
+  50% {
+    opacity: 0.8;
+    transform: scaleY(1.1);
+  }
 }

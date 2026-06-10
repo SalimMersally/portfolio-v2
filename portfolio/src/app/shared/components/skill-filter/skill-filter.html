@@ -1,5 +1,4 @@
 <div class="sf-root">
-
   <div class="sf-controls">
     <button
       class="sf-trigger"
@@ -8,8 +7,19 @@
       [attr.aria-expanded]="isOpen()"
       (click)="toggleDropdown()"
     >
-      <svg class="sf-icon-filter" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-        <polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"/>
+      <svg
+        class="sf-icon-filter"
+        width="13"
+        height="13"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        aria-hidden="true"
+      >
+        <polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3" />
       </svg>
 
       <span class="sf-label">
@@ -21,15 +31,35 @@
         }
       </span>
 
-      <svg class="sf-chevron" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" aria-hidden="true">
-        <polyline points="6 9 12 15 18 9"/>
+      <svg
+        class="sf-chevron"
+        width="12"
+        height="12"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2.5"
+        stroke-linecap="round"
+        aria-hidden="true"
+      >
+        <polyline points="6 9 12 15 18 9" />
       </svg>
     </button>
 
     @if (filter.activeSkills().length > 0) {
       <button class="sf-clear-btn" (click)="filter.clear()" aria-label="Clear all filters">
-        <svg width="10" height="10" viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
-          <line x1="1" y1="1" x2="9" y2="9"/><line x1="9" y1="1" x2="1" y2="9"/>
+        <svg
+          width="10"
+          height="10"
+          viewBox="0 0 10 10"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          aria-hidden="true"
+        >
+          <line x1="1" y1="1" x2="9" y2="9" />
+          <line x1="9" y1="1" x2="1" y2="9" />
         </svg>
         Clear
       </button>
@@ -38,10 +68,19 @@
 
   @if (isOpen()) {
     <div class="sf-panel" role="listbox" aria-multiselectable="true" aria-label="Filter by skills">
-
       <div class="sf-search-row">
-        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
-          <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
+        <svg
+          width="13"
+          height="13"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          aria-hidden="true"
+        >
+          <circle cx="11" cy="11" r="8" />
+          <line x1="21" y1="21" x2="16.65" y2="16.65" />
         </svg>
         <input
           class="sf-search"
@@ -53,8 +92,17 @@
         />
         @if (search()) {
           <button class="sf-search-clear" (click)="search.set('')" aria-label="Clear search">
-            <svg width="10" height="10" viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
-              <line x1="1" y1="1" x2="9" y2="9"/><line x1="9" y1="1" x2="1" y2="9"/>
+            <svg
+              width="10"
+              height="10"
+              viewBox="0 0 10 10"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+            >
+              <line x1="1" y1="1" x2="9" y2="9" />
+              <line x1="9" y1="1" x2="1" y2="9" />
             </svg>
           </button>
         }
@@ -71,8 +119,17 @@
           >
             <span class="sf-checkbox" aria-hidden="true">
               @if (filter.has(skill)) {
-                <svg width="9" height="9" viewBox="0 0 10 8" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                  <polyline points="1 4 4 7 9 1"/>
+                <svg
+                  width="9"
+                  height="9"
+                  viewBox="0 0 10 8"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <polyline points="1 4 4 7 9 1" />
                 </svg>
               }
             </span>
@@ -83,8 +140,6 @@
           <p class="sf-no-results">No skills match "{{ search() }}"</p>
         }
       </div>
-
     </div>
   }
-
 </div>

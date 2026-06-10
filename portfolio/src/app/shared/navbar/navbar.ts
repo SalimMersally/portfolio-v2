@@ -1,9 +1,4 @@
-import {
-  Component,
-  HostListener,
-  inject,
-  signal,
-} from '@angular/core';
+import { Component, HostListener, inject, signal } from '@angular/core';
 import { TitleCasePipe } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { ThemeService } from '../../core/services/theme.service';

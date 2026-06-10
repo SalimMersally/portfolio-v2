@@ -20,9 +20,13 @@
   border-bottom: 2px solid var(--color-accent);
   padding-bottom: 0.15em;
   margin-bottom: 2rem;
-  transition: color var(--t), border-color var(--t);
+  transition:
+    color var(--t),
+    border-color var(--t);
 
-  &:hover { color: var(--color-accent); }
+  &:hover {
+    color: var(--color-accent);
+  }
 }
 
 .contact-socials {
@@ -42,7 +46,11 @@
   background: var(--color-surface-2);
   padding: 0.55rem 1.1rem;
   border-radius: var(--radius);
-  transition: color var(--t), border-color var(--t), background var(--t), transform var(--t);
+  transition:
+    color var(--t),
+    border-color var(--t),
+    background var(--t),
+    transform var(--t);
 
   &:hover {
     color: var(--color-accent);

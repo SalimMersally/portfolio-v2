@@ -14,7 +14,10 @@
   gap: 0;
   position: relative;
   overflow: hidden;
-  transition: border-color var(--t), transform var(--t), box-shadow var(--t);
+  transition:
+    border-color var(--t),
+    transform var(--t),
+    box-shadow var(--t);
 
   &::after {
     content: '';
@@ -32,7 +35,9 @@
     transform: translateY(-2px);
     box-shadow: 0 8px 28px oklch(0 0 0 / 0.2);
 
-    &::after { transform: scaleX(1); }
+    &::after {
+      transform: scaleX(1);
+    }
   }
 }
 
@@ -50,11 +55,14 @@
 }
 
 .edu-logo {
-  width: 52px; height: 52px;
+  width: 52px;
+  height: 52px;
   border-radius: var(--radius);
   background: var(--color-surface);
   border: 1px solid var(--color-border);
-  display: flex; align-items: center; justify-content: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   font-family: var(--font-mono);
   font-size: 0.7rem;
   font-weight: 600;
@@ -63,7 +71,12 @@
   flex-shrink: 0;
   overflow: hidden;
 
-  img { width: 100%; height: 100%; object-fit: contain; padding: 4px; }
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    padding: 4px;
+  }
 }
 
 .edu-header-text {
@@ -210,7 +223,10 @@
   border: 1px solid var(--color-border);
   padding: 0.3em 0.75em;
   border-radius: 99px;
-  transition: color var(--t), border-color var(--t), background var(--t);
+  transition:
+    color var(--t),
+    border-color var(--t),
+    background var(--t);
   white-space: nowrap;
 
   &:hover {
@@ -237,26 +253,36 @@
 }
 
 @keyframes overlay-in {
-  from { opacity: 0; }
-  to   { opacity: 1; }
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }
 
 .credential-close {
   position: fixed;
   top: 1.25rem;
   right: 1.25rem;
-  width: 40px; height: 40px;
+  width: 40px;
+  height: 40px;
   border-radius: 50%;
   background: var(--color-surface-2);
   border: 1px solid var(--color-border);
   color: var(--color-text);
-  display: flex; align-items: center; justify-content: center;
-  transition: background var(--t), color var(--t), transform var(--t);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition:
+    background var(--t),
+    color var(--t),
+    transform var(--t);
   z-index: 1001;
 
   &:hover {
     background: var(--color-accent);
-    color: oklch(0.10 0 0);
+    color: oklch(0.1 0 0);
     transform: rotate(90deg);
   }
 }
@@ -272,8 +298,14 @@
 }
 
 @keyframes frame-in {
-  from { opacity: 0; transform: scale(0.92); }
-  to   { opacity: 1; transform: scale(1); }
+  from {
+    opacity: 0;
+    transform: scale(0.92);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
 }
 
 .credential-img {
@@ -285,5 +317,7 @@
 }
 
 @media (max-width: 900px) {
-  .edu-grid { grid-template-columns: 1fr; }
+  .edu-grid {
+    grid-template-columns: 1fr;
+  }
 }

@@ -11,7 +11,10 @@
   padding: 1.75rem;
   position: relative;
   overflow: hidden;
-  transition: border-color var(--t), transform var(--t), box-shadow var(--t);
+  transition:
+    border-color var(--t),
+    transform var(--t),
+    box-shadow var(--t);
 
   &::after {
     content: '';
@@ -29,7 +32,9 @@
     transform: translateY(-2px);
     box-shadow: 0 8px 28px oklch(0 0 0 / 0.2);
 
-    &::after { transform: scaleX(1); }
+    &::after {
+      transform: scaleX(1);
+    }
   }
 }
 
@@ -56,7 +61,11 @@
   border: 1px solid var(--color-border);
   padding: 0.3em 0.75em;
   border-radius: calc(var(--radius) * 0.75);
-  transition: color var(--t), background var(--t), border-color var(--t), transform var(--t);
+  transition:
+    color var(--t),
+    background var(--t),
+    border-color var(--t),
+    transform var(--t);
   cursor: default;
 
   &:hover {
@@ -68,5 +77,7 @@
 }
 
 @media (max-width: 480px) {
-  .skills-grid { grid-template-columns: 1fr; }
+  .skills-grid {
+    grid-template-columns: 1fr;
+  }
 }

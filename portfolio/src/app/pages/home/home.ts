@@ -16,7 +16,17 @@ import { Loading } from '../loading/loading';
   selector: 'app-home',
   templateUrl: './home.html',
   styleUrl: './home.scss',
-  imports: [Loading, Introduction, ExperienceSection, Skills, EducationSection, Projects, Books, Contact, Footer],
+  imports: [
+    Loading,
+    Introduction,
+    ExperienceSection,
+    Skills,
+    EducationSection,
+    Projects,
+    Books,
+    Contact,
+    Footer,
+  ],
 })
 export class Home {
   private readonly sanity = inject(SanityService);

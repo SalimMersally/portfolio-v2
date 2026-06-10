@@ -18,7 +18,10 @@
   margin-bottom: 3rem;
   position: relative;
   overflow: hidden;
-  transition: border-color var(--t), transform var(--t), box-shadow var(--t);
+  transition:
+    border-color var(--t),
+    transform var(--t),
+    box-shadow var(--t);
 
   &::after {
     content: '';
@@ -36,7 +39,9 @@
     transform: translateY(-2px);
     box-shadow: 0 8px 28px oklch(0 0 0 / 0.2);
 
-    &::after { transform: scaleX(1); }
+    &::after {
+      transform: scaleX(1);
+    }
   }
 }
 
@@ -58,7 +63,11 @@
   box-shadow: 4px 4px 16px oklch(0 0 0 / 0.3);
   overflow: hidden;
 
-  img { width: 100%; height: 100%; object-fit: contain; }
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+  }
 }
 
 .book-cover-sm {
@@ -69,10 +78,16 @@
   box-shadow: 2px 2px 10px oklch(0 0 0 / 0.2);
   overflow: hidden;
 
-  img { width: 100%; height: 100%; object-fit: contain; }
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+  }
 }
 
-.book-featured-info { flex: 1; }
+.book-featured-info {
+  flex: 1;
+}
 
 .book-featured-title {
   font-family: var(--font-heading);
@@ -105,7 +120,10 @@
   padding: 1.25rem;
   position: relative;
   overflow: hidden;
-  transition: border-color var(--t), transform var(--t), box-shadow var(--t);
+  transition:
+    border-color var(--t),
+    transform var(--t),
+    box-shadow var(--t);
 
   &::after {
     content: '';
@@ -123,7 +141,9 @@
     transform: translateY(-2px);
     box-shadow: 0 8px 28px oklch(0 0 0 / 0.2);
 
-    &::after { transform: scaleX(1); }
+    &::after {
+      transform: scaleX(1);
+    }
   }
 }
 
@@ -142,9 +162,13 @@
 }
 
 @media (max-width: 760px) {
-  .book-featured { flex-direction: column; }
+  .book-featured {
+    flex-direction: column;
+  }
 }
 
 @media (max-width: 480px) {
-  .books-grid { grid-template-columns: repeat(2, 1fr); }
+  .books-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
 }
