@@ -13,7 +13,7 @@ export interface Education {
   technologies?: string[];
 
   logoUrl: string;
-  credentialUrl: string;
+  credentialUrl?: string;
   order: number;
 
   // optional metadata
@@ -29,7 +29,6 @@ export function validateEducation(e: Education): boolean {
     e.location &&
     e.startDate &&
     e.logoUrl &&
-    e.credentialUrl &&
     Array.isArray(e.highlights) &&
     e.order != null
   );

@@ -1,4 +1,4 @@
-import { Component, HostListener, inject, signal } from '@angular/core';
+import { Component, HostListener, inject, OnDestroy, signal } from '@angular/core';
 import { TitleCasePipe } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { ThemeService } from '../../core/services/theme.service';
@@ -11,18 +11,24 @@ const SECTIONS = ['experience', 'skills', 'projects', 'books'] as const;
   styleUrl: './navbar.scss',
   imports: [RouterLink, TitleCasePipe],
 })
-export class Navbar {
+export class Navbar implements OnDestroy {
   protected readonly theme = inject(ThemeService);
   protected readonly scrolled = signal(false);
   protected readonly mobileOpen = signal(false);
   protected readonly activeSection = signal('');
 
   readonly sections = SECTIONS;
+  private scrollTimer: ReturnType<typeof setTimeout> | null = null;
+
+  ngOnDestroy(): void {
+    if (this.scrollTimer !== null) clearTimeout(this.scrollTimer);
+  }
 
   @HostListener('window:scroll')
   onScroll(): void {
     this.scrolled.set(window.scrollY > 20);
-    this.updateActiveSection();
+    if (this.scrollTimer !== null) clearTimeout(this.scrollTimer);
+    this.scrollTimer = setTimeout(() => this.updateActiveSection(), 16);
   }
 
   toggleMobile(): void {

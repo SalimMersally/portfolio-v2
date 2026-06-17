@@ -141,7 +141,7 @@
 
   &.active {
     background: var(--color-accent);
-    color: oklch(0.1 0 0);
+    color: var(--color-on-accent);
     border-color: transparent;
   }
 }

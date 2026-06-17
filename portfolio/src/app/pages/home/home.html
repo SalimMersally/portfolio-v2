@@ -1,12 +1,12 @@
-@if (status() === 'loading') {
-  <app-loading />
-} @else {
-  <app-introduction [profile]="data()!.profile" />
-  <app-experience [experiences]="data()!.experiences" />
-  <app-skills [groups]="data()!.skills" />
-  <app-education [items]="data()!.education" />
-  <app-projects [projects]="data()!.projects" />
-  <app-books [books]="data()!.books" />
-  <app-contact [profile]="data()!.profile" />
+@if (data(); as d) {
+  <app-introduction [profile]="d.profile" />
+  <app-experience [experiences]="d.experiences" />
+  <app-skills [groups]="d.skills" />
+  <app-education [items]="d.education" />
+  <app-projects [projects]="d.projects" />
+  <app-books [books]="d.books" />
+  <app-contact [profile]="d.profile" />
   <app-footer />
+} @else {
+  <app-loading />
 }

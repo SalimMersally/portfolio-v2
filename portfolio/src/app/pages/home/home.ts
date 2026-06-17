@@ -32,7 +32,6 @@ export class Home {
   private readonly sanity = inject(SanityService);
   private readonly router = inject(Router);
 
-  readonly status = signal<'loading' | 'ready'>('loading');
   readonly data = signal<PortfolioData | null>(null);
 
   constructor() {
@@ -44,7 +43,6 @@ export class Home {
           return;
         }
         this.data.set(portfolioData);
-        this.status.set('ready');
       })
       .catch(() => this.router.navigate(['/error']));
   }

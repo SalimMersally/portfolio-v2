@@ -17,8 +17,8 @@ export class EducationSection {
 
   readonly activeCredential = signal<string | null>(null);
 
-  openCredential(url: string): void {
-    this.activeCredential.set(url);
+  openCredential(url: string | undefined): void {
+    if (url) this.activeCredential.set(url);
   }
 
   closeCredential(): void {

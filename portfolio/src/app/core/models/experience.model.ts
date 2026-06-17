@@ -18,6 +18,7 @@ export function validateExperience(e: Experience): boolean {
     e.company &&
     e.role &&
     e.location &&
+    e.logoUrl &&
     e.startDate &&
     e.current != null &&
     Array.isArray(e.bullets) &&

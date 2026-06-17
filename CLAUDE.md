@@ -64,20 +64,29 @@ Sanity Studio (sanity-studio/)
 
 `ThemeService` (`portfolio/src/app/core/services/theme.service.ts`) reads `localStorage` (`color-mode` key) on init, falling back to `prefers-color-scheme`. It sets / removes the `data-theme="light"` attribute on `<html>` — dark is the default (no attribute). All component styles reference `var(--color-*)` / `var(--font-*)` — never hardcoded values.
 
+### App shell
+
+`App` (`portfolio/src/app/app.ts`) renders `<app-navbar>` + `<router-outlet>`. `Navbar` is app-wide, not owned by any page. `ThemeService.init()` is called via `provideAppInitializer` so the theme class is set before first paint (no FOUC).
+
 ### Routing
 
-Three lazy-loaded routes:
+Three lazy-loaded routes (defined in `portfolio/src/app/app.routes.ts`):
 - `/` → `portfolio/src/app/pages/home/` — all portfolio sections
 - `/error` → `portfolio/src/app/pages/error/` — shown on Sanity fetch/validation failure
 - `/**` → `portfolio/src/app/pages/not-found/` — 404
 
-Section components live in `portfolio/src/app/sections/` (one directory per section). They are imported directly into `HomeComponent`, not routed separately. Navigation uses anchor links (`/#experience`, `/#skills`, etc.) with smooth scroll. The `SECTIONS` constant in `Navbar` (`portfolio/src/app/shared/navbar/navbar.ts`) defines which sections appear in the nav.
+The `/blog` route is **not yet registered** — `Blog` component exists as a stub but must be added to `app.routes.ts`. Anchor scrolling (`/#experience`, `/#skills`, etc.) is handled natively by `withInMemoryScrolling({ anchorScrolling: 'enabled' })` in the router config — no manual `scrollIntoView` needed.
+
+Section components live in `portfolio/src/app/sections/` and are imported directly into `HomeComponent`. The `SECTIONS` constant in `Navbar` (`portfolio/src/app/shared/navbar/navbar.ts`) is `['experience', 'skills', 'projects', 'books']` — `education` and `contact` sections exist in the DOM but intentionally do not appear in the nav.
+
+`HomeComponent` shows a `Loading` page (`portfolio/src/app/pages/loading/`) while data fetches; it switches to `'ready'` only after `validatePortfolioData()` passes.
 
 ### Shared pieces
 
 - **`RevealDirective`** (`portfolio/src/app/shared/directives/reveal.directive.ts`) — `[appReveal]` attribute directive; uses `IntersectionObserver` to add `.in-view` when an element scrolls into view. Accepts an optional delay string (`"1"`–`"4"`) that maps to `.reveal-delay-N` CSS classes.
-- **`FilterService`** (`portfolio/src/app/core/services/filter.service.ts`) — tracks `activeSkills signal<string[]>`. Provided at `ExperienceSection` level (not root), so each section gets its own instance. The `SkillFilter` dropdown component reads from it via `inject(FilterService)`.
+- **`FilterService`** (`portfolio/src/app/core/services/filter.service.ts`) — tracks `activeSkills signal<string[]>`. Declared `@Injectable()` with no `providedIn`, so it **must** appear in the `providers: []` array of any component that uses it (currently `ExperienceSection`). This gives each consuming section its own independent instance.
 - **`SkillFilter`** (`portfolio/src/app/shared/components/skill-filter/`) — shared dropdown used by `ExperienceSection` to filter roles by technology.
+- **Shared utils** (`portfolio/src/app/shared/utils/format-date.ts`) — `formatDate(dateStr)`, `initials(name)`, `groupBy(arr, keyFn)`. Import from here rather than duplicating in sections.
 
 ### Styling
 
@@ -111,8 +120,16 @@ The HTML/CSS prototype (Option A — modern style) lives in `.claude/design/`. U
 
 When implementing a new section or component, open the corresponding block in `index.html` and the relevant CSS files first. Never invent colours, fonts, or spacing — derive them from the prototype's CSS variables.
 
+## Adding a new section
+
+1. Generate: `npx ng g component src/app/sections/foo` (from `portfolio/`)
+2. Add `input.required<T>()` for its data; add `T` to `PortfolioData` and `validatePortfolioData()`
+3. Add a GROQ query method to `SanityService` and include it in `getAllPortfolioData()`
+4. Import the component into `HomeComponent` and pass the data signal
+5. If it needs a nav link, add its id to the `SECTIONS` array in `navbar.ts`
+
 ## Roadmap (Stage 2)
 
 See `.claude/requirement.md` for the full spec. Stage 1 (all sections, services, models, Navbar, Footer) is complete. Outstanding:
-- `/blog` page + `post` schema (Sanity schema exists; Angular page is a stub)
+- `/blog` route (must be added to `app.routes.ts`) + `Blog` component implementation (`pages/blog/blog.ts` is a stub; `post` schema exists in Sanity)
 - Vercel deployment + Sanity webhook

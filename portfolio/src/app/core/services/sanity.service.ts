@@ -77,20 +77,35 @@ export class SanityService {
   }
 
   getAllPortfolioData(): Promise<PortfolioData> {
-    return Promise.all([
-      this.getProfile(),
-      this.getExperiences(),
-      this.getSkills(),
-      this.getEducation(),
-      this.getProjects(),
-      this.getBooks(),
-    ]).then(([profile, experiences, skills, education, projects, books]) => ({
-      profile,
-      experiences,
-      skills,
-      education,
-      projects,
-      books,
-    }));
+    return this.client.fetch<PortfolioData>(`{
+      "profile": *[_type == "profile"][0] {
+        name, title, tagline,
+        "cvUrl": cv.asset->url,
+        email, phone, location, github, linkedin
+      },
+      "experiences": *[_type == "experience"] | order(startDate desc) {
+        _id, company, role, location,
+        "logoUrl": logo.asset->url,
+        startDate, endDate, current,
+        bullets, technologies, order
+      },
+      "skills": *[_type == "skill"] | order(order asc) {
+        _id, category, items, order
+      },
+      "education": *[_type == "education"] | order(order asc) {
+        _id, type, degree, field, institution, location,
+        "logoUrl": logo.asset->url,
+        "credentialUrl": credential.asset->url,
+        gpa, startDate, endDate, highlights, technologies, order
+      },
+      "projects": *[_type == "project"] | order(order asc) {
+        _id, title, description, date, techStack, githubUrl, liveUrl, order
+      },
+      "books": *[_type == "book"] | order(order asc) {
+        _id, title, author,
+        "coverUrl": cover.asset->url,
+        status, order
+      }
+    }`);
   }
 }
