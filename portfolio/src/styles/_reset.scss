@@ -17,10 +17,22 @@ body {
   color: var(--color-text);
   line-height: 1.65;
   -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+/* Force all elements to transition together during theme switch */
+.theme-transitioning,
+.theme-transitioning *,
+.theme-transitioning *::before,
+.theme-transitioning *::after {
   transition:
     background var(--t-slow),
-    color var(--t-slow);
-  overflow-x: hidden;
+    background-color var(--t-slow),
+    color var(--t-slow),
+    border-color var(--t-slow),
+    box-shadow var(--t-slow),
+    fill var(--t-slow),
+    stroke var(--t-slow) !important;
 }
 
 a {
