@@ -11,6 +11,7 @@ export const education = defineType({
       type: "string",
       options: { list: ["university", "bootcamp"], layout: "radio" },
       initialValue: "university",
+      validation: (r) => r.required(),
     }),
     defineField({
       name: "degree",
@@ -25,12 +26,13 @@ export const education = defineType({
       type: "string",
       validation: (r) => r.required(),
     }),
-    defineField({ name: "location", title: "Location", type: "string" }),
+    defineField({ name: "location", title: "Location", type: "string", validation: (r) => r.required() }),
     defineField({
       name: "logo",
       title: "Institution Logo",
       type: "image",
       options: { hotspot: true },
+      validation: (r) => r.required(),
     }),
     defineField({
       name: "gpa",
@@ -50,6 +52,7 @@ export const education = defineType({
       title: "Highlights / Activities",
       type: "array",
       of: [{ type: "string" }],
+      validation: (r) => r.required(),
     }),
     defineField({
       name: "technologies",
@@ -65,7 +68,7 @@ export const education = defineType({
       options: { hotspot: true },
       description: "Upload a scan or photo of the degree/certificate",
     }),
-    defineField({ name: "order", title: "Display Order", type: "number" }),
+    defineField({ name: "order", title: "Display Order", type: "number", validation: (r) => r.required() }),
   ],
   preview: {
     select: { title: "degree", subtitle: "institution", media: "logo" },

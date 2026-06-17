@@ -19,7 +19,7 @@ export const skill = defineType({
       of: [{ type: "string" }],
       validation: (r) => r.required().min(1),
     }),
-    defineField({ name: "order", title: "Display Order", type: "number" }),
+    defineField({ name: "order", title: "Display Order", type: "number", validation: (r) => r.required() }),
   ],
   preview: {
     select: { title: "category" },

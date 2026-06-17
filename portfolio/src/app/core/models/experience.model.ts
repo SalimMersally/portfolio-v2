@@ -9,7 +9,6 @@ export interface Experience {
   current: boolean;
   bullets: string[];
   technologies: string[];
-  order: number;
 }
 
 export function validateExperience(e: Experience): boolean {
@@ -23,7 +22,6 @@ export function validateExperience(e: Experience): boolean {
     e.current != null &&
     Array.isArray(e.bullets) &&
     e.bullets.length > 0 &&
-    Array.isArray(e.technologies) &&
-    e.order != null
+    Array.isArray(e.technologies)
   );
 }

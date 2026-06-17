@@ -3,11 +3,9 @@ export interface Project {
   title: string;
   description: string;
   date: string;
-  thumbnailUrl?: string;
   techStack: string[];
   githubUrl?: string;
   liveUrl?: string;
-  featured: boolean;
   order: number;
 }
 

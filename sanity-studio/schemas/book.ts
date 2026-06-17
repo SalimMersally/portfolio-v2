@@ -22,6 +22,7 @@ export const book = defineType({
       title: "Cover Image",
       type: "image",
       options: { hotspot: true },
+      validation: (r) => r.required(),
     }),
     defineField({
       name: "status",
@@ -29,18 +30,6 @@ export const book = defineType({
       type: "string",
       options: { list: ["reading", "read", "want-to-read"], layout: "radio" },
       initialValue: "read",
-      validation: (r) => r.required(),
-    }),
-    defineField({
-      name: "rating",
-      title: "Rating (1–5)",
-      type: "number",
-      validation: (r) => r.min(1).max(5),
-    }),
-    defineField({
-      name: "order",
-      title: "Display Order",
-      type: "number",
       validation: (r) => r.required(),
     }),
   ],

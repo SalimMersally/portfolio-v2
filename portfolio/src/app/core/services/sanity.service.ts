@@ -34,7 +34,7 @@ export class SanityService {
         _id, company, role, location,
         "logoUrl": logo.asset->url,
         startDate, endDate, current,
-        bullets, technologies, order
+        bullets, technologies
       }`,
     );
   }
@@ -68,10 +68,10 @@ export class SanityService {
 
   getBooks(): Promise<Book[]> {
     return this.client.fetch<Book[]>(
-      `*[_type == "book"] | order(order asc) {
+      `*[_type == "book"] {
         _id, title, author,
         "coverUrl": cover.asset->url,
-        status, order
+        status
       }`,
     );
   }
@@ -87,7 +87,7 @@ export class SanityService {
         _id, company, role, location,
         "logoUrl": logo.asset->url,
         startDate, endDate, current,
-        bullets, technologies, order
+        bullets, technologies
       },
       "skills": *[_type == "skill"] | order(order asc) {
         _id, category, items, order
@@ -101,10 +101,10 @@ export class SanityService {
       "projects": *[_type == "project"] | order(order asc) {
         _id, title, description, date, techStack, githubUrl, liveUrl, order
       },
-      "books": *[_type == "book"] | order(order asc) {
+      "books": *[_type == "book"] {
         _id, title, author,
         "coverUrl": cover.asset->url,
-        status, order
+        status
       }
     }`);
   }

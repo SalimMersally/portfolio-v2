@@ -32,12 +32,6 @@ export const project = defineType({
       validation: (r) => r.required(),
     }),
     defineField({
-      name: "thumbnail",
-      title: "Thumbnail",
-      type: "image",
-      options: { hotspot: true },
-    }),
-    defineField({
       name: "techStack",
       title: "Tech Stack",
       type: "array",
@@ -46,12 +40,6 @@ export const project = defineType({
     }),
     defineField({ name: "githubUrl", title: "GitHub URL", type: "url" }),
     defineField({ name: "liveUrl", title: "Live URL", type: "url" }),
-    defineField({
-      name: "featured",
-      title: "Featured",
-      type: "boolean",
-      initialValue: false,
-    }),
     defineField({ name: "order", title: "Display Order", type: "number" }),
   ],
   preview: {

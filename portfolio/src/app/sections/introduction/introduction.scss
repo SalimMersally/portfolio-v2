@@ -152,8 +152,21 @@
   color: var(--color-text-muted);
   line-height: 1.7;
   max-width: 480px;
-  margin: 0 auto 2.25rem;
+  margin: 0 auto 1rem;
   text-wrap: pretty;
+}
+
+.hero-location {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  color: var(--color-text-muted);
+  letter-spacing: 0.04em;
+  opacity: 0.75;
+  margin-bottom: 1.75rem;
 }
 
 .hero-links {

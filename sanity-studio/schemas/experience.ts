@@ -55,12 +55,6 @@ export const experience = defineType({
       type: "array",
       of: [{ type: "string" }],
     }),
-    defineField({
-      name: "order",
-      title: "Display Order",
-      type: "number",
-      description: "Lower = shown first",
-    }),
   ],
   orderings: [
     {

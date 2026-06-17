@@ -75,6 +75,7 @@ async function seed() {
   const [
     murexLogo,
     tecfracLogo,
+    scandiwebLogo,
     lauLogo,
     lauDegree,
     recodedLogo,
@@ -86,8 +87,9 @@ async function seed() {
     coverTdd,
     cvFile,
   ] = await Promise.all([
-    uploadImage("Murex_logo.png"),
-    uploadImage("tecfrac-logo.svg"),
+    uploadImage("murex-logo.jpg"),
+    uploadImage("tecfrac-logo.jpg"),
+    uploadImage("scandiweb-logo.png"),
     uploadImage("lau-logo.png"),
     uploadImage("university-degree.jpeg"),
     uploadImage("recoded-logo.png"),
@@ -133,7 +135,6 @@ async function seed() {
         "Building and maintaining backend services on the Card and Wallet team, responsible for real-time card authorization, wallet funding, and transaction processing.",
       ],
       technologies: ["Java", "Spring Boot", "MySQL", "AWS"],
-      order: 1,
     }),
     upsert({
       _id: "exp-murex-se",
@@ -188,7 +189,6 @@ async function seed() {
         "DDD",
         "Agile",
       ],
-      order: 2,
     }),
     upsert({
       _id: "exp-murex-pt",
@@ -239,7 +239,6 @@ async function seed() {
         "DDD",
         "Agile",
       ],
-      order: 3,
     }),
     upsert({
       _id: "exp-murex-intern",
@@ -255,10 +254,25 @@ async function seed() {
         "Led the initial prototyping and evaluation of Temporal, establishing it as the workflow orchestration engine now used across the platform for long-running business processes.",
       ],
       technologies: ["Java", "Spring Boot", "Temporal", "Maven"],
-      order: 4,
+    }),
+    upsert({
+      _id: "exp-scandiweb",
+      _type: "experience",
+      company: "Scandiweb",
+      role: "Part-Time React Developer",
+      location: "Remote",
+      ...(scandiwebLogo ? { logo: scandiwebLogo } : {}),
+      startDate: "2022-02-01",
+      endDate: "2022-05-31",
+      current: false,
+      bullets: [
+        "Fixed bugs across ScandiPWA, an open-source React/GraphQL Progressive Web App storefront used by global e-commerce merchants, resolving UI and state management issues.",
+        "Delivered features for Printerbase, a UK-based printer retailer, extending product listing pages and checkout flows to meet the client's e-commerce requirements.",
+      ],
+      technologies: ["JavaScript", "React", "GraphQL"],
     }),
   ]);
-  console.log("✔  experience (4 entries)");
+  console.log("✔  experience (5 entries)");
 
   // ── Skills ─────────────────────────────────────────────────────────────────
   await Promise.all([
@@ -401,7 +415,6 @@ async function seed() {
         "JWT",
       ],
       githubUrl: "https://github.com/SalimMersally/CarGo-car-renting-app",
-      featured: true,
       order: 1,
     }),
     upsert({
@@ -414,7 +427,6 @@ async function seed() {
       date: "2023-01-01",
       techStack: ["React", "Node.js", "Express", "MySQL"],
       githubUrl: "https://github.com/SalimMersally/LAWEN-Taxi-App",
-      featured: false,
       order: 2,
     }),
   ]);
@@ -429,7 +441,6 @@ async function seed() {
       author: "Michael C. Feathers",
       ...(coverLegacyCode ? { cover: coverLegacyCode } : {}),
       status: "reading",
-      order: 1,
     }),
     upsert({
       _id: "book-tdd",
@@ -438,8 +449,6 @@ async function seed() {
       author: "Kent Beck",
       ...(coverTdd ? { cover: coverTdd } : {}),
       status: "read",
-      rating: 5,
-      order: 2,
     }),
     upsert({
       _id: "book-clean-code",
@@ -448,8 +457,6 @@ async function seed() {
       author: "Robert C. Martin",
       ...(coverCleanCode ? { cover: coverCleanCode } : {}),
       status: "read",
-      rating: 5,
-      order: 3,
     }),
     upsert({
       _id: "book-clean-coder",
@@ -458,8 +465,6 @@ async function seed() {
       author: "Robert C. Martin",
       ...(coverCleanCoder ? { cover: coverCleanCoder } : {}),
       status: "read",
-      rating: 5,
-      order: 4,
     }),
     upsert({
       _id: "book-head-first-dp",
@@ -468,8 +473,6 @@ async function seed() {
       author: "Eric Freeman & Elisabeth Robson",
       ...(coverHeadFirst ? { cover: coverHeadFirst } : {}),
       status: "read",
-      rating: 5,
-      order: 5,
     }),
   ]);
   console.log("✔  books (5 entries)");
