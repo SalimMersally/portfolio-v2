@@ -2,6 +2,7 @@ import { Component, inject, signal } from '@angular/core';
 import { Router } from '@angular/router';
 import { PortfolioData, validatePortfolioData } from '../../core/models/portfolio-data.model';
 import { SanityService } from '../../core/services/sanity.service';
+import { AboutSection } from '../../sections/about/about';
 import { Books } from '../../sections/books/books';
 import { Contact } from '../../sections/contact/contact';
 import { EducationSection } from '../../sections/education/education';
@@ -19,10 +20,11 @@ import { Loading } from '../loading/loading';
   imports: [
     Loading,
     Introduction,
+    AboutSection,
     ExperienceSection,
+    Projects,
     Skills,
     EducationSection,
-    Projects,
     Books,
     Contact,
     Footer,

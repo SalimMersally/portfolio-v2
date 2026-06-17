@@ -15,7 +15,7 @@
 
 .section-label {
   font-family: var(--font-mono);
-  font-size: 0.72rem;
+  font-size: 0.75rem;
   color: var(--color-accent);
   text-transform: uppercase;
   letter-spacing: 0.2em;
@@ -41,7 +41,7 @@
 
 .reveal {
   opacity: 0;
-  transform: translateY(28px);
+  transform: translateY(16px);
   transition:
     opacity 0.65s var(--ease),
     transform 0.65s var(--ease);

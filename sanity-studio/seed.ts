@@ -119,6 +119,19 @@ async function seed() {
   });
   console.log("✔  profile");
 
+  // ── About ──────────────────────────────────────────────────────────────────
+  await upsert({
+    _id: "about",
+    _type: "about",
+    bio: "Senior Software Engineer based in Beirut, focused on distributed systems and event-driven backend services. I've spent four years building financial software — long-running workflow orchestration at Murex, then real-time card and wallet infrastructure at TecFrac's Whish Money. I care about code that's testable, observable, and built to outlast its original deadline.",
+    highlights: [
+      { _key: "h1", value: "4+", label: "Years Experience" },
+      { _key: "h2", value: "3", label: "Companies" },
+      { _key: "h3", value: "3.8", label: "GPA at LAU" },
+    ],
+  });
+  console.log("✔  about");
+
   // ── Experience ─────────────────────────────────────────────────────────────
   await Promise.all([
     upsert({

@@ -1,0 +1,22 @@
+<section class="section section-alt" id="about">
+  <div class="container">
+    <p class="section-label" appReveal>01 / About</p>
+    <h2 class="section-title" appReveal="1">The Person Behind The Code</h2>
+    <div class="section-divider" appReveal="2"></div>
+
+    <div class="about-layout" appReveal="3">
+      <p class="about-bio">{{ about().bio }}</p>
+
+      @if (about().highlights.length) {
+        <div class="about-highlights">
+          @for (h of about().highlights; track $index) {
+            <div class="about-highlight">
+              <span class="about-highlight-value">{{ h.value }}</span>
+              <span class="about-highlight-label">{{ h.label }}</span>
+            </div>
+          }
+        </div>
+      }
+    </div>
+  </div>
+</section>

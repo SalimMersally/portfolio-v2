@@ -1,0 +1,42 @@
+.about-layout {
+  max-width: 680px;
+  display: flex;
+  flex-direction: column;
+  gap: 2.5rem;
+}
+
+.about-bio {
+  font-size: 1.1rem;
+  line-height: 1.8;
+  color: var(--color-text-muted);
+  text-wrap: pretty;
+}
+
+.about-highlights {
+  display: flex;
+  gap: 3.5rem;
+  flex-wrap: wrap;
+}
+
+.about-highlight {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+
+.about-highlight-value {
+  font-family: var(--font-heading);
+  font-size: clamp(2.2rem, 5vw, 3.2rem);
+  font-weight: 700;
+  letter-spacing: -0.04em;
+  color: var(--color-accent);
+  line-height: 1;
+}
+
+.about-highlight-label {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  color: var(--color-text-muted);
+}

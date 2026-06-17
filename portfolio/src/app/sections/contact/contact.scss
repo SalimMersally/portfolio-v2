@@ -1,12 +1,24 @@
-.contact-wrap {
-  max-width: 560px;
+.section {
+  padding: clamp(3rem, 6vw, 5rem) 0;
+}
+
+.contact-layout {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4rem;
+  align-items: start;
+}
+
+.contact-info {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
 }
 
 .contact-intro {
   font-size: 1rem;
   color: var(--color-text-muted);
   line-height: 1.75;
-  margin-bottom: 2rem;
   text-wrap: pretty;
 }
 
@@ -19,7 +31,6 @@
   color: var(--color-text);
   border-bottom: 2px solid var(--color-accent);
   padding-bottom: 0.15em;
-  margin-bottom: 2rem;
   transition:
     color var(--t),
     border-color var(--t);
@@ -57,5 +68,129 @@
     border-color: var(--color-accent);
     background: var(--color-accent-subtle);
     transform: translateY(-2px);
+  }
+}
+
+// ── Contact form ────────────────────────────────────────────────────────────
+
+.contact-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.contact-field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.contact-label {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--color-text-muted);
+}
+
+.contact-input {
+  background: var(--color-surface-2);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  padding: 0.7rem 1rem;
+  font-family: var(--font-body);
+  font-size: 0.9rem;
+  color: var(--color-text);
+  transition:
+    border-color var(--t),
+    background var(--t),
+    box-shadow var(--t);
+  width: 100%;
+
+  &::placeholder {
+    color: var(--color-text-muted);
+    opacity: 0.6;
+  }
+
+  &:focus {
+    outline: none;
+    border-color: var(--color-accent);
+    box-shadow: 0 0 0 3px var(--color-accent-subtle);
+  }
+}
+
+.contact-textarea {
+  resize: vertical;
+  min-height: 130px;
+  line-height: 1.6;
+}
+
+.contact-submit {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  background: var(--color-accent);
+  color: var(--color-on-accent);
+  font-size: 0.9rem;
+  font-weight: 600;
+  padding: 0.75rem 1.75rem;
+  border-radius: var(--radius);
+  border: none;
+  cursor: pointer;
+  transition:
+    background var(--t),
+    transform var(--t),
+    opacity var(--t);
+  align-self: flex-start;
+
+  &:hover:not(:disabled) {
+    background: var(--color-accent-hover);
+    transform: translateY(-1px);
+  }
+
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+}
+
+.contact-spinner {
+  width: 14px;
+  height: 14px;
+  border: 2px solid currentColor;
+  border-top-color: transparent;
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.contact-success {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  background: oklch(0.55 0.18 145 / 0.12);
+  border: 1px solid oklch(0.55 0.18 145 / 0.3);
+  color: oklch(0.7 0.18 145);
+  border-radius: var(--radius);
+  padding: 1.25rem 1.5rem;
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+
+.contact-error {
+  font-size: 0.85rem;
+  color: oklch(0.65 0.22 25);
+}
+
+@media (max-width: 760px) {
+  .contact-layout {
+    grid-template-columns: 1fr;
+    gap: 2.5rem;
   }
 }

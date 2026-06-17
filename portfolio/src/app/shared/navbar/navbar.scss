@@ -27,42 +27,20 @@
 }
 
 .nav-logo {
-  display: flex;
-  align-items: center;
-  gap: 0.55rem;
-  font-family: var(--font-heading);
-  font-weight: 700;
-  font-size: 1.1rem;
-  letter-spacing: -0.02em;
   flex-shrink: 0;
   color: var(--color-accent);
   transition: opacity var(--t);
+  display: flex;
 
   &:hover {
     opacity: 0.85;
   }
-}
-
-.nav-logo-icon {
-  width: 34px;
-  height: 34px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
 
   svg {
-    width: 100%;
-    height: 100%;
+    width: 42px;
+    height: 42px;
     display: block;
   }
-}
-
-.nav-logo-mark {
-  color: var(--color-text);
-}
-.nav-logo-dot {
-  color: var(--color-accent);
 }
 
 .nav-links {
@@ -74,9 +52,7 @@
 
 .nav-blog-item {
   display: flex;
-  flex-direction: column;
   align-items: center;
-  gap: 0.1rem;
 }
 
 .nav-link-disabled {
@@ -87,15 +63,20 @@
 
 .nav-coming-soon {
   font-family: var(--font-mono);
-  font-size: 0.58rem;
-  letter-spacing: 0.08em;
+  font-size: 0.52rem;
+  letter-spacing: 0.06em;
   color: var(--color-accent);
   text-transform: uppercase;
-  line-height: 1;
+  background: var(--color-accent-subtle);
+  border: 1px solid oklch(from var(--color-accent) l c h / 0.3);
+  padding: 0.15em 0.45em;
+  border-radius: 4px;
+  margin-left: 0.4rem;
+  line-height: 1.5;
 }
 
 .nav-link {
-  font-size: 0.875rem;
+  font-size: 0.9rem;
   font-weight: 500;
   color: var(--color-text-muted);
   padding: 0.4rem 0.75rem;

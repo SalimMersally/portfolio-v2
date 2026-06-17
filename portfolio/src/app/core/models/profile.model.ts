@@ -3,7 +3,7 @@ export interface Profile {
   title: string;
   tagline: string;
   email: string;
-  phone: string;
+  phone?: string;
   location: string;
   github: string;
   linkedin: string;
@@ -11,5 +11,5 @@ export interface Profile {
 }
 
 export function validateProfile(p: Profile): boolean {
-  return !!(p?.name && p.title && p.tagline && p.email && p.phone && p.location && p.github && p.linkedin && p.cvUrl);
+  return !!(p?.name && p.title && p.tagline && p.email && p.location && p.github && p.linkedin && p.cvUrl);
 }

@@ -1,4 +1,5 @@
 import { profile } from "./profile";
+import { about } from "./about";
 import { experience } from "./experience";
 import { skill } from "./skill";
 import { education } from "./education";
@@ -8,6 +9,7 @@ import { post } from "./post";
 
 export const schemaTypes = [
   profile,
+  about,
   experience,
   skill,
   education,

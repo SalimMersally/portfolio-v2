@@ -1,9 +1,10 @@
 @if (data(); as d) {
   <app-introduction [profile]="d.profile" />
+  <app-about [about]="d.about" />
   <app-experience [experiences]="d.experiences" />
+  <app-projects [projects]="d.projects" />
   <app-skills [groups]="d.skills" />
   <app-education [items]="d.education" />
-  <app-projects [projects]="d.projects" />
   <app-books [books]="d.books" />
   <app-contact [profile]="d.profile" />
   <app-footer />

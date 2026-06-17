@@ -3,7 +3,7 @@ import { TitleCasePipe } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { ThemeService } from '../../core/services/theme.service';
 
-const SECTIONS = ['experience', 'skills', 'projects', 'books'] as const;
+const SECTIONS = ['about', 'experience', 'projects', 'skills', 'books'] as const;
 
 @Component({
   selector: 'app-navbar',

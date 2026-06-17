@@ -25,8 +25,28 @@
 :host-context([data-theme='light']) .hero-bg {
   background-image: radial-gradient(
     circle,
-    oklch(0.5 var(--accent-c) var(--accent-h) / 0.16) 1.2px,
+    oklch(0.5 var(--accent-c) var(--accent-h) / 0.25) 1.2px,
     transparent 1.2px
+  );
+}
+
+:host-context([data-theme='light']) .hero-orb-1 {
+  background: oklch(0.5 var(--accent-c) var(--accent-h) / 0.22);
+}
+
+:host-context([data-theme='light']) .hero-orb-2 {
+  background: oklch(0.5 var(--accent-c) calc(var(--accent-h) + 25) / 0.16);
+}
+
+:host-context([data-theme='light']) .hero-orb-3 {
+  background: oklch(0.5 var(--accent-c) calc(var(--accent-h) - 20) / 0.13);
+}
+
+:host-context([data-theme='light']) .hero-spotlight {
+  background: radial-gradient(
+    550px circle at var(--mouse-x, 50%) var(--mouse-y, 50%),
+    oklch(0.5 var(--accent-c) var(--accent-h) / 0.09),
+    transparent 60%
   );
 }
 
@@ -116,6 +136,24 @@
   text-align: center;
   padding: 3rem 1.5rem 6rem;
   max-width: 680px;
+  animation: hero-enter 0.75s var(--ease) both;
+}
+
+@keyframes hero-enter {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-content {
+    animation: none;
+  }
 }
 
 .hero-eyebrow {
@@ -135,7 +173,6 @@
   line-height: 1.08;
   color: var(--color-text);
   margin-bottom: 0.75rem;
-  white-space: nowrap;
 }
 
 .hero-title {

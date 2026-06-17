@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { createClient, SanityClient } from '@sanity/client';
 import { environment } from '../../../environments/environment';
+import { About } from '../models/about.model';
 import { Book } from '../models/book.model';
 import { Education } from '../models/education.model';
 import { Experience } from '../models/experience.model';
@@ -76,6 +77,12 @@ export class SanityService {
     );
   }
 
+  getAbout(): Promise<About> {
+    return this.client.fetch<About>(
+      `*[_type == "about"][0] { bio, highlights }`,
+    );
+  }
+
   getAllPortfolioData(): Promise<PortfolioData> {
     return this.client.fetch<PortfolioData>(`{
       "profile": *[_type == "profile"][0] {
@@ -83,11 +90,18 @@ export class SanityService {
         "cvUrl": cv.asset->url,
         email, phone, location, github, linkedin
       },
+      "about": *[_type == "about"][0] {
+        bio,
+        highlights[] { value, label }
+      },
       "experiences": *[_type == "experience"] | order(startDate desc) {
         _id, company, role, location,
         "logoUrl": logo.asset->url,
         startDate, endDate, current,
         bullets, technologies
+      },
+      "projects": *[_type == "project"] | order(order asc) {
+        _id, title, description, date, techStack, githubUrl, liveUrl, order
       },
       "skills": *[_type == "skill"] | order(order asc) {
         _id, category, items, order
@@ -97,9 +111,6 @@ export class SanityService {
         "logoUrl": logo.asset->url,
         "credentialUrl": credential.asset->url,
         gpa, startDate, endDate, highlights, technologies, order
-      },
-      "projects": *[_type == "project"] | order(order asc) {
-        _id, title, description, date, techStack, githubUrl, liveUrl, order
       },
       "books": *[_type == "book"] {
         _id, title, author,
