@@ -77,7 +77,7 @@ Three lazy-loaded routes (defined in `portfolio/src/app/app.routes.ts`):
 
 The `/blog` route is **not yet registered** — `Blog` component exists as a stub but must be added to `app.routes.ts`. Anchor scrolling (`/#experience`, `/#skills`, etc.) is handled natively by `withInMemoryScrolling({ anchorScrolling: 'enabled' })` in the router config — no manual `scrollIntoView` needed.
 
-Section components live in `portfolio/src/app/sections/` and are imported directly into `HomeComponent`. The `SECTIONS` constant in `Navbar` (`portfolio/src/app/shared/navbar/navbar.ts`) is `['experience', 'skills', 'projects', 'books']` — `education` and `contact` sections exist in the DOM but intentionally do not appear in the nav.
+Section components live in `portfolio/src/app/sections/` and are imported directly into `HomeComponent`. The `SECTIONS` constant in `Navbar` (`portfolio/src/app/shared/navbar/navbar.ts`) is `['about', 'experience', 'projects', 'skills', 'books']` — `education` and `contact` sections exist in the DOM but intentionally do not appear in the nav.
 
 `HomeComponent` shows a `Loading` page (`portfolio/src/app/pages/loading/`) while data fetches; it switches to `'ready'` only after `validatePortfolioData()` passes.
 

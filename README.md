@@ -1,11 +1,11 @@
 # Salim Al Mersally — Portfolio
 
-Personal portfolio built with **Angular 22** and **Sanity CMS v5**. Content is managed through Sanity Studio and rendered client-side by a static Angular SPA deployed on Vercel.
+Personal portfolio built with **Angular 22** and **Sanity CMS v5**. Content is managed through Sanity Studio and rendered client-side by a static Angular SPA deployed on Netlify, behind Cloudflare for DNS and CDN.
 
 ## Repository structure
 
 ```
-portfolio/        ← Angular 22 SPA (deployed to Vercel)
+portfolio/        ← Angular 22 SPA (deployed to Netlify)
 sanity-studio/    ← Sanity Studio v5 (deployed to sanity.studio)
 CLAUDE.md
 README.md
@@ -90,25 +90,19 @@ npm run deploy
 
 Studio is published to **salim-portfolio.sanity.studio**.
 
-### Angular SPA → Vercel
+### Angular SPA → Netlify + Cloudflare
 
-**First time:**
+See **[deploy-guide.md](./deploy-guide.md)** for the full step-by-step walkthrough (domain purchase, DNS records, SSL config).
+
+Short version:
 
 1. Push the repo to GitHub
-2. Go to [vercel.com](https://vercel.com) → **Add New Project** → import the repo
-3. Set the **Root Directory** to `portfolio`
-4. Vercel auto-detects Angular — no build command changes needed
-5. Click **Deploy**
+2. Connect to [netlify.com](https://netlify.com) → **Add new site** → import the repo
+3. Set **Base directory** to `portfolio`, **Publish directory** to `dist/portfolio-v2/browser`
+4. Add `salimalmersally.com` in Netlify domain settings
+5. Configure DNS records and SSL mode in Cloudflare
 
-**Subsequent deploys:** push to `main` — Vercel deploys automatically.
-
-**Optional — auto-redeploy on content publish:**
-
-In Vercel → your project → **Settings → Git → Deploy Hooks**, create a hook and add it to Sanity:
-```bash
-# in sanity-studio/
-npx sanity webhook create
-```
+**Subsequent deploys:** push to `main` — Netlify redeploys automatically.
 
 ---
 
@@ -120,5 +114,6 @@ npx sanity webhook create
 | `sanity-studio/.env` | `SANITY_TOKEN` | Editor token (write access, seed only) |
 | `portfolio/src/environments/environment.ts` | `sanityProjectId` | `46kdlm0d` |
 | `portfolio/src/environments/environment.prod.ts` | `sanityProjectId` | `46kdlm0d` |
+| `portfolio/src/environments/environment.ts` | `contactEndpoint` | Formspree endpoint (leave empty to fall back to mailto) |
 
-The Angular app only reads from Sanity — it never needs a token.
+The Angular app only reads from Sanity — it never needs a token. If `contactEndpoint` is empty, the contact form falls back to opening the user's mail client via `mailto:`.

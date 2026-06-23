@@ -1,0 +1,35 @@
+[build]
+  base    = "portfolio"
+  command = "ng build"
+  publish = "dist/portfolio-v2/browser"
+
+# Angular client-side routing — must come before the www redirect
+[[redirects]]
+  from   = "/*"
+  to     = "/index.html"
+  status = 200
+  conditions = {Host = ["salimalmersally.com", "salimalmersally.netlify.app"]}
+
+# Canonical: www → apex
+[[redirects]]
+  from   = "https://www.salimalmersally.com/*"
+  to     = "https://salimalmersally.com/:splat"
+  status = 301
+  force  = true
+
+# Cache: index.html always revalidated
+[[headers]]
+  for = "/index.html"
+  [headers.values]
+    Cache-Control = "no-cache"
+
+# Cache: hashed assets are immutable
+[[headers]]
+  for = "/*.js"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+[[headers]]
+  for = "/*.css"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
