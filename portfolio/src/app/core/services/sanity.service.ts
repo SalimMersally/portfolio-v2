@@ -17,7 +17,7 @@ export class SanityService {
       "profile": *[_type == "profile"][0] {
         name, title, tagline,
         "cvUrl": cv.asset->url,
-        email, phone, location, github, linkedin
+        email, phone, location, github, linkedin, contactIntro
       },
       "about": *[_type == "about"][0] {
         bio,

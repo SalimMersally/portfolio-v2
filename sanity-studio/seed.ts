@@ -116,6 +116,7 @@ async function seed() {
     github: "https://github.com/SalimMersally",
     linkedin: "https://linkedin.com/in/salim-al-mersally",
     ...(cvFile ? { cv: cvFile } : {}),
+    contactIntro: "Always open to interesting problems. Whether it's a side project, a collaboration, or just a conversation about distributed systems, my inbox is open.",
   });
   console.log("✔  profile");
 
@@ -123,7 +124,7 @@ async function seed() {
   await upsert({
     _id: "about",
     _type: "about",
-    bio: "Senior Software Engineer based in Beirut, focused on distributed systems and event-driven backend services. I've spent four years building financial software — long-running workflow orchestration at Murex, then real-time card and wallet infrastructure at TecFrac's Whish Money. I care about code that's testable, observable, and built to outlast its original deadline.",
+    bio: "Senior Software Engineer based in Beirut with four years building backend systems that have to work under pressure. I've worked across SaaS platforms, event-driven architectures, and real-time services, and I care as much about how the code is written as what it does. Testable, observable, built to last.",
     highlights: [
       { _key: "h1", value: "4+", label: "Years Experience" },
       { _key: "h2", value: "3", label: "Companies" },
@@ -144,7 +145,7 @@ async function seed() {
       startDate: "2026-04-01",
       current: true,
       bullets: [
-        "Working on Whish Money — a leading digital financial services platform in Lebanon and the MENA region that provides mobile wallets, prepaid card issuance, bill payments, and cross-border money transfers to individuals and businesses.",
+        "Working on Whish Money, a leading digital financial services platform in Lebanon and the MENA region that provides mobile wallets, prepaid card issuance, bill payments, and cross-border money transfers to individuals and businesses.",
         "Building and maintaining backend services on the Card and Wallet team, responsible for real-time card authorization, wallet funding, and transaction processing.",
       ],
       technologies: ["Java", "Spring Boot", "MySQL", "AWS"],
@@ -214,7 +215,7 @@ async function seed() {
       endDate: "2023-05-31",
       current: false,
       bullets: [
-        "Implemented distributed tracing using OpenTelemetry and Jaeger across multiple microservices, covering REST APIs, Temporal workflows, and RabbitMQ message flows — enabling faster root-cause analysis and improved observability.",
+        "Implemented distributed tracing using OpenTelemetry and Jaeger across multiple microservices, covering REST APIs, Temporal workflows, and RabbitMQ message flows, enabling faster root-cause analysis and improved observability.",
         "Designed and integrated a feature flagging system using Unleash, enabling gradual rollouts, safer releases, and controlled feature exposure across tenants.",
         "Built an email notification system to alert users about pending actions and long-running processes, improving responsiveness and reducing operational delays.",
       ],

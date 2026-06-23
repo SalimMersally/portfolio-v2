@@ -7,10 +7,7 @@
     @if (profile(); as s) {
       <div class="contact-layout" appReveal="3">
         <div class="contact-info">
-          <p class="contact-intro">
-            Currently open to new opportunities. Whether it's a role, a collaboration, or just a
-            conversation about distributed systems — my inbox is open.
-          </p>
+          <p class="contact-intro">{{ profile().contactIntro }}</p>
           <a [href]="'mailto:' + s.email" class="contact-email">{{ s.email }}</a>
           <div class="contact-socials">
             <a [href]="s.github" target="_blank" rel="noopener" class="contact-social-link">

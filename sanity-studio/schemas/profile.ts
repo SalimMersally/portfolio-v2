@@ -24,6 +24,13 @@ export const profile = defineType({
     defineField({ name: "github", title: "GitHub URL", type: "url", validation: (r) => r.required() }),
     defineField({ name: "linkedin", title: "LinkedIn URL", type: "url", validation: (r) => r.required() }),
     defineField({ name: "cv", title: "CV / Resume", type: "file", validation: (r) => r.required() }),
+    defineField({
+      name: "contactIntro",
+      title: "Contact Intro",
+      type: "text",
+      description: "Short paragraph shown above the contact form.",
+      validation: (r) => r.required(),
+    }),
   ],
   preview: {
     select: { title: "name", subtitle: "title" },

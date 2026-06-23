@@ -22,6 +22,10 @@ export default defineConfig({
               .title("Profile")
               .id("profile")
               .child(S.document().schemaType("profile").documentId("profile")),
+            S.listItem()
+              .title("About")
+              .id("about")
+              .child(S.document().schemaType("about").documentId("about")),
             S.divider(),
             S.documentTypeListItem("experience").title("Experience"),
             S.documentTypeListItem("skill").title("Skills"),

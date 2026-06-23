@@ -8,6 +8,7 @@ export interface Profile {
   github: string;
   linkedin: string;
   cvUrl: string;
+  contactIntro: string;
 }
 
 export function validateProfile(p: Profile): boolean {
@@ -19,6 +20,7 @@ export function validateProfile(p: Profile): boolean {
     p.location &&
     p.github &&
     p.linkedin &&
-    p.cvUrl
+    p.cvUrl &&
+    p.contactIntro
   );
 }
