@@ -70,9 +70,9 @@
   height: 1.4em;
   padding: 0 0.3em;
   background: var(--color-accent);
-  color: oklch(0.1 0 0);
+  color: var(--color-on-accent);
   border-radius: 99px;
-  font-size: 0.65rem;
+  font-size: 0.7rem;
   font-weight: 700;
   line-height: 1;
 }
@@ -238,7 +238,7 @@
   .sf-item.is-checked & {
     background: var(--color-accent);
     border-color: var(--color-accent);
-    color: oklch(0.1 0 0);
+    color: var(--color-on-accent);
   }
 }
 

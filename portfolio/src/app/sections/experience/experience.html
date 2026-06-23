@@ -1,6 +1,6 @@
 <section class="section" id="experience">
   <div class="container">
-    <p class="section-label" appReveal>02 / Experience</p>
+    <p class="section-label" appReveal>Experience</p>
     <h2 class="section-title" appReveal="1">Where I've Worked</h2>
     <div class="section-divider" appReveal="2"></div>
 
@@ -36,7 +36,7 @@
           <div class="timeline-company-header">
             <div class="timeline-logo">
               @if (group.logoUrl) {
-                <img [src]="group.logoUrl" [alt]="group.company" />
+                <img [src]="group.logoUrl" [alt]="group.company" loading="lazy" />
               } @else {
                 {{ initials(group.company) }}
               }

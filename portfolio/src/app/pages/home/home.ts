@@ -1,4 +1,4 @@
-import { Component, inject, signal } from '@angular/core';
+import { Component, inject, OnInit, signal } from '@angular/core';
 import { Router } from '@angular/router';
 import { PortfolioData, validatePortfolioData } from '../../core/models/portfolio-data.model';
 import { SanityService } from '../../core/services/sanity.service';
@@ -30,13 +30,13 @@ import { Loading } from '../loading/loading';
     Footer,
   ],
 })
-export class Home {
+export class Home implements OnInit {
   private readonly sanity = inject(SanityService);
   private readonly router = inject(Router);
 
   readonly data = signal<PortfolioData | null>(null);
 
-  constructor() {
+  ngOnInit(): void {
     this.sanity
       .getAllPortfolioData()
       .then((portfolioData) => {

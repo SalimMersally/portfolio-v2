@@ -1,6 +1,6 @@
 <section class="section" id="education">
   <div class="container">
-    <p class="section-label" appReveal>05 / Education</p>
+    <p class="section-label" appReveal>Education</p>
     <h2 class="section-title" appReveal="1">Education & Training</h2>
     <div class="section-divider" appReveal="2"></div>
 
@@ -14,7 +14,7 @@
           <div class="edu-card-top">
             <div class="edu-card-header">
               <div class="edu-logo">
-                <img [src]="edu.logoUrl" [alt]="edu.institution" />
+                <img [src]="edu.logoUrl" [alt]="edu.institution" loading="lazy" />
               </div>
               <div class="edu-header-text">
                 <h3 class="edu-institution">{{ edu.institution }}</h3>

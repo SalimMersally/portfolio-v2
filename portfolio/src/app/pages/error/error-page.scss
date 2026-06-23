@@ -14,13 +14,13 @@
 .error-title {
   font-size: 1.75rem;
   font-weight: 600;
-  color: var(--color-text-primary);
+  color: var(--color-text);
   margin-bottom: 0.75rem;
 }
 
 .error-message {
   font-size: 1rem;
-  color: var(--color-text-secondary);
+  color: var(--color-text-muted);
   line-height: 1.6;
   margin-bottom: 2rem;
 }
@@ -32,7 +32,7 @@
   padding: 0.625rem 1.5rem;
   border-radius: 6px;
   background: var(--color-accent);
-  color: var(--color-bg);
+  color: var(--color-on-accent);
   font-size: 0.9rem;
   font-weight: 600;
   border: none;

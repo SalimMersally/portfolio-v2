@@ -1,6 +1,6 @@
 <section class="section" id="books">
   <div class="container">
-    <p class="section-label" appReveal>06 / Books</p>
+    <p class="section-label" appReveal>Books</p>
 
     <h2 class="section-title" appReveal="1">What I'm Reading</h2>
     <div class="section-divider" appReveal="2"></div>
@@ -10,7 +10,7 @@
       @for (book of currentlyReading(); track book._id) {
         <div class="book-featured" appReveal="1">
           <div class="book-cover">
-            <img [src]="book.coverUrl" [alt]="book.title" />
+            <img [src]="book.coverUrl" [alt]="book.title" loading="lazy" />
           </div>
           <div class="book-featured-info">
             <h3 class="book-featured-title">{{ book.title }}</h3>
@@ -26,7 +26,7 @@
         @for (book of haveRead(); track book._id) {
           <div class="book-card">
             <div class="book-cover-sm">
-              <img [src]="book.coverUrl" [alt]="book.title" />
+              <img [src]="book.coverUrl" [alt]="book.title" loading="lazy" />
             </div>
             <p class="book-card-title">{{ book.title }}</p>
             <p class="book-card-author">{{ book.author }}</p>

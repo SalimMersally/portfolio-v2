@@ -1,6 +1,6 @@
-<section class="section section-alt" id="contact">
+<section class="section section-alt contact-section" id="contact">
   <div class="container">
-    <p class="section-label" appReveal>07 / Contact</p>
+    <p class="section-label" appReveal>Contact</p>
     <h2 class="section-title" appReveal="1">Get In Touch</h2>
     <div class="section-divider" appReveal="2"></div>
 
@@ -35,7 +35,15 @@
         <form class="contact-form" (ngSubmit)="sendMessage()" #contactForm="ngForm" novalidate>
           @if (status() === 'success') {
             <div class="contact-success">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+              <svg
+                width="20"
+                height="20"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+              >
                 <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" />
                 <polyline points="22 4 12 14.01 9 11.01" />
               </svg>
@@ -93,7 +101,15 @@
                 Sending…
               } @else {
                 Send message
-                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+                <svg
+                  width="15"
+                  height="15"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                >
                   <line x1="22" y1="2" x2="11" y2="13" />
                   <polygon points="22 2 15 22 11 13 2 9 22 2" />
                 </svg>

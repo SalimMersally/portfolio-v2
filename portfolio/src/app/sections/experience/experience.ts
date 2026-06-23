@@ -3,7 +3,7 @@ import { Experience } from '../../core/models/experience.model';
 import { FilterService } from '../../core/services/filter.service';
 import { SkillFilter } from '../../shared/components/skill-filter/skill-filter';
 import { RevealDirective } from '../../shared/directives/reveal.directive';
-import { formatDate, initials } from '../../shared/utils/format-date';
+import { formatDate, initials, parseDate } from '../../shared/utils/format-date';
 
 interface ExperienceGroup {
   company: string;
@@ -30,7 +30,7 @@ export class ExperienceSection {
       (min, exp) => (exp.startDate < min ? exp.startDate : min),
       list[0].startDate,
     );
-    const start = new Date(oldest);
+    const start = parseDate(oldest);
     const now = new Date();
     const totalMonths =
       (now.getFullYear() - start.getFullYear()) * 12 + (now.getMonth() - start.getMonth());

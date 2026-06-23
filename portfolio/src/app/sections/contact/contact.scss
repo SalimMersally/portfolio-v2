@@ -1,4 +1,5 @@
-.section {
+// Explicit modifier rather than overriding the global `.section` padding contract.
+.contact-section {
   padding: clamp(3rem, 6vw, 5rem) 0;
 }
 
@@ -16,7 +17,7 @@
 }
 
 .contact-intro {
-  font-size: 1rem;
+  font-size: 1.05rem;
   color: var(--color-text-muted);
   line-height: 1.75;
   text-wrap: pretty;
@@ -174,9 +175,9 @@
   display: flex;
   align-items: center;
   gap: 0.75rem;
-  background: oklch(0.55 0.18 145 / 0.12);
-  border: 1px solid oklch(0.55 0.18 145 / 0.3);
-  color: oklch(0.7 0.18 145);
+  background: var(--color-success-subtle);
+  border: 1px solid oklch(from var(--color-success) l c h / 0.3);
+  color: var(--color-success);
   border-radius: var(--radius);
   padding: 1.25rem 1.5rem;
   font-size: 0.9rem;
@@ -185,7 +186,7 @@
 
 .contact-error {
   font-size: 0.85rem;
-  color: oklch(0.65 0.22 25);
+  color: var(--color-error);
 }
 
 @media (max-width: 760px) {

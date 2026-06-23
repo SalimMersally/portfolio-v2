@@ -11,5 +11,14 @@ export interface Profile {
 }
 
 export function validateProfile(p: Profile): boolean {
-  return !!(p?.name && p.title && p.tagline && p.email && p.location && p.github && p.linkedin && p.cvUrl);
+  return !!(
+    p?.name &&
+    p.title &&
+    p.tagline &&
+    p.email &&
+    p.location &&
+    p.github &&
+    p.linkedin &&
+    p.cvUrl
+  );
 }

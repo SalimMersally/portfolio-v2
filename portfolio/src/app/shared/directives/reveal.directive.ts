@@ -1,29 +1,17 @@
-import {
-  AfterViewInit,
-  Directive,
-  ElementRef,
-  HostBinding,
-  inject,
-  Input,
-  OnDestroy,
-} from '@angular/core';
+import { AfterViewInit, Directive, ElementRef, inject, input, OnDestroy } from '@angular/core';
 
-@Directive({ selector: '[appReveal]', standalone: true, host: { class: 'reveal' } })
+@Directive({
+  selector: '[appReveal]',
+  host: {
+    class: 'reveal',
+    '[class.reveal-delay-1]': "delay() === '1'",
+    '[class.reveal-delay-2]': "delay() === '2'",
+    '[class.reveal-delay-3]': "delay() === '3'",
+    '[class.reveal-delay-4]': "delay() === '4'",
+  },
+})
 export class RevealDirective implements AfterViewInit, OnDestroy {
-  @Input('appReveal') delay: string = '';
-
-  @HostBinding('class.reveal-delay-1') get d1() {
-    return this.delay === '1';
-  }
-  @HostBinding('class.reveal-delay-2') get d2() {
-    return this.delay === '2';
-  }
-  @HostBinding('class.reveal-delay-3') get d3() {
-    return this.delay === '3';
-  }
-  @HostBinding('class.reveal-delay-4') get d4() {
-    return this.delay === '4';
-  }
+  readonly delay = input('', { alias: 'appReveal' });
 
   private readonly el = inject(ElementRef<HTMLElement>);
   private observer?: IntersectionObserver;

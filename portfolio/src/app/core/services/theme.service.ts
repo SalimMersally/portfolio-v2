@@ -15,6 +15,7 @@ export class ThemeService {
   toggleMode(): void {
     const next: ColorMode = this.mode() === 'dark' ? 'light' : 'dark';
     document.documentElement.classList.add('theme-transitioning');
+    void document.documentElement.offsetHeight;
     this.applyMode(next);
     localStorage.setItem(STORAGE_KEY, next);
     setTimeout(() => document.documentElement.classList.remove('theme-transitioning'), 500);

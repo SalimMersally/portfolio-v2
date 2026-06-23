@@ -20,25 +20,10 @@
     transform var(--t),
     box-shadow var(--t);
 
-  &::after {
-    content: '';
-    position: absolute;
-    inset: 0 0 auto 0;
-    height: 2px;
-    background: var(--color-accent);
-    transform: scaleX(0);
-    transform-origin: left;
-    transition: transform 0.35s ease;
-  }
-
   &:hover {
     border-color: oklch(from var(--color-accent) l c h / 0.4);
     transform: translateY(-2px);
     box-shadow: var(--card-shadow-hover);
-
-    &::after {
-      transform: scaleX(1);
-    }
   }
 }
 
@@ -65,7 +50,7 @@
   align-items: center;
   justify-content: center;
   font-family: var(--font-mono);
-  font-size: 0.7rem;
+  font-size: 0.72rem;
   font-weight: 600;
   color: var(--color-accent);
   letter-spacing: 0.04em;
@@ -95,7 +80,7 @@
 
 .edu-location {
   font-family: var(--font-mono);
-  font-size: 0.7rem;
+  font-size: 0.72rem;
   color: var(--color-text-muted);
   letter-spacing: 0.05em;
   margin-top: 0.25rem;
@@ -103,7 +88,7 @@
 
 .edu-type-badge {
   font-family: var(--font-mono);
-  font-size: 0.62rem;
+  font-size: 0.7rem;
   font-weight: 600;
   letter-spacing: 0.1em;
   text-transform: uppercase;
@@ -118,7 +103,7 @@
 }
 
 .edu-degree {
-  font-size: 0.925rem;
+  font-size: 0.95rem;
   font-weight: 500;
   color: var(--color-text);
   line-height: 1.4;
@@ -137,7 +122,7 @@
   gap: 0.5rem;
 
   li {
-    font-size: 0.875rem;
+    font-size: 0.95rem;
     color: var(--color-text-muted);
     line-height: 1.55;
     padding-left: 1.1rem;
@@ -162,7 +147,7 @@
 
 .edu-tech-tag {
   font-family: var(--font-mono);
-  font-size: 0.7rem;
+  font-size: 0.72rem;
   color: var(--color-accent);
   background: var(--color-accent-subtle);
   border: 1px solid oklch(from var(--color-accent) l c h / 0.2);
@@ -192,7 +177,7 @@
 
 .edu-gpa-label {
   font-family: var(--font-mono);
-  font-size: 0.65rem;
+  font-size: 0.7rem;
   font-weight: 600;
   letter-spacing: 0.1em;
   text-transform: uppercase;
@@ -219,7 +204,7 @@
   align-items: center;
   gap: 0.4rem;
   font-family: var(--font-mono);
-  font-size: 0.7rem;
+  font-size: 0.72rem;
   color: var(--color-text-muted);
   border: 1px solid var(--color-border);
   padding: 0.3em 0.75em;

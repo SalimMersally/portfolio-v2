@@ -1,23 +1,54 @@
 <section class="hero" id="introduction">
-  <div class="hero-bg" aria-hidden="true"></div>
-  <div class="hero-spotlight" aria-hidden="true"></div>
-  <div class="hero-orb hero-orb-1" aria-hidden="true"></div>
-  <div class="hero-orb hero-orb-2" aria-hidden="true"></div>
-  <div class="hero-orb hero-orb-3" aria-hidden="true"></div>
+  <!-- Ambient distributed-systems graph: services (nodes) connected by edges,
+       pulsing and drifting. A picture of the work, not generic orbs. -->
+  <svg
+    class="hero-graph"
+    viewBox="0 0 1200 800"
+    preserveAspectRatio="xMidYMid slice"
+    aria-hidden="true"
+  >
+    <g class="hero-graph-edges">
+      <line x1="180" y1="140" x2="360" y2="230" />
+      <line x1="360" y1="230" x2="270" y2="420" />
+      <line x1="360" y1="230" x2="520" y2="340" />
+      <line x1="270" y1="420" x2="470" y2="560" />
+      <line x1="520" y1="340" x2="470" y2="560" />
+      <line x1="520" y1="340" x2="720" y2="180" />
+      <line x1="720" y1="180" x2="850" y2="400" />
+      <line x1="850" y1="400" x2="1010" y2="250" />
+      <line x1="850" y1="400" x2="1080" y2="520" />
+      <line x1="470" y1="560" x2="680" y2="620" />
+      <line x1="680" y1="620" x2="850" y2="400" />
+      <line x1="1010" y1="250" x2="1080" y2="520" />
+      <line x1="180" y1="140" x2="270" y2="420" />
+      <line x1="1080" y1="520" x2="940" y2="600" />
+      <line x1="680" y1="620" x2="940" y2="600" />
+      <line x1="720" y1="180" x2="1010" y2="250" />
+    </g>
+    <g class="hero-graph-nodes">
+      <circle class="node" cx="180" cy="140" r="5" style="--d: 0s" />
+      <circle class="node" cx="360" cy="230" r="6" style="--d: 0.6s" />
+      <circle class="node" cx="270" cy="420" r="4" style="--d: 1.2s" />
+      <circle class="node" cx="520" cy="340" r="7" style="--d: 0.3s" />
+      <circle class="node" cx="470" cy="560" r="5" style="--d: 1.8s" />
+      <circle class="node" cx="720" cy="180" r="6" style="--d: 0.9s" />
+      <circle class="node" cx="850" cy="400" r="7" style="--d: 0.4s" />
+      <circle class="node" cx="1010" cy="250" r="5" style="--d: 1.5s" />
+      <circle class="node" cx="1080" cy="520" r="6" style="--d: 1s" />
+      <circle class="node" cx="680" cy="620" r="4" style="--d: 2.1s" />
+      <circle class="node" cx="940" cy="600" r="5" style="--d: 0.7s" />
+    </g>
+  </svg>
 
   <div class="hero-content">
     @if (profile(); as s) {
-      <p class="hero-eyebrow">Hello, I'm</p>
-      <h1 class="hero-name">{{ s.name }}</h1>
-      <p class="hero-title">{{ s.title }}</p>
-      <p class="hero-tagline">{{ s.tagline }}</p>
-      <p class="hero-location">
-        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-          <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
-          <circle cx="12" cy="10" r="3" />
-        </svg>
-        {{ s.location }}
+      <p class="hero-eyebrow">
+        <span class="hero-role">{{ s.title }}</span>
+        <span class="hero-eyebrow-sep" aria-hidden="true">/</span>
+        <span class="hero-place">{{ s.location }}</span>
       </p>
+      <h1 class="hero-name">{{ s.name }}</h1>
+      <p class="hero-tagline">{{ s.tagline }}</p>
       <div class="hero-links">
         <a [href]="s.github" target="_blank" rel="noopener" class="hero-link">
           <svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor">
