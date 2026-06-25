@@ -73,6 +73,7 @@ async function seed() {
   // ── Upload media assets ────────────────────────────────────────────────────
   console.log("📤 Uploading media assets...");
   const [
+    profilePhoto,
     murexLogo,
     tecfracLogo,
     scandiwebLogo,
@@ -87,6 +88,7 @@ async function seed() {
     coverTdd,
     cvFile,
   ] = await Promise.all([
+    uploadImage("profile.jpeg"),
     uploadImage("murex-logo.jpg"),
     uploadImage("tecfrac-logo.jpg"),
     uploadImage("scandiweb-logo.png"),
@@ -109,10 +111,10 @@ async function seed() {
     _type: "profile",
     name: "Salim Al Mersally",
     title: "Senior Software Engineer",
-    tagline: "Building distributed systems, one service at a time.",
+    tagline: "Turning complex problems into reliable software",
     email: "salim.almersally@gmail.com",
     phone: "+961 76 509 640",
-    location: "Beirut, Lebanon",
+    location: "Tripoli, Lebanon",
     github: "https://github.com/SalimMersally",
     linkedin: "https://linkedin.com/in/salim-al-mersally",
     ...(cvFile ? { cv: cvFile } : {}),
@@ -124,7 +126,8 @@ async function seed() {
   await upsert({
     _id: "about",
     _type: "about",
-    bio: "Senior Software Engineer based in Beirut with four years building backend systems that have to work under pressure. I've worked across SaaS platforms, event-driven architectures, and real-time services, and I care as much about how the code is written as what it does. Testable, observable, built to last.",
+    ...(profilePhoto ? { photo: profilePhoto } : {}),
+    bio: "Senior Software Engineer based in Tripoli, building systems that need to be reliable, scalable, and maintainable. Over the past four years, I've worked across SaaS platforms, microservices, event-driven architectures, and financial systems where correctness and resilience matter. I care deeply about software craftsmanship, writing code that is testable, observable, and designed to evolve long after the first deployment.",
     highlights: [
       { _key: "h1", value: "4+", label: "Years Experience" },
       { _key: "h2", value: "3", label: "Companies" },

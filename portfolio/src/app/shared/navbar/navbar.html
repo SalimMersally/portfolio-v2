@@ -54,8 +54,13 @@
         </li>
       }
       <li class="nav-blog-item">
-        <span class="nav-link nav-link-disabled"
-          >Blog<span class="nav-coming-soon">soon</span></span
+        <a
+          routerLink="/blog"
+          routerLinkActive="active"
+          [routerLinkActiveOptions]="{ exact: false }"
+          class="nav-link"
+          (click)="closeMobile()"
+          >Blog</a
         >
       </li>
     </ul>

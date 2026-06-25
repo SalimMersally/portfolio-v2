@@ -1,0 +1,147 @@
+<div class="tf-root">
+  <button
+    class="tf-trigger"
+    [class.is-active]="selected().length > 0"
+    [class.is-open]="isOpen()"
+    [attr.aria-expanded]="isOpen()"
+    (click)="toggle()"
+  >
+    <svg
+      class="tf-icon"
+      width="13"
+      height="13"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="2"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+      aria-hidden="true"
+    >
+      <polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3" />
+    </svg>
+    <span class="tf-label">
+      Tags
+      <span class="tf-count" [style.visibility]="selected().length > 0 ? 'visible' : 'hidden'">
+        {{ selected().length }}
+      </span>
+    </span>
+    <!-- Fixed-size slot keeps trigger width stable -->
+    <span class="tf-action">
+      @if (selected().length > 0) {
+        <span class="tf-clear-x" (click)="clearAndStop($event)" aria-label="Clear tags">
+          <svg
+            width="8"
+            height="8"
+            viewBox="0 0 10 10"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2.5"
+            stroke-linecap="round"
+            aria-hidden="true"
+          >
+            <line x1="1" y1="1" x2="9" y2="9" />
+            <line x1="9" y1="1" x2="1" y2="9" />
+          </svg>
+        </span>
+      } @else {
+        <svg
+          class="tf-chevron"
+          width="11"
+          height="11"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2.5"
+          stroke-linecap="round"
+          aria-hidden="true"
+        >
+          <polyline points="6 9 12 15 18 9" />
+        </svg>
+      }
+    </span>
+  </button>
+
+  @if (isOpen()) {
+    <div
+      class="tf-panel"
+      role="listbox"
+      aria-multiselectable="true"
+      aria-label="Filter by tags"
+      [style.left]="panelLeft()"
+    >
+      <div class="tf-search-row">
+        <svg
+          width="13"
+          height="13"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          aria-hidden="true"
+        >
+          <circle cx="11" cy="11" r="8" />
+          <line x1="21" y1="21" x2="16.65" y2="16.65" />
+        </svg>
+        <input
+          class="tf-search"
+          type="text"
+          placeholder="Search tags…"
+          [value]="search()"
+          (input)="search.set($any($event.target).value)"
+          aria-label="Search tags"
+        />
+        @if (search()) {
+          <button class="tf-search-clear" (click)="search.set('')" aria-label="Clear search">
+            <svg
+              width="10"
+              height="10"
+              viewBox="0 0 10 10"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+            >
+              <line x1="1" y1="1" x2="9" y2="9" />
+              <line x1="9" y1="1" x2="1" y2="9" />
+            </svg>
+          </button>
+        }
+      </div>
+
+      <div class="tf-list">
+        @for (tag of visibleTags(); track tag) {
+          <button
+            class="tf-item"
+            [class.is-checked]="selected().includes(tag)"
+            (click)="toggleTag(tag)"
+            role="option"
+            [attr.aria-selected]="selected().includes(tag)"
+          >
+            <span class="tf-checkbox" aria-hidden="true">
+              @if (selected().includes(tag)) {
+                <svg
+                  width="9"
+                  height="9"
+                  viewBox="0 0 10 8"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <polyline points="1 4 4 7 9 1" />
+                </svg>
+              }
+            </span>
+            {{ tag }}
+          </button>
+        }
+        @if (visibleTags().length === 0) {
+          <p class="tf-no-results">No tags match "{{ search() }}"</p>
+        }
+      </div>
+    </div>
+  }
+</div>

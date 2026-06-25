@@ -5,18 +5,26 @@
     <div class="section-divider" appReveal="2"></div>
 
     <div class="about-layout" appReveal="3">
-      <p class="about-bio">{{ about().bio }}</p>
-
-      @if (about().highlights.length) {
-        <div class="about-highlights">
-          @for (h of about().highlights; track $index) {
-            <div class="about-highlight">
-              <span class="about-highlight-value">{{ h.value }}</span>
-              <span class="about-highlight-label">{{ h.label }}</span>
-            </div>
-          }
+      <div class="about-photo-col">
+        <div class="about-photo-wrap">
+          <img class="about-photo" [src]="about().photoUrl" alt="Salim Al Mersally" />
         </div>
-      }
+      </div>
+
+      <div class="about-content-col">
+        <p class="about-bio">{{ about().bio }}</p>
+
+        @if (about().highlights.length) {
+          <div class="about-highlights">
+            @for (h of about().highlights; track $index) {
+              <div class="about-highlight">
+                <span class="about-highlight-value">{{ h.value }}</span>
+                <span class="about-highlight-label">{{ h.label }}</span>
+              </div>
+            }
+          </div>
+        }
+      </div>
     </div>
   </div>
 </section>

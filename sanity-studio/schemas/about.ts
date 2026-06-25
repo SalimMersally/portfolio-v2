@@ -6,6 +6,14 @@ export const about = defineType({
   type: 'document',
   fields: [
     defineField({
+      name: 'photo',
+      title: 'Profile Photo',
+      type: 'image',
+      description: 'Your headshot — shown in the About section.',
+      options: { hotspot: true },
+      validation: (r) => r.required(),
+    }),
+    defineField({
       name: 'bio',
       title: 'Bio',
       type: 'text',

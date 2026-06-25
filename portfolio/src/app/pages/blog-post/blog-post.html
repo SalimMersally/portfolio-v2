@@ -1,0 +1,185 @@
+<main class="blog-post-main">
+  @if (loading()) {
+    <app-loading-dots [fullHeight]="true" />
+  }
+
+  @if (!loading() && blog(); as b) {
+    <article class="article-wrap" [class.wide]="wideMode()">
+      <header class="article-header">
+        <!-- Top bar: back + width toggle -->
+        <div class="article-top-bar">
+          <a routerLink="/blog" class="article-back">
+            <svg
+              width="12"
+              height="12"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2.5"
+              stroke-linecap="round"
+            >
+              <line x1="19" y1="12" x2="5" y2="12" />
+              <polyline points="12 19 5 12 12 5" />
+            </svg>
+            All posts
+          </a>
+
+          <div class="width-toggle" aria-label="Reading width">
+            <button
+              class="wt-btn"
+              [class.active]="!wideMode()"
+              (click)="setWide(false)"
+              title="Narrow"
+            >
+              <svg
+                width="13"
+                height="13"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+              >
+                <line x1="8" y1="6" x2="16" y2="6" />
+                <line x1="6" y1="10" x2="18" y2="10" />
+                <line x1="8" y1="14" x2="16" y2="14" />
+                <line x1="6" y1="18" x2="18" y2="18" />
+              </svg>
+              Narrow
+            </button>
+            <button class="wt-btn" [class.active]="wideMode()" (click)="setWide(true)" title="Wide">
+              <svg
+                width="13"
+                height="13"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+              >
+                <line x1="4" y1="6" x2="20" y2="6" />
+                <line x1="2" y1="10" x2="22" y2="10" />
+                <line x1="4" y1="14" x2="20" y2="14" />
+                <line x1="2" y1="18" x2="22" y2="18" />
+              </svg>
+              Wide
+            </button>
+          </div>
+        </div>
+
+        <!-- Series breadcrumb -->
+        @if (b.series) {
+          <div class="series-breadcrumb">
+            <span class="series-bc-badge">Series</span>
+            <span class="series-bc-sep">›</span>
+            <span class="series-bc-title">
+              {{ b.series.title }}
+              @if (b.seriesOrder && b.seriesTotal) {
+                — Part {{ b.seriesOrder }} of {{ b.seriesTotal }}
+              }
+            </span>
+          </div>
+        }
+
+        <h1 class="article-title">{{ b.title }}</h1>
+
+        <div class="article-meta">
+          @if (b.tags?.length) {
+            <div class="article-tags">
+              @for (tag of b.tags; track tag) {
+                <span class="article-tag">{{ tag }}</span>
+              }
+            </div>
+          }
+          <div class="article-meta-row">
+            <span class="article-date">{{ formatDate(b.publishedAt) }}</span>
+            @if (b.readTime) {
+              <span class="article-sep"></span>
+              <span class="article-read">{{ b.readTime }} min read</span>
+            }
+          </div>
+        </div>
+      </header>
+
+      <!-- Prose content -->
+      <div class="prose" [innerHTML]="htmlBody()"></div>
+
+      <div class="article-end">
+        <div class="end-mark" aria-hidden="true"><span></span><span></span><span></span></div>
+
+        @if (b.prevPost || b.nextPost) {
+          <nav class="series-nav" aria-label="Series navigation">
+            @if (b.prevPost) {
+              <a class="series-nav-item" [routerLink]="['/blog', b.prevPost.slug]">
+                <span class="series-nav-arrow">←</span>
+                <span class="series-nav-content">
+                  <span class="series-nav-dir">Previous in series</span>
+                  <span class="series-nav-label">{{ b.prevPost.title }}</span>
+                </span>
+              </a>
+            } @else {
+              <div></div>
+            }
+
+            @if (b.nextPost) {
+              <a
+                class="series-nav-item series-nav-item--next"
+                [routerLink]="['/blog', b.nextPost.slug]"
+              >
+                <span class="series-nav-content">
+                  <span class="series-nav-dir">Next in series</span>
+                  <span class="series-nav-label">{{ b.nextPost.title }}</span>
+                </span>
+                <span class="series-nav-arrow">→</span>
+              </a>
+            } @else {
+              <div></div>
+            }
+          </nav>
+        }
+
+        @if (b.mediumLink) {
+          <div class="crosspost-links">
+            <span class="crosspost-label">Also on</span>
+            <a
+              class="crosspost-chip"
+              [href]="b.mediumLink"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <svg
+                width="18"
+                height="10"
+                viewBox="0 0 1043.63 592.71"
+                xmlns="http://www.w3.org/2000/svg"
+                aria-hidden="true"
+                fill="currentColor"
+              >
+                <ellipse cx="292.95" cy="296.36" rx="292.95" ry="296.36" />
+                <path
+                  d="M671.65 296.36c0 163.67-65.17 296.35-145.6 296.35S380.44 460.03 380.44 296.36 445.61 0 526.05 0s145.6 132.68 145.6 296.36z"
+                />
+                <ellipse cx="968.65" cy="296.36" rx="74.98" ry="296.36" />
+              </svg>
+              Medium
+              <svg
+                width="9"
+                height="9"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2.5"
+                stroke-linecap="round"
+                aria-hidden="true"
+              >
+                <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" />
+                <polyline points="15 3 21 3 21 9" />
+                <line x1="10" y1="14" x2="21" y2="3" />
+              </svg>
+            </a>
+          </div>
+        }
+      </div>
+    </article>
+  }
+</main>

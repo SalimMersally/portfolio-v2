@@ -1,0 +1,310 @@
+.drp-root {
+  position: relative;
+  display: inline-block;
+}
+
+.drp-controls {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+}
+
+// ── Trigger ──────────────────────────────────────────────
+.drp-trigger {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0 0.875rem;
+  height: 38px;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  font-family: var(--font-mono);
+  font-size: 0.82rem;
+  color: var(--color-text-muted);
+  white-space: nowrap;
+  cursor: pointer;
+  user-select: none;
+  transition:
+    color var(--t),
+    border-color var(--t),
+    background var(--t),
+    box-shadow var(--t);
+
+  svg:first-child {
+    flex-shrink: 0;
+    opacity: 0.6;
+  }
+
+  &:hover {
+    color: var(--color-text);
+    border-color: oklch(from var(--color-accent) l c h / 0.4);
+  }
+
+  &.is-active {
+    color: var(--color-accent);
+    border-color: oklch(from var(--color-accent) l c h / 0.45);
+    background: var(--color-accent-subtle);
+
+    svg:first-child {
+      opacity: 1;
+    }
+  }
+
+  &.is-open {
+    border-color: oklch(from var(--color-accent) l c h / 0.55);
+    box-shadow: 0 0 0 3px oklch(from var(--color-accent) l c h / 0.08);
+  }
+}
+
+.drp-action {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 16px;
+  flex-shrink: 0;
+}
+
+.drp-chevron {
+  opacity: 0.5;
+  transition: transform var(--t);
+
+  .drp-trigger.is-open & {
+    transform: rotate(180deg);
+  }
+}
+
+.drp-clear-x {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  opacity: 0.5;
+  transition: opacity var(--t);
+
+  &:hover {
+    opacity: 1;
+  }
+}
+
+// ── Panel ─────────────────────────────────────────────────
+.drp-panel {
+  position: absolute;
+  top: calc(100% + 0.4rem);
+  left: 0;
+  z-index: 200;
+  width: 288px;
+  background: var(--color-surface-2);
+  border: 1px solid var(--color-border);
+  border-radius: calc(var(--radius) * 1.5);
+  box-shadow: 0 16px 40px oklch(0 0 0 / 0.45);
+  overflow: hidden;
+  animation: drp-appear 0.14s var(--ease) both;
+
+  max-width: min(288px, calc(100vw - 24px));
+}
+
+@keyframes drp-appear {
+  from {
+    opacity: 0;
+    transform: translateY(-6px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+// ── Month nav ─────────────────────────────────────────────
+.drp-nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.6rem 0.65rem;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.drp-nav-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border-radius: var(--radius);
+  color: var(--color-text-muted);
+  cursor: pointer;
+  transition:
+    color var(--t),
+    background var(--t);
+  flex-shrink: 0;
+
+  &:hover {
+    color: var(--color-text);
+    background: var(--color-surface);
+  }
+}
+
+.drp-month-label {
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  font-weight: 500;
+  color: var(--color-text);
+}
+
+// ── Grid ──────────────────────────────────────────────────
+.drp-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  padding: 0.5rem 0.5rem 0.4rem;
+  row-gap: 2px;
+}
+
+.drp-weekday {
+  font-family: var(--font-mono);
+  font-size: 0.6rem;
+  color: var(--color-text-muted);
+  text-align: center;
+  padding: 0.15rem 0 0.4rem;
+  opacity: 0.6;
+}
+
+.drp-day {
+  aspect-ratio: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  color: var(--color-text-muted);
+  cursor: pointer;
+  border: none;
+  background: transparent;
+  border-radius: 0;
+  transition:
+    background var(--t),
+    color var(--t);
+  position: relative;
+
+  &:hover:not(.day--start):not(.day--end):not(.day--single) {
+    background: oklch(from var(--color-accent) l c h / 0.1);
+    color: var(--color-text);
+    border-radius: var(--radius);
+  }
+
+  &.day--other {
+    opacity: 0.25;
+    pointer-events: none;
+  }
+
+  &.day--today:not(.day--start):not(.day--end):not(.day--single) {
+    color: var(--color-accent);
+    font-weight: 600;
+  }
+
+  // Range band (no radius — fills the full cell width)
+  &.day--in-range {
+    background: oklch(from var(--color-accent) l c h / 0.14);
+    color: var(--color-text);
+  }
+
+  // Preview range is slightly more transparent
+  &.day--preview.day--in-range {
+    background: oklch(from var(--color-accent) l c h / 0.08);
+  }
+
+  // Start of range — accent fill, left-rounded
+  &.day--start {
+    background: var(--color-accent);
+    color: var(--color-on-accent);
+    border-radius: var(--radius) 0 0 var(--radius);
+  }
+
+  // End of range — accent fill, right-rounded
+  &.day--end {
+    background: var(--color-accent);
+    color: var(--color-on-accent);
+    border-radius: 0 var(--radius) var(--radius) 0;
+  }
+
+  // Single selected day — full radius
+  &.day--single {
+    background: var(--color-accent);
+    color: var(--color-on-accent);
+    border-radius: var(--radius);
+  }
+
+  // Preview start/end: slightly softer fill
+  &.day--preview.day--start,
+  &.day--preview.day--end {
+    background: oklch(from var(--color-accent) l c h / 0.75);
+    color: var(--color-on-accent);
+  }
+
+  &.day--preview.day--single {
+    background: oklch(from var(--color-accent) l c h / 0.75);
+    color: var(--color-on-accent);
+  }
+}
+
+// ── Footer ────────────────────────────────────────────────
+.drp-footer {
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+  padding: 0.5rem 0.6rem;
+  border-top: 1px solid var(--color-border);
+}
+
+.drp-preset {
+  font-family: var(--font-mono);
+  font-size: 0.62rem;
+  color: var(--color-text-muted);
+  padding: 0.25rem 0.5rem;
+  border: 1px solid var(--color-border);
+  border-radius: 99px;
+  background: transparent;
+  cursor: pointer;
+  white-space: nowrap;
+  transition:
+    color var(--t),
+    border-color var(--t),
+    background var(--t);
+
+  &:hover {
+    color: var(--color-accent);
+    border-color: oklch(from var(--color-accent) l c h / 0.4);
+    background: var(--color-accent-subtle);
+  }
+
+  &.is-active {
+    color: var(--color-accent);
+    border-color: oklch(from var(--color-accent) l c h / 0.45);
+    background: var(--color-accent-subtle);
+    font-weight: 600;
+  }
+}
+
+.drp-footer-clear {
+  font-family: var(--font-mono);
+  font-size: 0.62rem;
+  color: var(--color-text-muted);
+  padding: 0.25rem 0.5rem;
+  border-radius: 99px;
+  background: transparent;
+  border: 1px solid transparent;
+  cursor: pointer;
+  white-space: nowrap;
+  margin-left: auto;
+  transition: color var(--t);
+
+  &:hover:not([disabled]) {
+    color: var(--color-text);
+  }
+
+  &[disabled] {
+    opacity: 0.3;
+    cursor: not-allowed;
+  }
+}

@@ -1,6 +1,6 @@
 import { Component, HostListener, inject, OnDestroy, signal } from '@angular/core';
 import { TitleCasePipe } from '@angular/common';
-import { RouterLink } from '@angular/router';
+import { RouterLink, RouterLinkActive } from '@angular/router';
 import { ThemeService } from '../../core/services/theme.service';
 
 const SECTIONS = ['about', 'experience', 'projects', 'skills', 'books'] as const;
@@ -9,7 +9,7 @@ const SECTIONS = ['about', 'experience', 'projects', 'skills', 'books'] as const
   selector: 'app-navbar',
   templateUrl: './navbar.html',
   styleUrl: './navbar.scss',
-  imports: [RouterLink, TitleCasePipe],
+  imports: [RouterLink, RouterLinkActive, TitleCasePipe],
 })
 export class Navbar implements OnDestroy {
   protected readonly theme = inject(ThemeService);

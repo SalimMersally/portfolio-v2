@@ -4,10 +4,11 @@ export interface AboutHighlight {
 }
 
 export interface About {
+  photoUrl: string;
   bio: string;
   highlights: AboutHighlight[];
 }
 
 export function validateAbout(a: About): boolean {
-  return !!(a?.bio && Array.isArray(a.highlights));
+  return !!(a?.photoUrl && a.bio && Array.isArray(a.highlights));
 }

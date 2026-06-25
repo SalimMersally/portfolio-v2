@@ -14,10 +14,8 @@ README.md
 
 ## Prerequisites
 
-- **Node 26** (machine default — no switching needed)
+- **Node 24**
 - A [Sanity](https://sanity.io) account
-
----
 
 ## Local development
 
@@ -36,8 +34,6 @@ cd sanity-studio
 npm install
 npm run dev        # http://localhost:3333
 ```
-
----
 
 ## Seeding content
 
@@ -59,24 +55,10 @@ Get a write token from [sanity.io/manage](https://sanity.io/manage) → your pro
 ```bash
 cd sanity-studio
 npm run seed
+
 ```
 
-Expected output:
-```
-✔  siteSettings
-✔  theme
-✔  experience (4 entries)
-✔  skills (5 categories)
-✔  education
-✔  projects (2 entries)
-✔  books (5 entries)
-
-✅  Seed complete!
-```
-
-The seed script is idempotent — running it again overwrites existing documents with the same `_id`.
-
----
+Note that the seed script clear all documents at the start, so make sure you are okay with deleting all the data.
 
 ## Deployment
 
@@ -91,10 +73,6 @@ npm run deploy
 Studio is published to **salim-portfolio.sanity.studio**.
 
 ### Angular SPA → Netlify + Cloudflare
-
-See **[deploy-guide.md](./deploy-guide.md)** for the full step-by-step walkthrough (domain purchase, DNS records, SSL config).
-
-Short version:
 
 1. Push the repo to GitHub
 2. Connect to [netlify.com](https://netlify.com) → **Add new site** → import the repo
@@ -114,6 +92,4 @@ Short version:
 | `sanity-studio/.env` | `SANITY_TOKEN` | Editor token (write access, seed only) |
 | `portfolio/src/environments/environment.ts` | `sanityProjectId` | `46kdlm0d` |
 | `portfolio/src/environments/environment.prod.ts` | `sanityProjectId` | `46kdlm0d` |
-| `portfolio/src/environments/environment.ts` | `contactEndpoint` | Formspree endpoint (leave empty to fall back to mailto) |
-
-The Angular app only reads from Sanity — it never needs a token. If `contactEndpoint` is empty, the contact form falls back to opening the user's mail client via `mailto:`.
+The Angular app only reads from Sanity — it never needs a token.

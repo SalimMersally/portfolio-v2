@@ -2,6 +2,8 @@ import { Injectable } from '@angular/core';
 import { createClient, SanityClient } from '@sanity/client';
 import { environment } from '../../../environments/environment';
 import { PortfolioData } from '../models/portfolio-data.model';
+import { BlogSummary } from '../models/blog-summary.model';
+import { BlogDetail, BlogNavItem } from '../models/blog-detail.model';
 
 @Injectable({ providedIn: 'root' })
 export class SanityService {
@@ -20,6 +22,7 @@ export class SanityService {
         email, phone, location, github, linkedin, contactIntro
       },
       "about": *[_type == "about"][0] {
+        "photoUrl": photo.asset->url,
         bio,
         highlights[] { value, label }
       },
@@ -47,5 +50,58 @@ export class SanityService {
         status
       }
     }`);
+  }
+
+  getBlogs(): Promise<{ blogs: BlogSummary[] }> {
+    return this.client.fetch(`{
+      "blogs": *[_type == "post"] | order(publishedAt desc) {
+        _id, title, "slug": slug.current,
+        description, tags, publishedAt, readTime,
+        "series": series-> { _id, title, "slug": slug.current },
+        seriesOrder
+      }
+    }`);
+  }
+
+  async getBlogBySlug(slug: string): Promise<BlogDetail | null> {
+    const blog = await this.client.fetch<BlogDetail | null>(
+      `*[_type == "post" && slug.current == $slug][0] {
+        _id, title, "slug": slug.current,
+        description, tags, publishedAt, readTime, mediumLink,
+        "body": body[]{
+          ...,
+          _type == "image" => { "assetUrl": asset->url }
+        },
+        "series": series-> { _id, title, "slug": slug.current },
+        seriesOrder
+      }`,
+      { slug },
+    );
+
+    if (!blog || !blog.series) return blog;
+
+    const nav = await this.client.fetch<{
+      prevPost: BlogNavItem | null;
+      nextPost: BlogNavItem | null;
+      seriesTotal: number;
+    }>(
+      `{
+        "prevPost": *[_type == "post" && references($seriesId) && seriesOrder == $order - 1][0] {
+          title, "slug": slug.current, seriesOrder
+        },
+        "nextPost": *[_type == "post" && references($seriesId) && seriesOrder == $order + 1][0] {
+          title, "slug": slug.current, seriesOrder
+        },
+        "seriesTotal": count(*[_type == "post" && references($seriesId)])
+      }`,
+      { seriesId: blog.series._id, order: blog.seriesOrder ?? 0 },
+    );
+
+    return {
+      ...blog,
+      prevPost: nav.prevPost ?? undefined,
+      nextPost: nav.nextPost ?? undefined,
+      seriesTotal: nav.seriesTotal,
+    };
   }
 }

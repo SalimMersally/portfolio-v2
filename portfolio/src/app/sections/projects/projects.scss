@@ -33,6 +33,7 @@
   overflow: hidden;
   box-shadow: var(--card-shadow);
   transition:
+    background var(--t-slow),
     border-color var(--t),
     transform var(--t),
     box-shadow var(--t);
