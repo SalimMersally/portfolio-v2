@@ -595,7 +595,7 @@
   }
 
   &--next {
-    text-align: right;
+    .series-nav-content { align-items: flex-end; }
   }
 }
 

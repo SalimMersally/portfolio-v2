@@ -1,4 +1,4 @@
-<main class="blog-main">
+<main class="blog-main" [class.no-blogs]="!loading() && !error() && !blogs().length">
   <div class="container">
     <!-- ── Hero ── -->
     <header class="blog-hero">
@@ -8,7 +8,7 @@
           <h1 class="blog-title">Blog</h1>
           <p class="blog-sub">Writing about code, systems, and the pursuit of elegant solutions.</p>
         </div>
-        @if (!loading()) {
+        @if (!loading() && blogs().length > 0) {
           <div class="hero-count">
             <span class="hero-count-num">{{
               hasActiveFilter() ? filtered().length : blogs().length
@@ -22,6 +22,7 @@
     </header>
 
     <!-- ── Filter zone ── -->
+    @if (!loading() && blogs().length > 0) {
     <div class="filter-zone">
       <div class="filter-row">
         <div class="search-wrap">
@@ -91,6 +92,7 @@
         />
       </div>
     </div>
+    }
 
     <!-- ── Feed ── -->
     @if (loading()) {

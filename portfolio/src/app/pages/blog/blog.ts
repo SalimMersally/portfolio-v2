@@ -1,6 +1,7 @@
 import {
   Component,
   OnDestroy,
+  Renderer2,
   computed,
   effect,
   inject,
@@ -36,6 +37,15 @@ type DisplayItem =
 })
 export class Blog implements OnInit, OnDestroy {
   private readonly sanity = inject(SanityService);
+  private readonly renderer = inject(Renderer2);
+
+  private readonly _bodyLock = effect(() => {
+    if (!this.loading() && !this.error() && !this.blogs().length) {
+      this.renderer.setStyle(document.body, 'overflow', 'hidden');
+    } else {
+      this.renderer.removeStyle(document.body, 'overflow');
+    }
+  });
 
   private readonly mql =
     typeof window !== 'undefined' ? window.matchMedia('(max-width: 639px)') : null;
@@ -47,6 +57,7 @@ export class Blog implements OnInit, OnDestroy {
   }
   ngOnDestroy() {
     this.mql?.removeEventListener('change', this.onMql);
+    this.renderer.removeStyle(document.body, 'overflow');
   }
 
   readonly blogs = signal<BlogSummary[]>([]);
