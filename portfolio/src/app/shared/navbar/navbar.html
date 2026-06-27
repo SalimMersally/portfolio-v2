@@ -53,19 +53,54 @@
           >
         </li>
       }
-      <li class="nav-blog-item">
-        <a
-          routerLink="/blog"
-          routerLinkActive="active"
-          [routerLinkActiveOptions]="{ exact: false }"
-          class="nav-link"
-          (click)="closeMobile()"
-          >Blog</a
-        >
-      </li>
     </ul>
 
+    <a
+      routerLink="/blog"
+      routerLinkActive="active"
+      [routerLinkActiveOptions]="{ exact: false }"
+      class="nav-link nav-blog-link"
+      (click)="closeMobile()"
+      >Blog</a
+    >
+
     <div class="nav-actions">
+      <button
+        class="nav-mobile-toggle"
+        [class.open]="mobileOpen()"
+        (click)="toggleMobile()"
+        [attr.aria-expanded]="mobileOpen()"
+        aria-label="Toggle menu"
+      >
+        <svg
+          class="icon-hamburger"
+          width="20"
+          height="20"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+        >
+          <line x1="3" y1="6" x2="21" y2="6" />
+          <line x1="3" y1="12" x2="21" y2="12" />
+          <line x1="3" y1="18" x2="21" y2="18" />
+        </svg>
+        <svg
+          class="icon-x"
+          width="20"
+          height="20"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+        >
+          <line x1="18" y1="6" x2="6" y2="18" />
+          <line x1="6" y1="6" x2="18" y2="18" />
+        </svg>
+      </button>
+
       <button class="theme-toggle" (click)="theme.toggleMode()" aria-label="Toggle dark/light mode">
         <!-- Sun (shown in dark mode) -->
         <svg
@@ -103,26 +138,6 @@
         </svg>
       </button>
 
-      <button
-        class="nav-mobile-toggle"
-        (click)="toggleMobile()"
-        [attr.aria-expanded]="mobileOpen()"
-        aria-label="Toggle menu"
-      >
-        <svg
-          width="20"
-          height="20"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          stroke-width="2"
-          stroke-linecap="round"
-        >
-          <line x1="3" y1="6" x2="21" y2="6" />
-          <line x1="3" y1="12" x2="21" y2="12" />
-          <line x1="3" y1="18" x2="21" y2="18" />
-        </svg>
-      </button>
     </div>
   </div>
 </nav>
