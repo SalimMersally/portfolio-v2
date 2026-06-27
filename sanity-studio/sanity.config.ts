@@ -33,6 +33,7 @@ export default defineConfig({
             S.documentTypeListItem("project").title("Projects"),
             S.documentTypeListItem("book").title("Books"),
             S.divider(),
+            S.documentTypeListItem("series").title("Blog Series"),
             S.documentTypeListItem("post").title("Blog Posts"),
           ]),
     }),

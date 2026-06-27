@@ -2,14 +2,18 @@
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
+## Hard rules
+
+- **No git operations.** Never run any `git` command (commit, push, pull, branch, status, diff, log, etc.). Do not stage, commit, or push changes under any circumstances.
+
 ## Node version
 
-**Node 26** is the default on this machine and works for both Angular 22 and Sanity Studio v5. No nvm switching needed — just use the system default.
+**Node 24** is the default on this machine and works for both Angular 22 and Sanity Studio v5. No nvm switching needed — just use the system default.
 
 ## Repository layout
 
 ```
-portfolio/        ← Angular 22 SPA (Vercel)
+portfolio/        ← Angular 22 SPA (Netlify — salimalmersally.com)
 sanity-studio/    ← Sanity Studio v5 (sanity.studio)
 CLAUDE.md
 README.md
@@ -44,7 +48,7 @@ Before first `deploy`, set `projectId` in both `sanity-studio/sanity.cli.ts` and
 
 ## Architecture
 
-This is a single-page Angular 22 portfolio. All content is fetched from **Sanity CMS** via GROQ and rendered client-side. Deployed as a static SPA on Vercel.
+This is a single-page Angular 22 portfolio. All content is fetched from **Sanity CMS** via GROQ and rendered client-side. Deployed as a static SPA on **Netlify** at `salimalmersally.com`, behind Cloudflare (CDN + SSL "Full" mode). The `public/_redirects` file (`/* /index.html 200`) handles client-side routing so deep links don't 404 on refresh. Google Search Console is set up with the sitemap at `/sitemap.xml`.
 
 ### Change detection
 
@@ -70,12 +74,14 @@ Sanity Studio (sanity-studio/)
 
 ### Routing
 
-Three lazy-loaded routes (defined in `portfolio/src/app/app.routes.ts`):
+Lazy-loaded routes (defined in `portfolio/src/app/app.routes.ts`):
 - `/` → `portfolio/src/app/pages/home/` — all portfolio sections
+- `/blog` → `portfolio/src/app/pages/blog/` — blog listing with filtering, sorting, pagination, and series grouping
+- `/blog/:slug` → `portfolio/src/app/pages/blog-post/` — individual post rendered from Portable Text via `@portabletext/to-html` + `highlight.js`
 - `/error` → `portfolio/src/app/pages/error/` — shown on Sanity fetch/validation failure
 - `/**` → `portfolio/src/app/pages/not-found/` — 404
 
-The `/blog` route is **not yet registered** — `Blog` component exists as a stub but must be added to `app.routes.ts`. Anchor scrolling (`/#experience`, `/#skills`, etc.) is handled natively by `withInMemoryScrolling({ anchorScrolling: 'enabled' })` in the router config — no manual `scrollIntoView` needed.
+Anchor scrolling (`/#experience`, `/#skills`, etc.) is handled natively by `withInMemoryScrolling({ anchorScrolling: 'enabled' })` in the router config — no manual `scrollIntoView` needed.
 
 Section components live in `portfolio/src/app/sections/` and are imported directly into `HomeComponent`. The `SECTIONS` constant in `Navbar` (`portfolio/src/app/shared/navbar/navbar.ts`) is `['about', 'experience', 'projects', 'skills', 'books']` — `education` and `contact` sections exist in the DOM but intentionally do not appear in the nav.
 
@@ -86,6 +92,9 @@ Section components live in `portfolio/src/app/sections/` and are imported direct
 - **`RevealDirective`** (`portfolio/src/app/shared/directives/reveal.directive.ts`) — `[appReveal]` attribute directive; uses `IntersectionObserver` to add `.in-view` when an element scrolls into view. Accepts an optional delay string (`"1"`–`"4"`) that maps to `.reveal-delay-N` CSS classes.
 - **`FilterService`** (`portfolio/src/app/core/services/filter.service.ts`) — tracks `activeSkills signal<string[]>`. Declared `@Injectable()` with no `providedIn`, so it **must** appear in the `providers: []` array of any component that uses it (currently `ExperienceSection`). This gives each consuming section its own independent instance.
 - **`SkillFilter`** (`portfolio/src/app/shared/components/skill-filter/`) — shared dropdown used by `ExperienceSection` to filter roles by technology.
+- **`CustomSelect`** (`portfolio/src/app/shared/components/custom-select/`) — generic styled `<select>` wrapper; takes `options: SelectOption[]` and emits `valueChange`.
+- **`TagFilter`** (`portfolio/src/app/shared/components/tag-filter/`) — multi-select tag chip list; takes `tags: string[]` and emits `tagsChange`.
+- **`DateRangePicker`** (`portfolio/src/app/shared/components/date-range-picker/`) — from/to date inputs; emits `fromChange` / `toChange`.
 - **Shared utils** (`portfolio/src/app/shared/utils/format-date.ts`) — `formatDate(dateStr)`, `initials(name)`, `groupBy(arr, keyFn)`. Import from here rather than duplicating in sections.
 
 ### Styling
@@ -104,6 +113,8 @@ Component styles use `styleUrl` (scoped SCSS). Never add hardcoded color/font/sp
 ### Sanity Studio
 
 Lives in `sanity-studio/` — Sanity v5 + React 19, separate `npm install` and build. Schemas are in `sanity-studio/schemas/index.ts`. Has its own `sanity.cli.ts` (required by v5) and `sanity.config.ts`.
+
+Blog schemas: `post` (individual article with Portable Text body, tags, readTime, optional `series` reference + `seriesOrder`) and `series` (a grouping document with title/slug/description). `SanityService.getBlogs()` returns `{ blogs: BlogSummary[] }` for the listing; `SanityService.getBlogBySlug(slug)` returns `BlogDetail` (includes `body`, `prevPost`, `nextPost`). Models live in `portfolio/src/app/core/models/blog-summary.model.ts` and `blog-detail.model.ts`.
 
 ## Design reference
 
@@ -127,9 +138,3 @@ When implementing a new section or component, open the corresponding block in `i
 3. Add a GROQ query method to `SanityService` and include it in `getAllPortfolioData()`
 4. Import the component into `HomeComponent` and pass the data signal
 5. If it needs a nav link, add its id to the `SECTIONS` array in `navbar.ts`
-
-## Roadmap (Stage 2)
-
-See `.claude/requirement.md` for the full spec. Stage 1 (all sections, services, models, Navbar, Footer) is complete. Outstanding:
-- `/blog` route (must be added to `app.routes.ts`) + `Blog` component implementation (`pages/blog/blog.ts` is a stub; `post` schema exists in Sanity)
-- Vercel deployment + Sanity webhook

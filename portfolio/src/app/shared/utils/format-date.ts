@@ -1,10 +1,18 @@
 /** Parse a bare `YYYY-MM-DD` string as local time (avoids the UTC shift of `new Date('YYYY-MM-DD')`). */
 export function parseDate(dateStr: string): Date {
-  return new Date(dateStr + 'T00:00:00');
+  return new Date(dateStr.includes('T') ? dateStr : dateStr + 'T00:00:00');
 }
 
 export function formatDate(dateStr: string): string {
   return parseDate(dateStr).toLocaleDateString('en-US', { month: 'short', year: 'numeric' });
+}
+
+export function formatDateFull(dateStr: string): string {
+  return parseDate(dateStr).toLocaleDateString('en-GB', {
+    day: 'numeric',
+    month: 'short',
+    year: 'numeric',
+  });
 }
 
 export function initials(name: string): string {

@@ -1,0 +1,127 @@
+.cs-root {
+  position: relative;
+  display: inline-block;
+}
+
+.cs-trigger {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0 0.875rem;
+  height: 38px;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  font-family: var(--font-mono);
+  font-size: 0.82rem;
+  color: var(--color-text-muted);
+  white-space: nowrap;
+  cursor: pointer;
+  user-select: none;
+  transition:
+    color var(--t),
+    border-color var(--t),
+    background var(--t),
+    box-shadow var(--t);
+
+  &:hover {
+    color: var(--color-text);
+    border-color: oklch(from var(--color-accent) l c h / 0.4);
+  }
+
+  &.is-open {
+    color: var(--color-text);
+    border-color: oklch(from var(--color-accent) l c h / 0.55);
+    box-shadow: 0 0 0 3px oklch(from var(--color-accent) l c h / 0.08);
+  }
+}
+
+.cs-chevron {
+  flex-shrink: 0;
+  opacity: 0.5;
+  transition: transform var(--t);
+
+  .cs-trigger.is-open & {
+    transform: rotate(180deg);
+  }
+}
+
+.cs-panel {
+  position: absolute;
+  top: calc(100% + 0.4rem);
+  left: 0;
+  z-index: 200;
+  min-width: 100%;
+  background: var(--color-surface-2);
+  border: 1px solid var(--color-border);
+  border-radius: calc(var(--radius) * 1.5);
+  box-shadow: 0 16px 40px oklch(0 0 0 / 0.45);
+  overflow: hidden;
+  padding: 0.3rem;
+  animation: cs-appear 0.14s var(--ease) both;
+}
+
+@keyframes cs-appear {
+  from {
+    opacity: 0;
+    transform: translateY(-6px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.cs-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  width: 100%;
+  text-align: left;
+  font-family: var(--font-mono);
+  font-size: 0.76rem;
+  color: var(--color-text-muted);
+  background: transparent;
+  border: none;
+  padding: 0.42em 0.6em;
+  border-radius: calc(var(--radius) * 0.75);
+  cursor: pointer;
+  white-space: nowrap;
+  transition:
+    background var(--t),
+    color var(--t);
+
+  &:hover {
+    background: var(--color-surface);
+    color: var(--color-text);
+  }
+
+  &.is-selected {
+    color: var(--color-accent);
+
+    &:hover {
+      background: var(--color-accent-subtle);
+    }
+  }
+}
+
+.cs-check {
+  width: 14px;
+  height: 14px;
+  border-radius: 3px;
+  border: 1.5px solid var(--color-border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition:
+    background var(--t),
+    border-color var(--t),
+    color var(--t);
+
+  .cs-item.is-selected & {
+    background: var(--color-accent);
+    border-color: var(--color-accent);
+    color: var(--color-on-accent);
+  }
+}

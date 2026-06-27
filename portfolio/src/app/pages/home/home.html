@@ -7,7 +7,6 @@
   <app-education [items]="d.education" />
   <app-books [books]="d.books" />
   <app-contact [profile]="d.profile" />
-  <app-footer />
 } @else {
-  <app-loading />
+  <app-loading-dots [fullHeight]="true" />
 }

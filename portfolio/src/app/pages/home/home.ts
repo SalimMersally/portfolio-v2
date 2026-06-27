@@ -1,5 +1,6 @@
+import { ViewportScroller } from '@angular/common';
 import { Component, inject, OnInit, signal } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { PortfolioData, validatePortfolioData } from '../../core/models/portfolio-data.model';
 import { SanityService } from '../../core/services/sanity.service';
 import { AboutSection } from '../../sections/about/about';
@@ -10,15 +11,14 @@ import { ExperienceSection } from '../../sections/experience/experience';
 import { Introduction } from '../../sections/introduction/introduction';
 import { Projects } from '../../sections/projects/projects';
 import { Skills } from '../../sections/skills/skills';
-import { Footer } from '../../shared/footer/footer';
-import { Loading } from '../loading/loading';
+import { LoadingDots } from '../../shared/components/loading-dots/loading-dots';
 
 @Component({
   selector: 'app-home',
   templateUrl: './home.html',
   styleUrl: './home.scss',
   imports: [
-    Loading,
+    LoadingDots,
     Introduction,
     AboutSection,
     ExperienceSection,
@@ -27,12 +27,13 @@ import { Loading } from '../loading/loading';
     EducationSection,
     Books,
     Contact,
-    Footer,
   ],
 })
 export class Home implements OnInit {
   private readonly sanity = inject(SanityService);
   private readonly router = inject(Router);
+  private readonly route = inject(ActivatedRoute);
+  private readonly scroller = inject(ViewportScroller);
 
   readonly data = signal<PortfolioData | null>(null);
 
@@ -45,6 +46,10 @@ export class Home implements OnInit {
           return;
         }
         this.data.set(portfolioData);
+        const fragment = this.route.snapshot.fragment;
+        if (fragment) {
+          setTimeout(() => this.scroller.scrollToAnchor(fragment));
+        }
       })
       .catch(() => this.router.navigate(['/error']));
   }

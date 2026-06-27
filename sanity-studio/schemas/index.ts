@@ -5,6 +5,7 @@ import { skill } from "./skill";
 import { education } from "./education";
 import { project } from "./project";
 import { book } from "./book";
+import { series } from "./series";
 import { post } from "./post";
 
 export const schemaTypes = [
@@ -15,5 +16,6 @@ export const schemaTypes = [
   education,
   project,
   book,
+  series,
   post,
 ];

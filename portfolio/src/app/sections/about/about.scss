@@ -1,8 +1,37 @@
 .about-layout {
-  max-width: 680px;
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 3.5rem;
+  align-items: start;
+}
+
+.about-photo-col {
+  flex-shrink: 0;
+}
+
+.about-photo-wrap {
+  width: 220px;
+  height: 220px;
+  border-radius: 50%;
+  padding: 3px;
+  background: linear-gradient(135deg, var(--color-accent) 0%, var(--color-accent-subtle) 100%);
+  box-shadow: 0 0 32px var(--color-accent-glow);
+}
+
+.about-photo {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  object-fit: cover;
+  object-position: center top;
+  display: block;
+}
+
+.about-content-col {
   display: flex;
   flex-direction: column;
   gap: 2.5rem;
+  padding-top: 0.25rem;
 }
 
 .about-bio {
@@ -12,8 +41,6 @@
   text-wrap: pretty;
 }
 
-// A restrained, ruled fact strip rather than oversized accent stat numbers —
-// reads as an engineer's spec sheet, not a marketing headline.
 .about-highlights {
   display: flex;
   flex-wrap: wrap;
@@ -50,6 +77,23 @@
   text-transform: uppercase;
   letter-spacing: 0.12em;
   color: var(--color-text-muted);
+}
+
+@media (max-width: 720px) {
+  .about-layout {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+
+  .about-photo-col {
+    display: flex;
+    justify-content: center;
+  }
+
+  .about-photo-wrap {
+    width: 180px;
+    height: 180px;
+  }
 }
 
 @media (max-width: 540px) {

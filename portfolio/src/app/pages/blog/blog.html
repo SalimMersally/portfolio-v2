@@ -1,3 +1,287 @@
-<main>
-  <p>Blog — coming in Stage 2</p>
+<main class="blog-main" [class.no-blogs]="!loading() && !error() && !blogs().length">
+  <div class="container">
+    <!-- ── Hero ── -->
+    <header class="blog-hero">
+      <div class="hero-main">
+        <div class="hero-left">
+          <p class="blog-kicker">Writing</p>
+          <h1 class="blog-title">Blog</h1>
+          <p class="blog-sub">Writing about code, systems, and the pursuit of elegant solutions.</p>
+        </div>
+        @if (!loading() && blogs().length > 0) {
+          <div class="hero-count">
+            <span class="hero-count-num">{{
+              hasActiveFilter() ? filtered().length : blogs().length
+            }}</span>
+            <span class="hero-count-label">{{
+              (hasActiveFilter() ? filtered().length : blogs().length) === 1 ? 'post' : 'posts'
+            }}</span>
+          </div>
+        }
+      </div>
+    </header>
+
+    <!-- ── Filter zone ── -->
+    @if (!loading() && blogs().length > 0) {
+    <div class="filter-zone">
+      <div class="filter-row">
+        <div class="search-wrap">
+          @if (search()) {
+            <button class="search-clear" (click)="search.set('')" aria-label="Clear search">
+              <svg
+                width="12"
+                height="12"
+                viewBox="0 0 10 10"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+              >
+                <line x1="1" y1="1" x2="9" y2="9" />
+                <line x1="9" y1="1" x2="1" y2="9" />
+              </svg>
+            </button>
+          } @else {
+            <svg
+              class="search-icon"
+              width="14"
+              height="14"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+            >
+              <circle cx="11" cy="11" r="8" />
+              <line x1="21" y1="21" x2="16.65" y2="16.65" />
+            </svg>
+          }
+          <input
+            class="search-input"
+            type="search"
+            placeholder="Search posts…"
+            autocomplete="off"
+            [value]="search()"
+            (input)="search.set($any($event.target).value)"
+          />
+        </div>
+
+        <app-custom-select
+          [options]="sortOptions"
+          [value]="sort()"
+          (valueChange)="setSortValue($event)"
+        />
+
+        <app-custom-select
+          [options]="pageSizeOptions"
+          [value]="pageSizeString()"
+          (valueChange)="setPageSizeValue($event)"
+        />
+
+        <app-date-range-picker
+          [from]="dateFrom()"
+          [to]="dateTo()"
+          (fromChange)="dateFrom.set($event)"
+          (toChange)="dateTo.set($event)"
+        />
+
+        <app-tag-filter
+          [tags]="allTags()"
+          [selected]="activeTags()"
+          (selectedChange)="activeTags.set($event)"
+        />
+      </div>
+    </div>
+    }
+
+    <!-- ── Feed ── -->
+    @if (loading()) {
+      <app-loading-dots />
+    } @else if (error()) {
+      <div class="error-state">
+        <p>Couldn't load posts. Try refreshing the page.</p>
+      </div>
+    } @else {
+      <div class="blog-feed">
+        @for (item of paginated(); track trackItem($index, item)) {
+          @if (item.type === 'series') {
+            <div class="series-card" [class.expanded]="isSeriesExpanded(item.seriesId)">
+              <button
+                class="series-card-header"
+                [attr.aria-expanded]="isSeriesExpanded(item.seriesId)"
+                (click)="toggleSeries(item.seriesId)"
+              >
+                <div class="card-stripe"></div>
+                <div class="card-body">
+                  <div class="series-top-row">
+                    <span class="series-eyebrow">Series · {{ item.parts.length }} parts</span>
+                    <span class="series-toggle-label">
+                      <svg
+                        class="toggle-icon"
+                        width="10"
+                        height="10"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2.5"
+                        stroke-linecap="round"
+                      >
+                        <polyline points="9 18 15 12 9 6" />
+                      </svg>
+                      {{ isSeriesExpanded(item.seriesId) ? 'Hide parts' : 'Show parts' }}
+                    </span>
+                  </div>
+                  <div class="card-title">{{ item.series.title }}</div>
+                  @if (item.parts[0]?.description) {
+                    <p class="card-desc">{{ item.parts[0].description }}</p>
+                  }
+                  <div class="card-meta">
+                    <div class="card-tags">
+                      @for (tag of seriesAllTags(item.parts).slice(0, tagLimit()); track tag) {
+                        <span class="card-tag">{{ tag }}</span>
+                      }
+                      @if (seriesAllTags(item.parts).length > tagLimit()) {
+                        <span
+                          class="card-tag card-tag-more"
+                          [attr.data-tooltip]="
+                            seriesAllTags(item.parts).slice(tagLimit()).join(', ')
+                          "
+                          >+{{ seriesAllTags(item.parts).length - tagLimit() }}</span
+                        >
+                      }
+                    </div>
+                    <div class="card-meta-right">
+                      <span class="card-date">{{ seriesDateRange(item.parts) }}</span>
+                      @if (seriesReadTime(item.parts) > 0) {
+                        <span class="meta-dot"></span>
+                        <span class="card-read">~{{ seriesReadTime(item.parts) }} min total</span>
+                      }
+                    </div>
+                  </div>
+                </div>
+              </button>
+
+              @if (isSeriesExpanded(item.seriesId)) {
+                <div class="series-parts">
+                  @for (part of item.matchingParts; track part._id) {
+                    <a class="part-card" [routerLink]="['/blog', part.slug]">
+                      <span class="part-num">{{
+                        (part.seriesOrder ?? 0).toString().padStart(2, '0')
+                      }}</span>
+                      <span class="part-title">{{ part.title }}</span>
+                      <div class="part-meta">
+                        <span class="part-date">{{ formatDate(part.publishedAt) }}</span>
+                        @if (part.readTime) {
+                          <span class="meta-dot"></span>
+                          <span class="part-read">{{ part.readTime }} min</span>
+                        }
+                      </div>
+                    </a>
+                  }
+                </div>
+              }
+            </div>
+          } @else {
+            <a class="blog-card" [routerLink]="['/blog', item.blog.slug]">
+              <div class="card-stripe"></div>
+              <div class="card-body">
+                <div class="card-title">{{ item.blog.title }}</div>
+                @if (item.blog.description) {
+                  <p class="card-desc">{{ item.blog.description }}</p>
+                }
+                <div class="card-meta">
+                  @if (item.blog.tags?.length) {
+                    <div class="card-tags">
+                      @for (tag of tagsOf(item.blog.tags).slice(0, tagLimit()); track tag) {
+                        <span class="card-tag">{{ tag }}</span>
+                      }
+                      @if ((item.blog.tags?.length ?? 0) > tagLimit()) {
+                        <span
+                          class="card-tag card-tag-more"
+                          [attr.data-tooltip]="tagsOf(item.blog.tags).slice(tagLimit()).join(', ')"
+                          >+{{ (item.blog.tags?.length ?? 0) - tagLimit() }}</span
+                        >
+                      }
+                    </div>
+                  }
+                  <div class="card-meta-right">
+                    <span class="card-date">{{ formatDate(item.blog.publishedAt) }}</span>
+                    @if (item.blog.readTime) {
+                      <span class="meta-dot"></span>
+                      <span class="card-read">{{ item.blog.readTime }} min</span>
+                    }
+                  </div>
+                </div>
+              </div>
+            </a>
+          }
+        }
+
+        @if (!paginated().length) {
+          @if (!blogs().length) {
+            <div class="coming-soon">
+              <div class="coming-soon__eyebrow">
+                <span class="coming-soon__dot"></span>
+                Writing in progress
+              </div>
+              <h2 class="coming-soon__headline">Something worth<br />reading is coming.</h2>
+            </div>
+          } @else {
+            <div class="empty-state">
+              <svg
+                width="40"
+                height="40"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.5"
+              >
+                <circle cx="11" cy="11" r="8" />
+                <line x1="21" y1="21" x2="16.65" y2="16.65" />
+              </svg>
+              <p class="empty-title">No posts found</p>
+              <p class="empty-sub">Try adjusting your search or clearing the filters.</p>
+            </div>
+          }
+        }
+      </div>
+
+      @if (totalPages() > 1) {
+        <nav class="pagination" aria-label="Blog pagination">
+          <button
+            class="page-btn"
+            [disabled]="page() === 1"
+            (click)="page.update((p) => p - 1)"
+            aria-label="Previous page"
+          >
+            ←
+          </button>
+
+          @for (p of pageRange(); track $index) {
+            @if (p === 'ellipsis') {
+              <span class="page-ellipsis">…</span>
+            } @else {
+              <button
+                class="page-btn"
+                [class.active]="p === page()"
+                (click)="page.set(+p)"
+                [attr.aria-current]="p === page() ? 'page' : null"
+              >
+                {{ p }}
+              </button>
+            }
+          }
+
+          <button
+            class="page-btn"
+            [disabled]="page() === totalPages()"
+            (click)="page.update((p) => p + 1)"
+            aria-label="Next page"
+          >
+            →
+          </button>
+        </nav>
+      }
+    }
+  </div>
 </main>

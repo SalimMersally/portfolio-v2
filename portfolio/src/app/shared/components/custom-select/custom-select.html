@@ -1,0 +1,54 @@
+<div class="cs-root">
+  <button
+    class="cs-trigger"
+    [class.is-open]="isOpen()"
+    [attr.aria-expanded]="isOpen()"
+    (click)="toggle()"
+  >
+    <span>{{ selectedLabel() }}</span>
+    <svg
+      class="cs-chevron"
+      width="11"
+      height="11"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="2.5"
+      stroke-linecap="round"
+    >
+      <polyline points="6 9 12 15 18 9" />
+    </svg>
+  </button>
+
+  @if (isOpen()) {
+    <div class="cs-panel" role="listbox">
+      @for (opt of options(); track opt.value) {
+        <button
+          class="cs-item"
+          [class.is-selected]="opt.value === value()"
+          role="option"
+          [attr.aria-selected]="opt.value === value()"
+          (click)="select(opt.value)"
+        >
+          <span class="cs-check" aria-hidden="true">
+            @if (opt.value === value()) {
+              <svg
+                width="9"
+                height="9"
+                viewBox="0 0 10 8"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <polyline points="1 4 4 7 9 1" />
+              </svg>
+            }
+          </span>
+          {{ opt.label }}
+        </button>
+      }
+    </div>
+  }
+</div>

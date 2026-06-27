@@ -20,12 +20,13 @@
 }
 
 .xp-n {
-  font-family: var(--font-heading);
+  font-family: var(--font-mono);
   font-size: clamp(3.25rem, 8vw, 5rem);
-  font-weight: 700;
+  font-weight: 400;
+  letter-spacing: -0.02em;
   line-height: 1;
-  letter-spacing: -0.04em;
   color: var(--color-accent);
+  text-shadow: 0 0 40px oklch(from var(--color-accent) l c h / 0.5);
 }
 
 .xp-u {
