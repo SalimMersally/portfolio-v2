@@ -1,6 +1,6 @@
 [build]
   base    = "portfolio"
-  command = "ng build"
+  command = "node scripts/generate-sitemap.mjs && ng build"
   publish = "dist/portfolio-v2/browser"
 
 # Angular client-side routing — must come before the www redirect
