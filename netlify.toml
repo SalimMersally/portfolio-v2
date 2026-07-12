@@ -3,19 +3,18 @@
   command = "node scripts/generate-sitemap.mjs && ng build"
   publish = "dist/portfolio-v2/browser"
 
-# Angular client-side routing — must come before the www redirect
-[[redirects]]
-  from   = "/*"
-  to     = "/index.html"
-  status = 200
-  conditions = {Host = ["salimalmersally.com", "salimalmersally.netlify.app"]}
-
-# Canonical: www → apex
+# Canonical: www → apex — must come before the SPA catch-all
 [[redirects]]
   from   = "https://www.salimalmersally.com/*"
   to     = "https://salimalmersally.com/:splat"
   status = 301
   force  = true
+
+# Angular client-side routing
+[[redirects]]
+  from   = "/*"
+  to     = "/index.html"
+  status = 200
 
 # Cache: index.html always revalidated
 [[headers]]

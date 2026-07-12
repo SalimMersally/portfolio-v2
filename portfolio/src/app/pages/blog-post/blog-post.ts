@@ -50,6 +50,12 @@ function renderBody(body: unknown[]): string {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   return toHTML(body as any, {
     components: {
+      marks: {
+        link: ({ value, children }: { value?: { href?: string }; children: string }) => {
+          const href = esc(value?.href ?? '');
+          return `<a href="${href}" target="_blank" rel="noopener noreferrer">${children}</a>`;
+        },
+      },
       types: {
         code: ({ value }: { value: { language?: string; code?: string } }) => {
           const lang = esc(value.language ?? 'plaintext');
