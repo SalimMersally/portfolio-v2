@@ -455,7 +455,7 @@
     text-align: center;
 
     img {
-      max-width: 100%;
+      max-width: min(100%, 740px);
       width: auto;
       height: auto;
       border-radius: var(--radius);

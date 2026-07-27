@@ -72,7 +72,8 @@ function renderBody(body: unknown[]): string {
           if (!value.assetUrl) return '';
           const alt = esc(value.alt ?? '');
           const caption = value.caption ? `<figcaption>${esc(value.caption)}</figcaption>` : '';
-          return `<figure><img src="${value.assetUrl}" alt="${alt}" loading="lazy" />${caption}</figure>`;
+          const src = `${esc(value.assetUrl)}?w=1480&fit=max&auto=format`;
+          return `<figure><img src="${src}" alt="${alt}" loading="lazy" />${caption}</figure>`;
         },
       },
     },
