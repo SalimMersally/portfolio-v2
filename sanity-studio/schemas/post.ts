@@ -76,7 +76,9 @@ export const post = defineType({
         {
           type: "code",
           options: {
+            language: "java",
             languageAlternatives: [
+              { title: "Java", value: "java" },
               { title: "TypeScript", value: "typescript" },
               { title: "JavaScript", value: "javascript" },
               { title: "Go", value: "go" },

@@ -28,6 +28,7 @@ import css from 'highlight.js/lib/languages/css';
 import bash from 'highlight.js/lib/languages/bash';
 import json from 'highlight.js/lib/languages/json';
 import sql from 'highlight.js/lib/languages/sql';
+import java from 'highlight.js/lib/languages/java';
 import { toHTML } from '@portabletext/to-html';
 
 hljs.registerLanguage('typescript', typescript);
@@ -41,6 +42,7 @@ hljs.registerLanguage('bash', bash);
 hljs.registerLanguage('shell', bash);
 hljs.registerLanguage('json', json);
 hljs.registerLanguage('sql', sql);
+hljs.registerLanguage('java', java);
 
 const esc = (s: string) =>
   s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
