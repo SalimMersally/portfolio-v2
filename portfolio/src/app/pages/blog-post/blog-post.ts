@@ -102,15 +102,15 @@ export class BlogPost implements OnInit {
   readonly loading = signal(true);
   readonly wideMode = signal(false);
 
-  /** `owner/repo` label derived from the post's GitHub URL. */
+  /** `owner/repo[/tree/branch/path]` label derived from the post's GitHub URL. */
   readonly repo = computed(() => {
     const url = this.blog()?.githubRepo;
     if (!url) return null;
-    const path = /github\.com\/([^/]+\/[^/#?]+)/.exec(url)?.[1].replace(/\.git$/, '');
-    return {
-      url,
-      label: path ?? url.replace(/^https?:\/\//, ''),
-    };
+    const label = url
+      .replace(/^https?:\/\/(www\.)?github\.com\//, '')
+      .replace(/\.git$/, '')
+      .replace(/\/$/, '');
+    return { url, label };
   });
 
   readonly htmlBody = computed((): SafeHtml | null => {

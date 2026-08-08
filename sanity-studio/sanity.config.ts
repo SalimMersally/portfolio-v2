@@ -26,6 +26,7 @@ export default defineConfig({
               .title("About")
               .id("about")
               .child(S.document().schemaType("about").documentId("about")),
+            S.documentTypeListItem("service").title("Services"),
             S.divider(),
             S.documentTypeListItem("experience").title("Experience"),
             S.documentTypeListItem("skill").title("Skills"),

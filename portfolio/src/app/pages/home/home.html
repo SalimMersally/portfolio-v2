@@ -1,11 +1,7 @@
 @if (data(); as d) {
   <app-introduction [profile]="d.profile" />
   <app-about [about]="d.about" />
-  <app-experience [experiences]="d.experiences" />
-  <app-projects [projects]="d.projects" />
-  <app-skills [groups]="d.skills" />
-  <app-education [items]="d.education" />
-  <app-books [books]="d.books" />
+  <app-services [services]="d.services" />
   <app-contact [profile]="d.profile" />
 } @else {
   <app-loading-dots [fullHeight]="true" />

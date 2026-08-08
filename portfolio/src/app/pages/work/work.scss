@@ -1,0 +1,85 @@
+.work-main {
+  padding-top: var(--nav-h);
+  min-height: 100vh;
+}
+
+// `.section`'s standard top padding assumes it follows another full section; here it
+// follows a compact header instead, so the gap reads as too large. Trim just this one.
+:host ::ng-deep #experience {
+  padding-top: clamp(1.5rem, 4vw, 2.5rem);
+}
+
+.work-hero {
+  padding: clamp(2.5rem, 6vw, 4rem) 0 0.5rem;
+}
+
+.work-kicker {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--color-accent);
+  margin-bottom: 0.5rem;
+}
+
+.work-title {
+  font-family: var(--font-heading);
+  font-size: clamp(2.4rem, 5vw, 3.5rem);
+  font-weight: 700;
+  letter-spacing: -0.04em;
+  line-height: 1;
+  color: var(--color-text);
+  margin-bottom: 0.6rem;
+}
+
+.work-sub {
+  font-size: 1.05rem;
+  color: var(--color-text-muted);
+  max-width: 46ch;
+}
+
+.work-hero-main {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 2rem;
+}
+
+.work-hero-left {
+  flex: 1;
+  min-width: 0;
+}
+
+.work-resume-link {
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--color-text-muted);
+  border: 1px solid var(--color-border);
+  background: var(--color-surface);
+  padding: 0.55rem 1.15rem;
+  border-radius: var(--radius);
+  transition:
+    color var(--t),
+    border-color var(--t),
+    background var(--t),
+    transform var(--t);
+
+  &:hover {
+    color: var(--color-accent);
+    border-color: var(--color-accent);
+    background: var(--color-accent-subtle);
+    transform: translateY(-2px);
+  }
+}
+
+@media (max-width: 720px) {
+  .work-hero-main {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1.25rem;
+  }
+}

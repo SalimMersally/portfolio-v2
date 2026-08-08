@@ -19,12 +19,15 @@ export class SanityService {
       "profile": *[_type == "profile"][0] {
         name, title, tagline,
         "cvUrl": cv.asset->url,
-        email, phone, location, github, linkedin, contactIntro
+        email, phone, location, github, linkedin, instagram, contactIntro
       },
       "about": *[_type == "about"][0] {
         "photoUrl": photo.asset->url,
         bio,
         highlights[] { value, label }
+      },
+      "services": *[_type == "service"] | order(order asc) {
+        _id, title, description, order
       },
       "experiences": *[_type == "experience"] | order(startDate desc) {
         _id, company, role, location,

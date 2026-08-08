@@ -1,6 +1,6 @@
 <nav class="nav" [class.scrolled]="scrolled()">
   <div class="nav-inner container">
-    <a routerLink="/" fragment="introduction" class="nav-logo" aria-label="Home">
+    <a routerLink="/" class="nav-logo" aria-label="Home">
       <svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg">
         <rect x="0" y="0" width="32" height="32" rx="6" fill="currentColor" fill-opacity="0.15" />
         <text
@@ -41,28 +41,30 @@
     </a>
 
     <ul class="nav-links" [class.open]="mobileOpen()">
-      @for (section of sections; track section) {
-        <li>
-          <a
-            routerLink="/"
-            [fragment]="section"
-            class="nav-link"
-            [class.active]="activeSection() === section"
-            (click)="closeMobile()"
-            >{{ section | titlecase }}</a
-          >
-        </li>
-      }
+      <li>
+        <a
+          routerLink="/"
+          [routerLinkActiveOptions]="{ exact: true }"
+          routerLinkActive="active"
+          class="nav-link"
+          (click)="closeMobile()"
+          >Home</a
+        >
+      </li>
+      <li>
+        <a routerLink="/work" routerLinkActive="active" class="nav-link" (click)="closeMobile()">Work</a>
+      </li>
+      <li>
+        <a
+          routerLink="/blog"
+          routerLinkActive="active"
+          [routerLinkActiveOptions]="{ exact: false }"
+          class="nav-link"
+          (click)="closeMobile()"
+          >Blog</a
+        >
+      </li>
     </ul>
-
-    <a
-      routerLink="/blog"
-      routerLinkActive="active"
-      [routerLinkActiveOptions]="{ exact: false }"
-      class="nav-link nav-blog-link"
-      (click)="closeMobile()"
-      >Blog</a
-    >
 
     <div class="nav-actions">
       <button

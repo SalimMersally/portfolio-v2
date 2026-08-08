@@ -75,7 +75,8 @@ Sanity Studio (sanity-studio/)
 ### Routing
 
 Lazy-loaded routes (defined in `portfolio/src/app/app.routes.ts`):
-- `/` → `portfolio/src/app/pages/home/` — all portfolio sections
+- `/` → `portfolio/src/app/pages/home/` — client-facing pitch: intro, about, services, contact
+- `/work` → `portfolio/src/app/pages/work/` — technical deep-dive: experience, projects, skills, education, books
 - `/blog` → `portfolio/src/app/pages/blog/` — blog listing with filtering, sorting, pagination, and series grouping
 - `/blog/:slug` → `portfolio/src/app/pages/blog-post/` — individual post rendered from Portable Text via `@portabletext/to-html` + `highlight.js`
 - `/error` → `portfolio/src/app/pages/error/` — shown on Sanity fetch/validation failure
@@ -83,7 +84,7 @@ Lazy-loaded routes (defined in `portfolio/src/app/app.routes.ts`):
 
 Anchor scrolling (`/#experience`, `/#skills`, etc.) is handled natively by `withInMemoryScrolling({ anchorScrolling: 'enabled' })` in the router config — no manual `scrollIntoView` needed.
 
-Section components live in `portfolio/src/app/sections/` and are imported directly into `HomeComponent`. The `SECTIONS` constant in `Navbar` (`portfolio/src/app/shared/navbar/navbar.ts`) is `['about', 'experience', 'projects', 'skills', 'books']` — `education` and `contact` sections exist in the DOM but intentionally do not appear in the nav.
+Section components live in `portfolio/src/app/sections/` and are imported directly into `Home` (about, services, contact) or `Work` (experience, projects, skills, education, books). `Navbar` (`portfolio/src/app/shared/navbar/navbar.ts`) is intentionally just three page-level links — Home, Work, Blog — no in-page anchor links; those were dropped as confusing.
 
 `HomeComponent` shows a `Loading` page (`portfolio/src/app/pages/loading/`) while data fetches; it switches to `'ready'` only after `validatePortfolioData()` passes.
 
@@ -114,7 +115,7 @@ Component styles use `styleUrl` (scoped SCSS). Never add hardcoded color/font/sp
 
 Lives in `sanity-studio/` — Sanity v5 + React 19, separate `npm install` and build. Schemas are in `sanity-studio/schemas/index.ts`. Has its own `sanity.cli.ts` (required by v5) and `sanity.config.ts`.
 
-Blog schemas: `post` (individual article with Portable Text body, tags, readTime, optional `series` reference + `seriesOrder`) and `series` (a grouping document with title/slug/description). `SanityService.getBlogs()` returns `{ blogs: BlogSummary[] }` for the listing; `SanityService.getBlogBySlug(slug)` returns `BlogDetail` (includes `body`, `prevPost`, `nextPost`). Models live in `portfolio/src/app/core/models/blog-summary.model.ts` and `blog-detail.model.ts`.
+`service` document type (title, description, order) powers the home page's Services section — freelance offerings, editable without a code change. Blog schemas: `post` (individual article with Portable Text body, tags, readTime, optional `series` reference + `seriesOrder`) and `series` (a grouping document with title/slug/description). `SanityService.getBlogs()` returns `{ blogs: BlogSummary[] }` for the listing; `SanityService.getBlogBySlug(slug)` returns `BlogDetail` (includes `body`, `prevPost`, `nextPost`). Models live in `portfolio/src/app/core/models/blog-summary.model.ts` and `blog-detail.model.ts`.
 
 ## Design reference
 
@@ -136,5 +137,5 @@ When implementing a new section or component, open the corresponding block in `i
 1. Generate: `npx ng g component src/app/sections/foo` (from `portfolio/`)
 2. Add `input.required<T>()` for its data; add `T` to `PortfolioData` and `validatePortfolioData()`
 3. Add a GROQ query method to `SanityService` and include it in `getAllPortfolioData()`
-4. Import the component into `HomeComponent` and pass the data signal
-5. If it needs a nav link, add its id to the `SECTIONS` array in `navbar.ts`
+4. Import the component into `Home` (client-facing) or `Work` (technical) and pass the data signal
+5. The navbar has no in-page anchor links — it's just Home/Work/Blog, so a new section needs no navbar change
