@@ -67,7 +67,7 @@ export class SanityService {
     const blog = await this.client.fetch<BlogDetail | null>(
       `*[_type == "post" && slug.current == $slug][0] {
         _id, title, "slug": slug.current,
-        description, tags, publishedAt, readTime, mediumLink,
+        description, tags, publishedAt, readTime, mediumLink, githubRepo,
         "body": body[]{
           ...,
           _type == "image" => { "assetUrl": asset->url }

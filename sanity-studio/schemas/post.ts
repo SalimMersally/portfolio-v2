@@ -60,6 +60,12 @@ export const post = defineType({
       description: "Link to the published post on Medium (optional).",
     }),
     defineField({
+      name: "githubRepo",
+      title: "GitHub Repo URL",
+      type: "url",
+      description: "Companion repo for this post, e.g. https://github.com/owner/repo (optional).",
+    }),
+    defineField({
       name: "body",
       title: "Body",
       type: "array",

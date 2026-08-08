@@ -22,4 +22,5 @@ export interface BlogDetail {
   prevPost?: BlogNavItem;
   nextPost?: BlogNavItem;
   mediumLink?: string;
+  githubRepo?: string;
 }
