@@ -1,7 +1,18 @@
-import { Component, input, signal } from '@angular/core';
+import { Component, computed, input, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { Profile } from '../../core/models/profile.model';
+import { BRAND_INSTAGRAM_URL, Profile } from '../../core/models/profile.model';
 import { RevealDirective } from '../../shared/directives/reveal.directive';
+
+export function buildMailtoHref(
+  recipient: string,
+  name: string,
+  email: string,
+  message: string,
+): string {
+  const subject = encodeURIComponent(`Project inquiry from ${name}`);
+  const body = encodeURIComponent(`${message}\n\nFrom: ${name}\nEmail: ${email}`);
+  return `mailto:${recipient}?subject=${subject}&body=${body}`;
+}
 
 @Component({
   selector: 'app-contact',
@@ -11,18 +22,18 @@ import { RevealDirective } from '../../shared/directives/reveal.directive';
 })
 export class Contact {
   readonly profile = input.required<Profile>();
+  readonly instagramHref = computed(() => this.profile().instagram || BRAND_INSTAGRAM_URL);
 
   readonly name = signal('');
   readonly email = signal('');
   readonly message = signal('');
-  readonly status = signal<'idle' | 'sending' | 'success' | 'error'>('idle');
-
-  async sendMessage(): Promise<void> {
+  sendMessage(): void {
     if (!this.name() || !this.email() || !this.message()) return;
-    this.status.set('sending');
-
-    const body = `${this.message()}\n\nFrom: ${this.name()}\nEmail: ${this.email()}`;
-    window.location.href = `mailto:${this.profile().email}?subject=${encodeURIComponent('Message from ' + this.name())}&body=${encodeURIComponent(body)}`;
-    this.status.set('idle');
+    window.location.href = buildMailtoHref(
+      this.profile().email,
+      this.name(),
+      this.email(),
+      this.message(),
+    );
   }
 }

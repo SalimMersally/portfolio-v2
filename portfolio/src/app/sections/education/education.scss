@@ -5,26 +5,23 @@
 }
 
 .edu-card {
-  background: var(--color-surface-2);
+  background: var(--color-surface);
   border: 1px solid var(--color-border);
-  border-radius: calc(var(--radius) * 1.5);
+  border-radius: 0;
   padding: 1.75rem;
   display: flex;
   flex-direction: column;
   gap: 0;
   position: relative;
   overflow: hidden;
-  box-shadow: var(--card-shadow);
   transition:
     background var(--t-slow),
     border-color var(--t),
-    transform var(--t),
-    box-shadow var(--t);
+    transform var(--t);
 
   &:hover {
-    border-color: oklch(from var(--color-accent) l c h / 0.4);
+    border-color: var(--color-accent-text);
     transform: translateY(-2px);
-    box-shadow: var(--card-shadow-hover);
   }
 }
 
@@ -51,9 +48,9 @@
   align-items: center;
   justify-content: center;
   font-family: var(--font-mono);
-  font-size: 0.72rem;
+  font-size: var(--text-2xs);
   font-weight: 600;
-  color: var(--color-accent);
+  color: var(--color-accent-text);
   letter-spacing: 0.04em;
   flex-shrink: 0;
   overflow: hidden;
@@ -73,7 +70,7 @@
 
 .edu-institution {
   font-family: var(--font-heading);
-  font-size: 1.15rem;
+  font-size: var(--text-lg);
   font-weight: 700;
   letter-spacing: -0.015em;
   line-height: 1.2;
@@ -81,7 +78,7 @@
 
 .edu-location {
   font-family: var(--font-mono);
-  font-size: 0.72rem;
+  font-size: var(--text-2xs);
   color: var(--color-text-muted);
   letter-spacing: 0.05em;
   margin-top: 0.25rem;
@@ -89,14 +86,14 @@
 
 .edu-type-badge {
   font-family: var(--font-mono);
-  font-size: 0.7rem;
+  font-size: var(--text-2xs);
   font-weight: 600;
   letter-spacing: 0.1em;
   text-transform: uppercase;
   padding: 0.25em 0.75em;
-  border-radius: 99px;
+  border-radius: var(--radius);
   background: var(--color-accent-subtle);
-  color: var(--color-accent);
+  color: var(--color-accent-text);
   border: 1px solid oklch(from var(--color-accent) l c h / 0.3);
   white-space: nowrap;
   flex-shrink: 0;
@@ -104,7 +101,7 @@
 }
 
 .edu-degree {
-  font-size: 0.95rem;
+  font-size: var(--text-base);
   font-weight: 500;
   color: var(--color-text);
   line-height: 1.4;
@@ -123,7 +120,7 @@
   gap: 0.5rem;
 
   li {
-    font-size: 0.95rem;
+    font-size: var(--text-base);
     color: var(--color-text-muted);
     line-height: 1.55;
     padding-left: 1.1rem;
@@ -134,7 +131,7 @@
       content: '›';
       position: absolute;
       left: 0;
-      color: var(--color-accent);
+      color: var(--color-accent-text);
       font-weight: 700;
     }
   }
@@ -148,8 +145,8 @@
 
 .edu-tech-tag {
   font-family: var(--font-mono);
-  font-size: 0.72rem;
-  color: var(--color-accent);
+  font-size: var(--text-2xs);
+  color: var(--color-accent-text);
   background: var(--color-accent-subtle);
   border: 1px solid oklch(from var(--color-accent) l c h / 0.2);
   padding: 0.2em 0.6em;
@@ -178,24 +175,24 @@
 
 .edu-gpa-label {
   font-family: var(--font-mono);
-  font-size: 0.7rem;
+  font-size: var(--text-2xs);
   font-weight: 600;
   letter-spacing: 0.1em;
   text-transform: uppercase;
-  color: var(--color-accent);
+  color: var(--color-accent-text);
 }
 
 .edu-gpa-value {
   font-family: var(--font-heading);
-  font-size: 1.1rem;
+  font-size: var(--text-lg);
   font-weight: 700;
   letter-spacing: -0.02em;
-  color: var(--color-accent);
+  color: var(--color-accent-text);
 }
 
 .edu-dates {
   font-family: var(--font-mono);
-  font-size: 0.72rem;
+  font-size: var(--text-2xs);
   color: var(--color-text-muted);
 }
 
@@ -205,7 +202,7 @@
   align-items: center;
   gap: 0.4rem;
   font-family: var(--font-mono);
-  font-size: 0.72rem;
+  font-size: var(--text-2xs);
   color: var(--color-text-muted);
   border: 1px solid var(--color-border);
   padding: 0.3em 0.75em;
@@ -217,8 +214,8 @@
   white-space: nowrap;
 
   &:hover {
-    color: var(--color-accent);
-    border-color: var(--color-accent);
+    color: var(--color-accent-text);
+    border-color: var(--color-accent-text);
     background: var(--color-accent-subtle);
   }
 }
@@ -229,7 +226,7 @@
   position: fixed;
   inset: 0;
   z-index: 1000;
-  background: oklch(0 0 0 / 0.82);
+  background: var(--overlay-scrim);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -279,7 +276,7 @@
   max-height: calc(100vh - 4rem);
   border-radius: calc(var(--radius) * 1.5);
   overflow: hidden;
-  box-shadow: 0 32px 80px oklch(0 0 0 / 0.5);
+  box-shadow: var(--shadow-modal);
   animation: frame-in 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
   cursor: default;
 }

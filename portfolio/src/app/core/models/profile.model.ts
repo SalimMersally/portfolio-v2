@@ -1,3 +1,5 @@
+export const BRAND_INSTAGRAM_URL = 'https://www.instagram.com/built.by.salim/';
+
 export interface Profile {
   name: string;
   title: string;

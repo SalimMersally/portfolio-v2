@@ -173,18 +173,15 @@ export class Blog implements OnInit, OnDestroy {
 
   readonly hasActiveFilter = computed(() => !!this.search() || this.activeFilterCount() > 0);
 
-  private readonly _pageReset = effect(
-    () => {
-      this.search();
-      this.activeTags();
-      this.dateFrom();
-      this.dateTo();
-      this.sort();
-      this.pageSize();
-      untracked(() => this.page.set(1));
-    },
-    { allowSignalWrites: true },
-  );
+  private readonly _pageReset = effect(() => {
+    this.search();
+    this.activeTags();
+    this.dateFrom();
+    this.dateTo();
+    this.sort();
+    this.pageSize();
+    untracked(() => this.page.set(1));
+  });
 
   ngOnInit(): void {
     this.sanity

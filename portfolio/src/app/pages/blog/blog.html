@@ -23,75 +23,75 @@
 
     <!-- ── Filter zone ── -->
     @if (!loading() && blogs().length > 0) {
-    <div class="filter-zone">
-      <div class="filter-row">
-        <div class="search-wrap">
-          @if (search()) {
-            <button class="search-clear" (click)="search.set('')" aria-label="Clear search">
+      <div class="filter-zone">
+        <div class="filter-row">
+          <div class="search-wrap">
+            @if (search()) {
+              <button class="search-clear" (click)="search.set('')" aria-label="Clear search">
+                <svg
+                  width="12"
+                  height="12"
+                  viewBox="0 0 10 10"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                >
+                  <line x1="1" y1="1" x2="9" y2="9" />
+                  <line x1="9" y1="1" x2="1" y2="9" />
+                </svg>
+              </button>
+            } @else {
               <svg
-                width="12"
-                height="12"
-                viewBox="0 0 10 10"
+                class="search-icon"
+                width="14"
+                height="14"
+                viewBox="0 0 24 24"
                 fill="none"
                 stroke="currentColor"
                 stroke-width="2"
                 stroke-linecap="round"
               >
-                <line x1="1" y1="1" x2="9" y2="9" />
-                <line x1="9" y1="1" x2="1" y2="9" />
+                <circle cx="11" cy="11" r="8" />
+                <line x1="21" y1="21" x2="16.65" y2="16.65" />
               </svg>
-            </button>
-          } @else {
-            <svg
-              class="search-icon"
-              width="14"
-              height="14"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="2"
-              stroke-linecap="round"
-            >
-              <circle cx="11" cy="11" r="8" />
-              <line x1="21" y1="21" x2="16.65" y2="16.65" />
-            </svg>
-          }
-          <input
-            class="search-input"
-            type="search"
-            placeholder="Search posts…"
-            autocomplete="off"
-            [value]="search()"
-            (input)="search.set($any($event.target).value)"
+            }
+            <input
+              class="search-input"
+              type="search"
+              placeholder="Search posts…"
+              autocomplete="off"
+              [value]="search()"
+              (input)="search.set($any($event.target).value)"
+            />
+          </div>
+
+          <app-custom-select
+            [options]="sortOptions"
+            [value]="sort()"
+            (valueChange)="setSortValue($event)"
+          />
+
+          <app-custom-select
+            [options]="pageSizeOptions"
+            [value]="pageSizeString()"
+            (valueChange)="setPageSizeValue($event)"
+          />
+
+          <app-date-range-picker
+            [from]="dateFrom()"
+            [to]="dateTo()"
+            (fromChange)="dateFrom.set($event)"
+            (toChange)="dateTo.set($event)"
+          />
+
+          <app-tag-filter
+            [tags]="allTags()"
+            [selected]="activeTags()"
+            (selectedChange)="activeTags.set($event)"
           />
         </div>
-
-        <app-custom-select
-          [options]="sortOptions"
-          [value]="sort()"
-          (valueChange)="setSortValue($event)"
-        />
-
-        <app-custom-select
-          [options]="pageSizeOptions"
-          [value]="pageSizeString()"
-          (valueChange)="setPageSizeValue($event)"
-        />
-
-        <app-date-range-picker
-          [from]="dateFrom()"
-          [to]="dateTo()"
-          (fromChange)="dateFrom.set($event)"
-          (toChange)="dateTo.set($event)"
-        />
-
-        <app-tag-filter
-          [tags]="allTags()"
-          [selected]="activeTags()"
-          (selectedChange)="activeTags.set($event)"
-        />
       </div>
-    </div>
     }
 
     <!-- ── Feed ── -->

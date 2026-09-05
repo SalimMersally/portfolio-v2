@@ -1,111 +1,29 @@
 <section class="hero" id="introduction">
-  <!-- Ambient distributed-systems graph: services (nodes) connected by edges,
-       pulsing and drifting. A picture of the work, not generic orbs. -->
-  <svg
-    class="hero-graph"
-    viewBox="0 0 1200 800"
-    preserveAspectRatio="xMidYMid slice"
-    aria-hidden="true"
-  >
-    <g class="hero-graph-edges">
-      <line x1="180" y1="140" x2="360" y2="230" />
-      <line x1="360" y1="230" x2="270" y2="420" />
-      <line x1="360" y1="230" x2="520" y2="340" />
-      <line x1="270" y1="420" x2="470" y2="560" />
-      <line x1="520" y1="340" x2="470" y2="560" />
-      <line x1="520" y1="340" x2="720" y2="180" />
-      <line x1="720" y1="180" x2="850" y2="400" />
-      <line x1="850" y1="400" x2="1010" y2="250" />
-      <line x1="850" y1="400" x2="1080" y2="520" />
-      <line x1="470" y1="560" x2="680" y2="620" />
-      <line x1="680" y1="620" x2="850" y2="400" />
-      <line x1="1010" y1="250" x2="1080" y2="520" />
-      <line x1="180" y1="140" x2="270" y2="420" />
-      <line x1="1080" y1="520" x2="940" y2="600" />
-      <line x1="680" y1="620" x2="940" y2="600" />
-      <line x1="720" y1="180" x2="1010" y2="250" />
-    </g>
-    <g class="hero-graph-nodes">
-      <circle class="node" cx="180" cy="140" r="5" style="--d: 0s" />
-      <circle class="node" cx="360" cy="230" r="6" style="--d: 0.6s" />
-      <circle class="node" cx="270" cy="420" r="4" style="--d: 1.2s" />
-      <circle class="node" cx="520" cy="340" r="7" style="--d: 0.3s" />
-      <circle class="node" cx="470" cy="560" r="5" style="--d: 1.8s" />
-      <circle class="node" cx="720" cy="180" r="6" style="--d: 0.9s" />
-      <circle class="node" cx="850" cy="400" r="7" style="--d: 0.4s" />
-      <circle class="node" cx="1010" cy="250" r="5" style="--d: 1.5s" />
-      <circle class="node" cx="1080" cy="520" r="6" style="--d: 1s" />
-      <circle class="node" cx="680" cy="620" r="4" style="--d: 2.1s" />
-      <circle class="node" cx="940" cy="600" r="5" style="--d: 0.7s" />
-    </g>
-  </svg>
-
-  <div class="hero-content">
-    @if (profile(); as s) {
-      <p class="hero-eyebrow">
-        <span class="hero-role">{{ s.title }}</span>
-        <span class="hero-eyebrow-sep" aria-hidden="true">/</span>
-        <span class="hero-place">{{ s.location }}</span>
-      </p>
-      <h1 class="hero-name">{{ s.name }}</h1>
-      <p class="hero-tagline">{{ s.tagline }}</p>
-      <div class="hero-links">
-        <a [href]="s.github" target="_blank" rel="noopener" class="hero-link">
-          <svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor">
-            <path
-              d="M12 0C5.37 0 0 5.37 0 12c0 5.3 3.44 9.8 8.21 11.39.6.11.79-.26.79-.58v-2.23c-3.34.72-4.03-1.42-4.03-1.42-.55-1.39-1.33-1.76-1.33-1.76-1.09-.74.08-.73.08-.73 1.2.08 1.84 1.24 1.84 1.24 1.07 1.83 2.81 1.3 3.49 1 .11-.78.42-1.31.76-1.61-2.67-.3-5.47-1.33-5.47-5.93 0-1.31.47-2.38 1.24-3.22-.12-.3-.54-1.52.12-3.18 0 0 1.01-.32 3.3 1.23a11.5 11.5 0 0 1 6 0c2.28-1.55 3.3-1.23 3.3-1.23.66 1.66.24 2.88.12 3.18.77.84 1.24 1.91 1.24 3.22 0 4.61-2.81 5.63-5.48 5.92.43.37.82 1.1.82 2.22v3.29c0 .32.19.69.8.58C20.56 21.8 24 17.3 24 12c0-6.63-5.37-12-12-12z"
-            />
-          </svg>
-          GitHub
-        </a>
-        <a [href]="s.linkedin" target="_blank" rel="noopener" class="hero-link">
-          <svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor">
-            <path
-              d="M19 0H5C2.24 0 0 2.24 0 5v14c0 2.76 2.24 5 5 5h14c2.76 0 5-2.24 5-5V5c0-2.76-2.24-5-5-5zM8 19H5V8h3v11zm-1.5-12.27A1.75 1.75 0 1 1 8 5.01a1.75 1.75 0 0 1-1.5 1.72zM19 19h-3v-5.6c0-3.37-4-3.11-4 0V19H9V8h3v1.77C13.4 7.19 19 7 19 12.24V19z"
-            />
-          </svg>
-          LinkedIn
-        </a>
-        <a [href]="'mailto:' + s.email" class="hero-link">
-          <svg
-            width="17"
-            height="17"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="2"
-            stroke-linecap="round"
-          >
-            <rect x="2" y="4" width="20" height="16" rx="2" />
-            <polyline points="2,4 12,13 22,4" />
-          </svg>
-          Email
-        </a>
-        @if (s.instagram) {
-          <a [href]="s.instagram" target="_blank" rel="noopener" class="hero-link">
-            <svg
-              width="17"
-              height="17"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="2"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-            >
-              <rect x="2" y="2" width="20" height="20" rx="5" ry="5" />
-              <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" />
-              <line x1="17.5" y1="6.5" x2="17.51" y2="6.5" />
-            </svg>
-            Instagram
-          </a>
-        }
-      </div>
-    }
+  <div class="hero-copy">
+    <p class="hero-eyebrow">Hi, I’m Salim · Software Engineer</p>
+    <h1>I build useful software for <em>businesses.</em></h1>
+    <p class="hero-summary">
+      From a focused website to a dependable custom system, I turn your idea into software that
+      works clearly, reliably, and grows with you.
+    </p>
+    <div class="hero-actions">
+      <a class="button button-action" [href]="primaryHref()" target="_blank" rel="noopener"
+        >Start a project</a
+      >
+      <a class="button button-secondary" routerLink="/work">See my work</a>
+    </div>
+    <p class="hero-location">Based in Lebanon · Working worldwide</p>
   </div>
 
-  <div class="hero-scroll" aria-hidden="true">
-    <span>Scroll</span>
-    <div class="hero-scroll-line"></div>
+  <div class="hero-panel" aria-hidden="true">
+    <img
+      class="hero-panel-mark"
+      src="/brand/sm-mark-reversed.svg"
+      alt=""
+      width="180"
+      height="180"
+    />
+    <span class="hero-accent"></span>
+    <p>Thoughtful software.<br />Built to last.</p>
   </div>
 </section>

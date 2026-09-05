@@ -1,8 +1,7 @@
 <section class="section" id="experience">
   <div class="container">
     <p class="section-label" appReveal>Experience</p>
-    <h2 class="section-title" appReveal="1">Where I've Worked</h2>
-    <div class="section-divider" appReveal="2"></div>
+    <h2 class="section-title" appReveal="1">The roles that shaped how I build.</h2>
 
     @if (totalExperience(); as xp) {
       <div class="xp-banner" appReveal="3">
@@ -12,7 +11,7 @@
             <span class="xp-u">yrs</span>
           </div>
           @if (xp.months > 0) {
-            <span class="xp-dot">·</span>
+            <span class="xp-dot" aria-hidden="true">·</span>
             <div class="xp-chunk">
               <span class="xp-n">{{ xp.months }}</span>
               <span class="xp-u">mos</span>

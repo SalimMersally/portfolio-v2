@@ -4,11 +4,17 @@
       <header class="work-hero">
         <div class="work-hero-main">
           <div class="work-hero-left">
-            <p class="work-kicker">Portfolio</p>
-            <h1 class="work-title">Experience &amp; Work</h1>
-            <p class="work-sub">The technical deep-dive — roles, projects, skills, and education.</p>
+            <p class="work-kicker">Technical portfolio</p>
+            <h1 class="work-title">Experience, systems, and the work behind them.</h1>
+            <p class="work-sub">A detailed view of my roles, projects, skills, and education.</p>
           </div>
-          <a [href]="d.profile.cvUrl" download target="_blank" rel="noopener" class="work-resume-link">
+          <a
+            [href]="d.profile.cvUrl"
+            download
+            target="_blank"
+            rel="noopener"
+            class="work-resume-link"
+          >
             <svg
               width="17"
               height="17"
@@ -29,11 +35,13 @@
       </header>
     </div>
 
-    <app-experience [experiences]="d.experiences" />
-    <app-projects [projects]="d.projects" />
-    <app-skills [groups]="d.skills" />
-    <app-education [items]="d.education" />
-    <app-books [books]="d.books" />
+    <div class="section-stack">
+      <app-experience [experiences]="d.experiences" />
+      <app-projects [projects]="d.projects" />
+      <app-skills [groups]="d.skills" />
+      <app-education [items]="d.education" />
+      <app-books [books]="d.books" />
+    </div>
   </main>
 } @else {
   <app-loading-dots [fullHeight]="true" />

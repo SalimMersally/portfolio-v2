@@ -1,15 +1,22 @@
 <section class="section" id="services">
   <div class="container">
-    <p class="section-label" appReveal>Services</p>
-    <h2 class="section-title" appReveal="1">What I Can Build For You</h2>
-    <div class="section-divider" appReveal="2"></div>
+    <div class="services-heading">
+      <div>
+        <p class="section-label" appReveal>What I can build</p>
+        <h2 class="section-title" appReveal="1">From first idea to working product.</h2>
+      </div>
+      <p class="services-intro" appReveal="2">
+        One engineering partner, whether you need a focused page or the system behind it.
+      </p>
+    </div>
 
     <div class="services-grid">
-      @for (s of services(); track s._id; let i = $index) {
+      @for (s of visibleServices(); track s._id; let i = $index) {
         <div class="service-card" [appReveal]="((i % 4) + 1).toString()">
-          <span class="service-tag">Service</span>
+          <span class="service-tag">0{{ i + 1 }}</span>
           <h3 class="service-title">{{ s.title }}</h3>
           <p class="service-description">{{ s.description }}</p>
+          <span class="service-arrow" aria-hidden="true">→</span>
         </div>
       }
     </div>

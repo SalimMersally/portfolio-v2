@@ -22,6 +22,7 @@
     animation: dot-pulse 1.4s ease-in-out infinite both;
 
     &:nth-child(2) {
+      background: var(--color-action);
       animation-delay: 0.2s;
     }
     &:nth-child(3) {

@@ -13,7 +13,7 @@
   border: 1px solid var(--color-border);
   border-radius: var(--radius);
   font-family: var(--font-mono);
-  font-size: 0.82rem;
+  font-size: var(--text-sm);
   color: var(--color-text-muted);
   white-space: nowrap;
   cursor: pointer;
@@ -55,7 +55,7 @@
   background: var(--color-surface-2);
   border: 1px solid var(--color-border);
   border-radius: calc(var(--radius) * 1.5);
-  box-shadow: 0 16px 40px oklch(0 0 0 / 0.45);
+  box-shadow: var(--shadow-panel);
   overflow: hidden;
   padding: 0.3rem;
   animation: cs-appear 0.14s var(--ease) both;
@@ -79,7 +79,7 @@
   width: 100%;
   text-align: left;
   font-family: var(--font-mono);
-  font-size: 0.76rem;
+  font-size: var(--text-xs);
   color: var(--color-text-muted);
   background: transparent;
   border: none;
@@ -97,7 +97,7 @@
   }
 
   &.is-selected {
-    color: var(--color-accent);
+    color: var(--color-accent-text);
 
     &:hover {
       background: var(--color-accent-subtle);
@@ -121,7 +121,7 @@
 
   .cs-item.is-selected & {
     background: var(--color-accent);
-    border-color: var(--color-accent);
+    border-color: var(--color-accent-text);
     color: var(--color-on-accent);
   }
 }

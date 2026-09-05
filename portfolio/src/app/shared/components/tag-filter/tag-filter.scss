@@ -13,7 +13,7 @@
   border: 1px solid var(--color-border);
   border-radius: var(--radius);
   font-family: var(--font-mono);
-  font-size: 0.82rem;
+  font-size: var(--text-sm);
   color: var(--color-text-muted);
   white-space: nowrap;
   cursor: pointer;
@@ -30,7 +30,7 @@
   }
 
   &.is-active {
-    color: var(--color-accent);
+    color: var(--color-accent-text);
     border-color: oklch(from var(--color-accent) l c h / 0.45);
     background: var(--color-accent-subtle);
   }
@@ -66,7 +66,7 @@
   background: var(--color-accent);
   color: var(--color-on-accent);
   border-radius: 99px;
-  font-size: 0.7rem;
+  font-size: var(--text-2xs);
   font-weight: 700;
   line-height: 1;
 }
@@ -98,7 +98,7 @@
   height: 16px;
   border-radius: 50%;
   background: oklch(from var(--color-accent) l c h / 0.2);
-  color: var(--color-accent);
+  color: var(--color-accent-text);
   flex-shrink: 0;
   transition: background var(--t);
   cursor: pointer;
@@ -117,7 +117,7 @@
   background: var(--color-surface-2);
   border: 1px solid var(--color-border);
   border-radius: calc(var(--radius) * 1.5);
-  box-shadow: 0 16px 40px oklch(0 0 0 / 0.45);
+  box-shadow: var(--shadow-panel);
   overflow: hidden;
   animation: tf-appear 0.14s var(--ease) both;
 
@@ -147,7 +147,7 @@
 .tf-search {
   flex: 1;
   font-family: var(--font-mono);
-  font-size: 0.78rem;
+  font-size: var(--text-xs);
   color: var(--color-text);
   background: transparent;
   border: none;
@@ -193,7 +193,7 @@
   width: 100%;
   text-align: left;
   font-family: var(--font-mono);
-  font-size: 0.76rem;
+  font-size: var(--text-xs);
   color: var(--color-text-muted);
   background: transparent;
   border: none;
@@ -210,7 +210,7 @@
   }
 
   &.is-checked {
-    color: var(--color-accent);
+    color: var(--color-accent-text);
 
     &:hover {
       background: var(--color-accent-subtle);
@@ -234,14 +234,14 @@
 
   .tf-item.is-checked & {
     background: var(--color-accent);
-    border-color: var(--color-accent);
+    border-color: var(--color-accent-text);
     color: var(--color-on-accent);
   }
 }
 
 .tf-no-results {
   font-family: var(--font-mono);
-  font-size: 0.75rem;
+  font-size: var(--text-xs);
   color: var(--color-text-muted);
   padding: 1rem 0.6rem;
   text-align: center;

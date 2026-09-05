@@ -9,6 +9,11 @@
 html {
   scroll-behavior: smooth;
   scroll-padding-top: var(--nav-h);
+  color-scheme: light;
+}
+
+[data-theme='dark'] {
+  color-scheme: dark;
 }
 
 body {
@@ -18,24 +23,6 @@ body {
   line-height: 1.65;
   -webkit-font-smoothing: antialiased;
   overflow-x: hidden;
-}
-
-/* Force all elements to transition together during theme switch */
-.theme-transitioning,
-.theme-transitioning *,
-.theme-transitioning *::before,
-.theme-transitioning *::after {
-  transition:
-    background var(--t-slow),
-    background-color var(--t-slow),
-    color var(--t-slow),
-    border-color var(--t-slow),
-    box-shadow var(--t-slow),
-    text-shadow var(--t-slow),
-    filter var(--t-slow),
-    fill var(--t-slow),
-    stroke var(--t-slow),
-    opacity var(--t-slow) !important;
 }
 
 a {
@@ -52,6 +39,16 @@ button {
   background: none;
   font: inherit;
   color: inherit;
+}
+
+::selection {
+  color: var(--color-on-accent);
+  background: var(--color-accent);
+}
+
+:focus-visible {
+  outline: 3px solid var(--color-action);
+  outline-offset: 3px;
 }
 ul {
   list-style: none;

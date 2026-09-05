@@ -1,7 +1,4 @@
-main {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  min-height: 100vh;
-  color: var(--color-text-muted);
+:host,
+.home-main {
+  display: block;
 }

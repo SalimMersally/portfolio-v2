@@ -1,43 +1,8 @@
 <nav class="nav" [class.scrolled]="scrolled()">
   <div class="nav-inner container">
-    <a routerLink="/" class="nav-logo" aria-label="Home">
-      <svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg">
-        <rect x="0" y="0" width="32" height="32" rx="6" fill="currentColor" fill-opacity="0.15" />
-        <text
-          x="1.5"
-          y="16"
-          dominant-baseline="central"
-          font-family="'JetBrains Mono', monospace"
-          font-weight="300"
-          font-size="15"
-          fill="currentColor"
-        >
-          &#123;
-        </text>
-        <text
-          x="11"
-          y="16"
-          dominant-baseline="central"
-          font-family="'Space Grotesk', sans-serif"
-          font-weight="700"
-          font-size="15"
-          letter-spacing="-0.5"
-          style="fill: var(--color-text)"
-        >
-          S
-        </text>
-        <text
-          x="22"
-          y="16"
-          dominant-baseline="central"
-          font-family="'JetBrains Mono', monospace"
-          font-weight="300"
-          font-size="15"
-          fill="currentColor"
-        >
-          &#125;
-        </text>
-      </svg>
+    <a routerLink="/" class="nav-brand" aria-label="Built by Salim — Home">
+      <img class="nav-mark" src="/brand/sm-mark.svg" alt="" width="42" height="42" />
+      <span class="nav-wordmark"><span>built.by.</span><strong>salim</strong></span>
     </a>
 
     <ul class="nav-links" [class.open]="mobileOpen()">
@@ -52,7 +17,9 @@
         >
       </li>
       <li>
-        <a routerLink="/work" routerLinkActive="active" class="nav-link" (click)="closeMobile()">Work</a>
+        <a routerLink="/work" routerLinkActive="active" class="nav-link" (click)="closeMobile()"
+          >Work</a
+        >
       </li>
       <li>
         <a
@@ -104,7 +71,7 @@
       </button>
 
       <button class="theme-toggle" (click)="theme.toggleMode()" aria-label="Toggle dark/light mode">
-        <!-- Sun (shown in dark mode) -->
+        <!-- Sun switches the current dark mode to light. -->
         <svg
           class="icon-sun"
           width="17"
@@ -125,7 +92,7 @@
           <line x1="4.22" y1="19.78" x2="5.64" y2="18.36" />
           <line x1="18.36" y1="5.64" x2="19.78" y2="4.22" />
         </svg>
-        <!-- Moon (shown in light mode) -->
+        <!-- Moon switches the current light mode to dark. -->
         <svg
           class="icon-moon"
           width="17"
@@ -139,7 +106,6 @@
           <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
         </svg>
       </button>
-
     </div>
   </div>
 </nav>

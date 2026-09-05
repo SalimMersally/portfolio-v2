@@ -1,0 +1,15 @@
+<section class="section process" id="process">
+  <div class="container">
+    <p class="section-label" appReveal>How we work together</p>
+    <h2 class="section-title" appReveal="1">A clear path from idea to launch.</h2>
+    <ol class="process-grid">
+      @for (step of steps; track step.title; let i = $index) {
+        <li class="process-step" [appReveal]="((i % 4) + 1).toString()">
+          <span>0{{ i + 1 }}</span>
+          <h3>{{ step.title }}</h3>
+          <p>{{ step.text }}</p>
+        </li>
+      }
+    </ol>
+  </div>
+</section>

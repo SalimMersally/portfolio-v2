@@ -1,29 +1,34 @@
-<section class="section section-alt" id="about">
+<section class="section about" id="about">
   <div class="container">
-    <p class="section-label" appReveal>About</p>
-    <h2 class="section-title" appReveal="1">The Person Behind The Code</h2>
-    <div class="section-divider" appReveal="2"></div>
-
-    <div class="about-layout" appReveal="3">
-      <div class="about-photo-col">
-        <div class="about-photo-wrap">
-          <img class="about-photo" [src]="about().photoUrl" alt="Salim Al Mersally" />
-        </div>
+    <div class="about-layout">
+      <div class="about-photo-wrap" appReveal>
+        <img
+          class="about-photo"
+          [src]="about().photoUrl"
+          alt="Salim Al Mersally"
+          width="746"
+          height="746"
+          loading="lazy"
+        />
       </div>
 
-      <div class="about-content-col">
+      <div class="about-content" appReveal="1">
+        <p class="section-label">About Salim</p>
+        <h2 class="section-title">Thoughtful software starts with understanding the problem.</h2>
         <p class="about-bio">{{ about().bio }}</p>
 
         @if (about().highlights.length) {
           <div class="about-highlights">
-            @for (h of about().highlights; track $index) {
+            @for (highlight of about().highlights; track $index) {
               <div class="about-highlight">
-                <span class="about-highlight-value">{{ h.value }}</span>
-                <span class="about-highlight-label">{{ h.label }}</span>
+                <strong>{{ highlight.value }}</strong>
+                <span>{{ highlight.label }}</span>
               </div>
             }
           </div>
         }
+
+        <a routerLink="/work" class="about-work-link">View technical experience →</a>
       </div>
     </div>
   </div>

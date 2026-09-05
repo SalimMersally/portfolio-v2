@@ -6,34 +6,36 @@
 // `.section`'s standard top padding assumes it follows another full section; here it
 // follows a compact header instead, so the gap reads as too large. Trim just this one.
 :host ::ng-deep #experience {
-  padding-top: clamp(1.5rem, 4vw, 2.5rem);
+  padding-top: clamp(1.5rem, 1.148rem + 1.502vw, 2.5rem);
 }
 
 .work-hero {
-  padding: clamp(2.5rem, 6vw, 4rem) 0 0.5rem;
+  padding: clamp(3.5rem, 2.62rem + 3.756vw, 6rem) 0 clamp(2.5rem, 1.972rem + 2.254vw, 4rem);
+  border-bottom: 1px solid var(--color-border);
 }
 
 .work-kicker {
   font-family: var(--font-mono);
-  font-size: 0.72rem;
+  font-size: var(--text-2xs);
   letter-spacing: 0.2em;
   text-transform: uppercase;
-  color: var(--color-accent);
+  color: var(--color-accent-text);
   margin-bottom: 0.5rem;
 }
 
 .work-title {
   font-family: var(--font-heading);
-  font-size: clamp(2.4rem, 5vw, 3.5rem);
+  max-width: 16ch;
+  font-size: clamp(2.4rem, 1.625rem + 3.305vw, 4.6rem);
   font-weight: 700;
   letter-spacing: -0.04em;
-  line-height: 1;
+  line-height: 1.05;
   color: var(--color-text);
   margin-bottom: 0.6rem;
 }
 
 .work-sub {
-  font-size: 1.05rem;
+  font-size: var(--text-lg);
   color: var(--color-text-muted);
   max-width: 46ch;
 }
@@ -55,12 +57,12 @@
   display: inline-flex;
   align-items: center;
   gap: 0.5rem;
-  font-size: 0.875rem;
+  font-size: var(--text-sm);
   font-weight: 500;
-  color: var(--color-text-muted);
-  border: 1px solid var(--color-border);
-  background: var(--color-surface);
-  padding: 0.55rem 1.15rem;
+  color: var(--color-on-action);
+  border: 1px solid var(--color-action);
+  background: var(--color-action);
+  padding: 0.75rem 1.15rem;
   border-radius: var(--radius);
   transition:
     color var(--t),
@@ -69,9 +71,9 @@
     transform var(--t);
 
   &:hover {
-    color: var(--color-accent);
-    border-color: var(--color-accent);
-    background: var(--color-accent-subtle);
+    color: var(--color-on-action);
+    border-color: var(--color-action-hover);
+    background: var(--color-action-hover);
     transform: translateY(-2px);
   }
 }

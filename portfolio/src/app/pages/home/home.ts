@@ -6,6 +6,7 @@ import { SanityService } from '../../core/services/sanity.service';
 import { AboutSection } from '../../sections/about/about';
 import { Contact } from '../../sections/contact/contact';
 import { Introduction } from '../../sections/introduction/introduction';
+import { Process } from '../../sections/process/process';
 import { Services } from '../../sections/services/services';
 import { LoadingDots } from '../../shared/components/loading-dots/loading-dots';
 
@@ -13,7 +14,7 @@ import { LoadingDots } from '../../shared/components/loading-dots/loading-dots';
   selector: 'app-home',
   templateUrl: './home.html',
   styleUrl: './home.scss',
-  imports: [LoadingDots, Introduction, AboutSection, Services, Contact],
+  imports: [LoadingDots, Introduction, Services, Process, AboutSection, Contact],
 })
 export class Home implements OnInit {
   private readonly sanity = inject(SanityService);
