@@ -1,241 +1,74 @@
+@use 'sass:list';
+@use 'sass:map';
+@use 'sass:string';
+
 /* Theme colours are registered so they can interpolate. The switch then
    animates these variables once, on :root, and every element that reads them
    follows in lockstep. Transitioning the elements instead was the bug: `color`
    is inherited, so a child that only inherits saw its computed value change
    every frame and restarted its own transition each time — text chased the
    fade instead of tracking it, then snapped when the class came off. */
-@property --color-bg {
-  syntax: '<color>';
-  inherits: true;
-  initial-value: #f7f3ea;
+
+/* One map drives both the registrations and the transition list. They used to
+   be two hand-written lists, so every token added later (--color-action-text,
+   --panel-invert-*) was registered but never transitioned, and snapped mid-fade.
+   Add a colour here and it is animated automatically. Values are the light
+   theme; the dark overrides live in _variables.scss. */
+$theme-colors: (
+  'color-bg': #f7f3ea,
+  'color-surface': #fffdfa,
+  'color-surface-2': #eee7dc,
+  'color-border': #d9d2c7,
+  'color-text': #102a43,
+  'color-text-muted': #5e6b7d,
+  'color-accent': #276ef1,
+  'color-accent-hover': #1459db,
+  'color-accent-text': #1b57c9,
+  'color-accent-subtle': rgb(39 110 241 / 0.1),
+  'color-accent-glow': rgb(39 110 241 / 0.16),
+  'color-action': #f36f52,
+  'color-action-hover': #df5d42,
+  'color-action-text': #c04421,
+  'color-on-accent': #fffdfa,
+  'color-on-action': #102a43,
+  'color-success': #257852,
+  'color-success-subtle': rgb(37 120 82 / 0.1),
+  'color-error': #b64035,
+  'panel-invert-bg': #102a43,
+  'panel-invert-text': #fffdfa,
+  'overlay-scrim': rgb(16 42 67 / 0.55),
+  'code-bg': #e9e3d9,
+  'code-header-bg': #ded7cc,
+  'code-accent-line': rgb(39 110 241 / 0.45),
+  'code-text': #102a43,
+  'code-muted': #525e6d,
+  'code-btn': #5e6b7d,
+  'code-btn-border': #b8b0a5,
+  'code-btn-hover': #10233f,
+  'code-btn-hover-border': #276ef1,
+  'code-scrollbar': #a59d92,
+  'code-scrollbar-hover': #71695f,
+  'code-token-string': #23714d,
+  'code-token-type': #076e7e,
+  'code-token-function': #205fcf,
+  'code-token-number': #9c5024,
+);
+
+@each $name, $value in $theme-colors {
+  @property --#{$name} {
+    syntax: '<color>';
+    inherits: true;
+    initial-value: $value;
+  }
 }
 
-@property --color-surface {
-  syntax: '<color>';
-  inherits: true;
-  initial-value: #fffdfa;
-}
-
-@property --color-surface-2 {
-  syntax: '<color>';
-  inherits: true;
-  initial-value: #eee7dc;
-}
-
-@property --color-border {
-  syntax: '<color>';
-  inherits: true;
-  initial-value: #d9d2c7;
-}
-
-@property --color-text {
-  syntax: '<color>';
-  inherits: true;
-  initial-value: #102a43;
-}
-
-@property --color-text-muted {
-  syntax: '<color>';
-  inherits: true;
-  initial-value: #5e6b7d;
-}
-
-@property --color-accent {
-  syntax: '<color>';
-  inherits: true;
-  initial-value: #276ef1;
-}
-
-@property --color-accent-hover {
-  syntax: '<color>';
-  inherits: true;
-  initial-value: #1459db;
-}
-
-@property --color-accent-text {
-  syntax: '<color>';
-  inherits: true;
-  initial-value: #1b57c9;
-}
-
-@property --color-accent-subtle {
-  syntax: '<color>';
-  inherits: true;
-  initial-value: rgb(39 110 241 / 0.1);
-}
-
-@property --color-accent-glow {
-  syntax: '<color>';
-  inherits: true;
-  initial-value: rgb(39 110 241 / 0.16);
-}
-
-@property --color-action {
-  syntax: '<color>';
-  inherits: true;
-  initial-value: #f36f52;
-}
-
-@property --color-action-text {
-  syntax: '<color>';
-  inherits: true;
-  initial-value: #c04421;
-}
-
-@property --panel-invert-bg {
-  syntax: '<color>';
-  inherits: true;
-  initial-value: #102a43;
-}
-
-@property --panel-invert-text {
-  syntax: '<color>';
-  inherits: true;
-  initial-value: #fffdfa;
-}
-
-@property --color-action-hover {
-  syntax: '<color>';
-  inherits: true;
-  initial-value: #df5d42;
-}
-
-@property --color-on-accent {
-  syntax: '<color>';
-  inherits: true;
-  initial-value: #fffdfa;
-}
-
-@property --color-on-action {
-  syntax: '<color>';
-  inherits: true;
-  initial-value: #102a43;
-}
-
-@property --color-success {
-  syntax: '<color>';
-  inherits: true;
-  initial-value: #257852;
-}
-
-@property --color-success-subtle {
-  syntax: '<color>';
-  inherits: true;
-  initial-value: rgb(37 120 82 / 0.1);
-}
-
-@property --color-error {
-  syntax: '<color>';
-  inherits: true;
-  initial-value: #b64035;
-}
-
-@property --overlay-scrim {
-  syntax: '<color>';
-  inherits: true;
-  initial-value: rgb(16 42 67 / 0.55);
-}
-
-@property --code-bg {
-  syntax: '<color>';
-  inherits: true;
-  initial-value: #e9e3d9;
-}
-
-@property --code-header-bg {
-  syntax: '<color>';
-  inherits: true;
-  initial-value: #ded7cc;
-}
-
-@property --code-accent-line {
-  syntax: '<color>';
-  inherits: true;
-  initial-value: rgb(39 110 241 / 0.45);
-}
-
-@property --code-text {
-  syntax: '<color>';
-  inherits: true;
-  initial-value: #102a43;
-}
-
-@property --code-muted {
-  syntax: '<color>';
-  inherits: true;
-  initial-value: #5e6b7d;
-}
-
-@property --code-btn {
-  syntax: '<color>';
-  inherits: true;
-  initial-value: #5e6b7d;
-}
-
-@property --code-btn-border {
-  syntax: '<color>';
-  inherits: true;
-  initial-value: #b8b0a5;
-}
-
-@property --code-btn-hover {
-  syntax: '<color>';
-  inherits: true;
-  initial-value: #10233f;
-}
-
-@property --code-btn-hover-border {
-  syntax: '<color>';
-  inherits: true;
-  initial-value: #276ef1;
-}
-
-@property --code-scrollbar {
-  syntax: '<color>';
-  inherits: true;
-  initial-value: #a59d92;
-}
-
-@property --code-scrollbar-hover {
-  syntax: '<color>';
-  inherits: true;
-  initial-value: #71695f;
-}
-
-@property --code-token-string {
-  syntax: '<color>';
-  inherits: true;
-  initial-value: #257852;
-}
-
-@property --code-token-type {
-  syntax: '<color>';
-  inherits: true;
-  initial-value: #087687;
-}
-
-@property --code-token-function {
-  syntax: '<color>';
-  inherits: true;
-  initial-value: #205fcf;
-}
-
-@property --code-token-number {
-  syntax: '<color>';
-  inherits: true;
-  initial-value: #a25325;
+$transition-list: ();
+@each $name in map.keys($theme-colors) {
+  $transition-list: list.append($transition-list, string.unquote('--' + $name), $separator: comma);
 }
 
 .theme-transitioning {
-  transition-property:
-    --color-bg, --color-surface, --color-surface-2, --color-border, --color-text,
-    --color-text-muted, --color-accent, --color-accent-hover, --color-accent-text,
-    --color-accent-subtle, --color-accent-glow, --color-action, --color-action-hover,
-    --color-on-accent, --color-on-action, --color-success, --color-success-subtle, --color-error,
-    --overlay-scrim, --code-bg, --code-header-bg, --code-accent-line, --code-text, --code-muted,
-    --code-btn, --code-btn-border, --code-btn-hover, --code-btn-hover-border, --code-scrollbar,
-    --code-scrollbar-hover, --code-token-string, --code-token-type, --code-token-function,
-    --code-token-number;
+  transition-property: $transition-list;
   transition-duration: 500ms;
   transition-timing-function: var(--ease);
 }

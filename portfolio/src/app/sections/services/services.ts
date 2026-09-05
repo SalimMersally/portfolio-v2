@@ -1,4 +1,4 @@
-import { Component, computed, input } from '@angular/core';
+import { Component, input } from '@angular/core';
 import { Service } from '../../core/models/service.model';
 import { RevealDirective } from '../../shared/directives/reveal.directive';
 
@@ -10,6 +10,4 @@ import { RevealDirective } from '../../shared/directives/reveal.directive';
 })
 export class Services {
   readonly services = input.required<Service[]>();
-  /** Home shows the three ordered offers; /work carries the full range. */
-  readonly visibleServices = computed(() => this.services().slice(0, 3));
 }

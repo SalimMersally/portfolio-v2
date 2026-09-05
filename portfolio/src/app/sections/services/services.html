@@ -11,7 +11,7 @@
     </div>
 
     <div class="services-grid">
-      @for (s of visibleServices(); track s._id; let i = $index) {
+      @for (s of services(); track s._id; let i = $index) {
         <div class="service-card" [appReveal]="((i % 4) + 1).toString()">
           <span class="service-tag">0{{ i + 1 }}</span>
           <h3 class="service-title">{{ s.title }}</h3>

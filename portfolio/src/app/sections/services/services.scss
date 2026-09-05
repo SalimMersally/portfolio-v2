@@ -30,8 +30,14 @@
     color var(--t),
     background var(--t);
 
-  &:first-child {
+  /* Row-aware, so a fourth service published in Sanity keeps the grid lines
+     intact instead of orphaning a cell. */
+  &:nth-child(3n + 1) {
     border-left: 0;
+  }
+
+  &:nth-child(n + 4) {
+    border-top: 1px solid var(--color-text);
   }
 
   &:hover {

@@ -66,7 +66,7 @@ Sanity Studio (sanity-studio/)
 
 `HomeComponent` fetches everything in one call, runs `validatePortfolioData()` (each model has a `validateX()` function), and navigates to `/error` on any failure. Sections only render after the data signal is set to `'ready'`.
 
-`ThemeService` (`portfolio/src/app/core/services/theme.service.ts`) reads `localStorage` (`color-mode` key) on init, falling back to `prefers-color-scheme`. It sets / removes the `data-theme="light"` attribute on `<html>` — dark is the default (no attribute). All component styles reference `var(--color-*)` / `var(--font-*)` — never hardcoded values.
+`ThemeService` (`portfolio/src/app/core/services/theme.service.ts`) reads `localStorage` (`color-mode` key) on init, falling back to `prefers-color-scheme`. It sets / removes the `data-theme="dark"` attribute on `<html>` — light is the default (no attribute). All component styles reference `var(--color-*)` / `var(--font-*)` — never hardcoded values.
 
 ### App shell
 
@@ -75,7 +75,7 @@ Sanity Studio (sanity-studio/)
 ### Routing
 
 Lazy-loaded routes (defined in `portfolio/src/app/app.routes.ts`):
-- `/` → `portfolio/src/app/pages/home/` — client-facing pitch: intro, about, services, contact
+- `/` → `portfolio/src/app/pages/home/` — client-facing pitch: intro, services, process, about, contact
 - `/work` → `portfolio/src/app/pages/work/` — technical deep-dive: experience, projects, skills, education, books
 - `/blog` → `portfolio/src/app/pages/blog/` — blog listing with filtering, sorting, pagination, and series grouping
 - `/blog/:slug` → `portfolio/src/app/pages/blog-post/` — individual post rendered from Portable Text via `@portabletext/to-html` + `highlight.js`
@@ -84,9 +84,9 @@ Lazy-loaded routes (defined in `portfolio/src/app/app.routes.ts`):
 
 Anchor scrolling (`/#experience`, `/#skills`, etc.) is handled natively by `withInMemoryScrolling({ anchorScrolling: 'enabled' })` in the router config — no manual `scrollIntoView` needed.
 
-Section components live in `portfolio/src/app/sections/` and are imported directly into `Home` (about, services, contact) or `Work` (experience, projects, skills, education, books). `Navbar` (`portfolio/src/app/shared/navbar/navbar.ts`) is intentionally just three page-level links — Home, Work, Blog — no in-page anchor links; those were dropped as confusing.
+Section components live in `portfolio/src/app/sections/` and are imported directly into `Home` (services, process, about, contact) or `Work` (experience, projects, skills, education, books). `Navbar` (`portfolio/src/app/shared/navbar/navbar.ts`) is intentionally just three page-level links — Home, Work, Blog — no in-page anchor links; those were dropped as confusing.
 
-`HomeComponent` shows a `Loading` page (`portfolio/src/app/pages/loading/`) while data fetches; it switches to `'ready'` only after `validatePortfolioData()` passes.
+`HomeComponent` shows `<app-loading-dots [fullHeight]="true" />` (`portfolio/src/app/shared/components/loading-dots/`) while data fetches; it switches to `'ready'` only after `validatePortfolioData()` passes.
 
 ### Shared pieces
 
@@ -100,10 +100,13 @@ Section components live in `portfolio/src/app/sections/` and are imported direct
 
 ### Styling
 
-Global SCSS entry is `portfolio/src/styles.scss`, which `@use`s three partials:
+Global SCSS entry is `portfolio/src/styles.scss`, which `@use`s four partials, in this order:
 - `portfolio/src/styles/_variables.scss` — all CSS custom property defaults (`:root { --color-accent … }`)
+- `portfolio/src/styles/_theme-transition.scss` — `$theme-colors` map; generates the `@property` registrations *and* the `.theme-transitioning` transition list from that one map. Add a themed colour there, not in two places, or it will snap instead of fading.
 - `portfolio/src/styles/_reset.scss`
-- `portfolio/src/styles/_typography.scss`
+- `portfolio/src/styles/_typography.scss` — `@font-face`, the fluid type scale, and the `.section-stack` tone alternation
+
+Page tone alternates via `.section-stack > *:nth-child(even)`, which paints the **host** element (`app-services`, `app-about`, …). A section must not set its own `background` on its inner wrapper — that overrides the host and breaks the rhythm.
 
 Component styles use `styleUrl` (scoped SCSS). Never add hardcoded color/font/spacing values; always reference a CSS variable.
 
@@ -119,16 +122,16 @@ Lives in `sanity-studio/` — Sanity v5 + React 19, separate `npm install` and b
 
 ## Design reference
 
-The HTML/CSS prototype (Option A — modern style) lives in `.Codex/design/`. Use it as the source of truth for layout, spacing, colours, and component structure when building or styling anything.
+The HTML/CSS prototype (Option A — modern style) lives in `.claude/design/`. Use it as the source of truth for layout, spacing, colours, and component structure when building or styling anything.
 
 | File | Purpose |
 |---|---|
-| `.Codex/design/index.html` | Main portfolio page — all sections (Navbar, Hero, Experience, Skills, Projects, Books, Footer) |
-| `.Codex/design/blog.html` | Blog page layout |
-| `.Codex/design/styles.css` | Global CSS custom properties, layout, and base styles |
-| `.Codex/design/sections.css` | Per-section styles |
-| `.Codex/design/app.js` | Interactive behaviour (nav scroll, theme toggle, etc.) |
-| `.Codex/design/screenshots/` | PNGs of rendered design states (`01-sections.png` … `04-sections.png`, `preview-a.png`) |
+| `.claude/design/index.html` | Main portfolio page — all sections (Navbar, Hero, Experience, Skills, Projects, Books, Footer) |
+| `.claude/design/blog.html` | Blog page layout |
+| `.claude/design/styles.css` | Global CSS custom properties, layout, and base styles |
+| `.claude/design/sections.css` | Per-section styles |
+| `.claude/design/app.js` | Interactive behaviour (nav scroll, theme toggle, etc.) |
+| `.claude/design/screenshots/` | PNGs of rendered design states (`01-sections.png` … `04-sections.png`, `preview-a.png`) |
 
 When implementing a new section or component, open the corresponding block in `index.html` and the relevant CSS files first. Never invent colours, fonts, or spacing — derive them from the prototype's CSS variables.
 

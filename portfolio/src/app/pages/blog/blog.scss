@@ -253,13 +253,17 @@
   background: var(--color-surface);
   font-size: var(--text-2xs);
   white-space: nowrap;
-  opacity: 0;
   pointer-events: none;
   transform: translateX(-50%);
+  /* Hidden with `display`, not `opacity`: an opacity:0 tooltip is still laid
+     out, and this one is nowrap at left:50%, so it added ~108px of layout
+     width. That widened the page on a 375px phone and pushed the fixed nav's
+     theme toggle and menu button off the right edge. */
+  display: none;
 }
 
 .card-tag-more:hover::after {
-  opacity: 1;
+  display: block;
 }
 
 .card-date,
