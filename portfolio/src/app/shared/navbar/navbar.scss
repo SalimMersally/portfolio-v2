@@ -141,7 +141,11 @@
     gap: 0;
     padding: 0.75rem 1rem 1rem;
     margin: 0;
-    background: color-mix(in srgb, var(--color-bg) 96%, transparent);
+    /* Opaque. The dropdown covers page content, and at 96% the hero text
+       showed through badly enough that the menu read as broken. The frosted
+       look on `.nav.scrolled` works because it pairs with a backdrop-filter;
+       this panel has none, so translucency buys nothing and costs legibility. */
+    background: var(--color-bg);
     border-block: 1px solid var(--color-border);
     opacity: 0;
     transform: translateY(-6px);
