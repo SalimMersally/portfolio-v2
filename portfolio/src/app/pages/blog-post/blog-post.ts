@@ -12,6 +12,7 @@ import {
   ViewEncapsulation,
 } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { ViewportScroller } from '@angular/common';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { LoadingDots } from '../../shared/components/loading-dots/loading-dots';
@@ -29,7 +30,23 @@ import bash from 'highlight.js/lib/languages/bash';
 import json from 'highlight.js/lib/languages/json';
 import sql from 'highlight.js/lib/languages/sql';
 import java from 'highlight.js/lib/languages/java';
+import yaml from 'highlight.js/lib/languages/yaml';
+import plaintext from 'highlight.js/lib/languages/plaintext';
 import { toHTML } from '@portabletext/to-html';
+import { PostToc, TocSection } from './post-toc';
+
+interface RenderedBody {
+  html: string;
+  toc: TocSection[];
+  tocEntryCount: number;
+}
+
+interface HeadingBlock {
+  _type?: string;
+  _key?: string;
+  style?: string;
+  children?: Array<{ text?: string }>;
+}
 
 hljs.registerLanguage('typescript', typescript);
 hljs.registerLanguage('javascript', javascript);
@@ -43,15 +60,74 @@ hljs.registerLanguage('shell', bash);
 hljs.registerLanguage('json', json);
 hljs.registerLanguage('sql', sql);
 hljs.registerLanguage('java', java);
+hljs.registerLanguage('yaml', yaml);
+hljs.registerLanguage('yml', yaml);
+hljs.registerLanguage('plaintext', plaintext);
+hljs.registerLanguage('text', plaintext);
+hljs.registerLanguage('txt', plaintext);
 
 const esc = (s: string) =>
   s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
 
-// Module-level: convert Portable Text body to an HTML string.
-function renderBody(body: unknown[]): string {
+// Module-level: convert Portable Text body to HTML and derive its navigation outline.
+function renderBody(body: unknown[]): RenderedBody {
+  const toc: TocSection[] = [];
+  const headingIds = new Map<string, string>();
+  const slugCounts = new Map<string, number>();
+  let currentH2: TocSection | null = null;
+  let currentH3: TocSection | null = null;
+
+  body.forEach((value, index) => {
+    const block = value as HeadingBlock;
+    if (
+      block._type !== 'block' ||
+      (block.style !== 'h2' && block.style !== 'h3' && block.style !== 'h4')
+    )
+      return;
+
+    const text =
+      block.children
+        ?.map((child) => child.text ?? '')
+        .join('')
+        ?.trim() ?? '';
+    if (!text) return;
+
+    const baseId = slugifyHeading(text);
+    const count = (slugCounts.get(baseId) ?? 0) + 1;
+    slugCounts.set(baseId, count);
+    const id = count === 1 ? baseId : `${baseId}-${count}`;
+    headingIds.set(block._key ?? String(index), id);
+
+    const item: TocSection = { id, text, children: [] };
+    if (block.style === 'h2') {
+      toc.push(item);
+      currentH2 = item;
+      currentH3 = null;
+    } else if (block.style === 'h3' && currentH2) {
+      currentH2.children.push(item);
+      currentH3 = item;
+    } else if (block.style === 'h4' && currentH3) {
+      currentH3.children.push(item);
+    }
+  });
+
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  return toHTML(body as any, {
+  const html = toHTML(body as any, {
     components: {
+      block: {
+        h2: ({ value, index, children }) => {
+          const id = headingIds.get(value._key ?? String(index));
+          return `<h2${id ? ` id="${id}"` : ''}>${children}</h2>`;
+        },
+        h3: ({ value, index, children }) => {
+          const id = headingIds.get(value._key ?? String(index));
+          return `<h3${id ? ` id="${id}"` : ''}>${children}</h3>`;
+        },
+        h4: ({ value, index, children }) => {
+          const id = headingIds.get(value._key ?? String(index));
+          return `<h4${id ? ` id="${id}"` : ''}>${children}</h4>`;
+        },
+      },
       marks: {
         link: ({ value, children }: { value?: { href?: string }; children: string }) => {
           const href = esc(value?.href ?? '');
@@ -80,6 +156,26 @@ function renderBody(body: unknown[]): string {
       },
     },
   });
+
+  return {
+    html,
+    toc,
+    tocEntryCount: countTocEntries(toc),
+  };
+}
+
+function countTocEntries(items: TocSection[]): number {
+  return items.reduce((count, item) => count + 1 + countTocEntries(item.children), 0);
+}
+
+function slugifyHeading(text: string): string {
+  const slug = text
+    .normalize('NFKD')
+    .replace(/[\u0300-\u036f]/g, '')
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/^-+|-+$/g, '');
+  return slug || 'section';
 }
 
 @Component({
@@ -87,7 +183,7 @@ function renderBody(body: unknown[]): string {
   templateUrl: './blog-post.html',
   styleUrl: './blog-post.scss',
   encapsulation: ViewEncapsulation.None,
-  imports: [RouterLink, LoadingDots],
+  imports: [RouterLink, LoadingDots, PostToc],
 })
 export class BlogPost implements OnInit {
   private readonly sanity = inject(SanityService);
@@ -97,6 +193,7 @@ export class BlogPost implements OnInit {
   private readonly elRef = inject(ElementRef<HTMLElement>);
   private readonly injector = inject(Injector);
   private readonly destroyRef = inject(DestroyRef);
+  private readonly viewportScroller = inject(ViewportScroller);
 
   readonly blog = signal<BlogDetail | null>(null);
   readonly loading = signal(true);
@@ -113,11 +210,20 @@ export class BlogPost implements OnInit {
     return { url, label };
   });
 
-  readonly htmlBody = computed((): SafeHtml | null => {
+  private readonly renderedBody = computed((): RenderedBody | null => {
     const b = this.blog();
     if (!b?.body) return null;
-    return this.sanitizer.bypassSecurityTrustHtml(renderBody(b.body));
+    return renderBody(b.body);
   });
+
+  readonly htmlBody = computed((): SafeHtml | null => {
+    const rendered = this.renderedBody();
+    return rendered ? this.sanitizer.bypassSecurityTrustHtml(rendered.html) : null;
+  });
+
+  readonly tocSections = computed(() => this.renderedBody()?.toc ?? []);
+  readonly tocEntryCount = computed(() => this.renderedBody()?.tocEntryCount ?? 0);
+  readonly showToc = computed(() => this.tocEntryCount() >= 4);
 
   private readonly _copyBtnEffect = effect(() => {
     const html = this.htmlBody();
@@ -146,6 +252,7 @@ export class BlogPost implements OnInit {
           }
           this.blog.set(blog);
           this.loading.set(false);
+          this.scrollToInitialFragment();
         })
         .catch(() => this.router.navigate(['/not-found']));
     });
@@ -158,6 +265,14 @@ export class BlogPost implements OnInit {
 
   formatDate(iso: string): string {
     return formatDateFull(iso);
+  }
+
+  private scrollToInitialFragment(): void {
+    const fragment = this.route.snapshot?.fragment;
+    if (!fragment) return;
+    afterNextRender(() => this.viewportScroller.scrollToAnchor(fragment), {
+      injector: this.injector,
+    });
   }
 
   private attachCopyButtons(): void {

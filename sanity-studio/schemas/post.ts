@@ -63,7 +63,8 @@ export const post = defineType({
       name: "githubRepo",
       title: "GitHub Repo URL",
       type: "url",
-      description: "Companion repo for this post, e.g. https://github.com/owner/repo (optional).",
+      description:
+        "Companion repo for this post, e.g. https://github.com/owner/repo (optional).",
     }),
     defineField({
       name: "body",
@@ -93,6 +94,8 @@ export const post = defineType({
               { title: "CSS / SCSS", value: "css" },
               { title: "Bash", value: "bash" },
               { title: "JSON", value: "json" },
+              { title: "YAML", value: "yaml" },
+              { title: "Plain text", value: "text" },
               { title: "SQL", value: "sql" },
             ],
           },

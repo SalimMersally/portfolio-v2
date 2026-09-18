@@ -14,8 +14,7 @@
 }
 
 .article-header {
-  margin-bottom: 2rem;
-  padding: clamp(2.5rem, 1.62rem + 3.756vw, 5rem) 0 2rem;
+  padding: var(--page-header-pad-top) 0 1.5rem;
   border-bottom: 1px solid var(--color-border);
 }
 
@@ -23,7 +22,7 @@
 .article-meta-row,
 .article-tags,
 .series-breadcrumb,
-.post-repo-head,
+.article-repo-link,
 .series-nav-item,
 .crosspost-links,
 .crosspost-chip {
@@ -34,7 +33,7 @@
 .article-top-bar {
   justify-content: space-between;
   gap: 1rem;
-  margin-bottom: 2rem;
+  margin-bottom: 1.25rem;
 }
 
 .article-back,
@@ -44,9 +43,7 @@
 .article-tag,
 .article-date,
 .article-read,
-.post-repo-eyebrow,
-.post-repo-path,
-.post-repo-open,
+.article-repo-link,
 .series-nav-dir,
 .crosspost-label,
 .crosspost-chip {
@@ -86,7 +83,7 @@
 .series-breadcrumb {
   flex-wrap: wrap;
   gap: 0.5rem;
-  margin-bottom: 1rem;
+  margin-bottom: 0.75rem;
 }
 
 .series-bc-badge,
@@ -110,9 +107,9 @@
 }
 
 .article-title {
-  margin-bottom: 1.5rem;
+  margin-bottom: 1.25rem;
   font-family: var(--font-heading);
-  font-size: clamp(2.1rem, 1.22rem + 3.756vw, 4.6rem);
+  font-size: clamp(2.1rem, 1.5rem + 2.55vw, 3.8rem);
   letter-spacing: -0.065em;
   line-height: 1.05;
   text-wrap: balance;
@@ -136,52 +133,14 @@
   background: var(--color-border);
 }
 
-.post-repo {
-  margin-bottom: 2rem;
-  border: 1px solid var(--color-border);
-}
-
-.post-repo-head {
-  gap: 0.85rem;
-  padding: 1rem;
+.article-repo-link {
+  gap: 0.35rem;
+  color: var(--color-accent-text);
+  font-size: var(--text-2xs);
 
   &:hover {
-    background: var(--color-surface);
+    color: var(--color-accent-hover);
   }
-}
-
-.post-repo-mark {
-  color: var(--color-accent-text);
-}
-
-.post-repo-text {
-  display: flex;
-  min-width: 0;
-  flex: 1;
-  flex-direction: column;
-}
-
-.post-repo-eyebrow,
-.post-repo-open {
-  color: var(--color-text-muted);
-  font-size: var(--text-2xs);
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-}
-
-.post-repo-path {
-  overflow: hidden;
-  color: var(--color-text);
-  font-size: var(--text-xs);
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-
-.post-repo-open {
-  display: flex;
-  align-items: center;
-  gap: 0.3rem;
-  color: var(--color-accent-text);
 }
 
 .prose {
@@ -197,6 +156,7 @@
   h5,
   h6 {
     margin: 2.2rem 0 0.8rem;
+    scroll-margin-top: calc(var(--nav-h) + 1rem);
     font-family: var(--font-heading);
     line-height: 1.3;
     letter-spacing: -0.035em;
@@ -269,6 +229,9 @@
     background: var(--color-accent-subtle);
     font-family: var(--font-mono);
     font-size: 0.86em;
+    overflow-wrap: anywhere;
+    -webkit-box-decoration-break: clone;
+    box-decoration-break: clone;
   }
 
   blockquote {
@@ -376,6 +339,8 @@
     background: transparent;
     font-size: var(--text-sm);
     line-height: 1.7;
+    overflow-wrap: normal;
+    word-break: normal;
     counter-reset: line;
   }
 

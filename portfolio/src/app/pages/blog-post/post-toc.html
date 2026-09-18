@@ -1,0 +1,73 @@
+<nav class="post-toc" [class.open]="open()" aria-label="Table of contents">
+  <button
+    type="button"
+    class="toc-toggle"
+    [attr.aria-expanded]="open()"
+    aria-controls="post-toc-list"
+    (click)="toggle()"
+  >
+    <span>On this page</span>
+    <span class="toc-toggle-meta">
+      {{ entryCount() }} sections
+      <svg
+        class="toc-chevron"
+        width="12"
+        height="12"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        aria-hidden="true"
+      >
+        <polyline points="6 9 12 15 18 9" />
+      </svg>
+    </span>
+  </button>
+
+  <div id="post-toc-list" class="toc-list">
+    <ol>
+      @for (section of sections(); track section.id; let sectionIndex = $index) {
+        <li class="toc-section">
+          <a [routerLink]="['/blog', postSlug()]" [fragment]="section.id">
+            <span class="toc-number" aria-hidden="true">{{ sectionIndex + 1 }}</span>
+            {{ section.text }}
+          </a>
+          @if (section.children.length) {
+            <ol class="toc-sublist">
+              @for (child of section.children; track child.id; let childIndex = $index) {
+                <li class="toc-subitem">
+                  <a [routerLink]="['/blog', postSlug()]" [fragment]="child.id">
+                    <span class="toc-number" aria-hidden="true">
+                      {{ sectionIndex + 1 }}.{{ childIndex + 1 }}
+                    </span>
+                    {{ child.text }}
+                  </a>
+                  @if (child.children.length) {
+                    <ol class="toc-subsublist">
+                      @for (
+                        grandchild of child.children;
+                        track grandchild.id;
+                        let grandchildIndex = $index
+                      ) {
+                        <li class="toc-subsubitem">
+                          <a [routerLink]="['/blog', postSlug()]" [fragment]="grandchild.id">
+                            <span class="toc-number" aria-hidden="true">
+                              {{ sectionIndex + 1 }}.{{ childIndex + 1 }}.{{ grandchildIndex + 1 }}
+                            </span>
+                            {{ grandchild.text }}
+                          </a>
+                        </li>
+                      }
+                    </ol>
+                  }
+                </li>
+              }
+            </ol>
+          }
+        </li>
+      }
+    </ol>
+  </div>
+</nav>

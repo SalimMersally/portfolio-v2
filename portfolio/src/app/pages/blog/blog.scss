@@ -4,7 +4,7 @@
 }
 
 .blog-hero {
-  padding: clamp(3.5rem, 2.62rem + 3.756vw, 6rem) 0 2.5rem;
+  padding: var(--page-header-pad-top) 0 2.5rem;
   border-bottom: 1px solid var(--color-border);
 }
 
