@@ -1,4 +1,5 @@
-import { Injectable, signal } from '@angular/core';
+import { isPlatformBrowser } from '@angular/common';
+import { inject, Injectable, PLATFORM_ID, signal } from '@angular/core';
 
 type ColorMode = 'dark' | 'light';
 
@@ -8,10 +9,15 @@ const TRANSITION_MS = 600;
 
 @Injectable({ providedIn: 'root' })
 export class ThemeService {
+  private readonly isBrowser = isPlatformBrowser(inject(PLATFORM_ID));
   readonly mode = signal<ColorMode>('light');
   private transitionTimer?: ReturnType<typeof setTimeout>;
 
   init(): void {
+    if (!this.isBrowser) {
+      this.mode.set('light');
+      return;
+    }
     this.applyMode(this.resolveMode());
   }
 

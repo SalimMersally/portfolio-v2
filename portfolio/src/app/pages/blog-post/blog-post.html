@@ -3,7 +3,15 @@
     <app-loading-dots [fullHeight]="true" />
   }
 
-  @if (!loading() && blog(); as b) {
+  @if (state() === 'not-found') {
+    <app-not-found />
+  }
+
+  @if (state() === 'error') {
+    <app-error-page />
+  }
+
+  @if (state() === 'ready' && blog(); as b) {
     <article class="article-wrap" [class.wide]="wideMode()">
       <header class="article-header">
         <!-- Top bar: back + width toggle -->

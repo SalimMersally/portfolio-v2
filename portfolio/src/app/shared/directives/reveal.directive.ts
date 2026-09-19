@@ -1,4 +1,13 @@
-import { AfterViewInit, Directive, ElementRef, inject, input, OnDestroy } from '@angular/core';
+import { isPlatformBrowser } from '@angular/common';
+import {
+  AfterViewInit,
+  Directive,
+  ElementRef,
+  inject,
+  input,
+  OnDestroy,
+  PLATFORM_ID,
+} from '@angular/core';
 
 @Directive({
   selector: '[appReveal]',
@@ -14,9 +23,11 @@ export class RevealDirective implements AfterViewInit, OnDestroy {
   readonly delay = input('', { alias: 'appReveal' });
 
   private readonly el = inject(ElementRef<HTMLElement>);
+  private readonly isBrowser = isPlatformBrowser(inject(PLATFORM_ID));
   private observer?: IntersectionObserver;
 
   ngAfterViewInit(): void {
+    if (!this.isBrowser) return;
     this.observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {

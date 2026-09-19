@@ -98,9 +98,7 @@
     @if (loading()) {
       <app-loading-dots />
     } @else if (error()) {
-      <div class="error-state">
-        <p>Couldn't load posts. Try refreshing the page.</p>
-      </div>
+      <app-error-page />
     } @else {
       <div class="blog-feed">
         @for (item of paginated(); track trackItem($index, item)) {

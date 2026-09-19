@@ -1,4 +1,5 @@
 import {
+  afterNextRender,
   Component,
   OnDestroy,
   Renderer2,
@@ -9,6 +10,7 @@ import {
   signal,
   untracked,
 } from '@angular/core';
+import { DOCUMENT } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { BlogSeries, BlogSummary } from '../../core/models/blog-summary.model';
 import { SanityService } from '../../core/services/sanity.service';
@@ -17,6 +19,9 @@ import { CustomSelect, SelectOption } from '../../shared/components/custom-selec
 import { TagFilter } from '../../shared/components/tag-filter/tag-filter';
 import { DateRangePicker } from '../../shared/components/date-range-picker/date-range-picker';
 import { LoadingDots } from '../../shared/components/loading-dots/loading-dots';
+import { SeoService } from '../../core/services/seo.service';
+import { ServerResponseService } from '../../core/services/server-response.service';
+import { ErrorPage } from '../error/error-page';
 
 type DisplayItem =
   | {
@@ -33,31 +38,37 @@ type DisplayItem =
   selector: 'app-blog',
   templateUrl: './blog.html',
   styleUrl: './blog.scss',
-  imports: [RouterLink, CustomSelect, TagFilter, DateRangePicker, LoadingDots],
+  imports: [RouterLink, CustomSelect, TagFilter, DateRangePicker, LoadingDots, ErrorPage],
 })
 export class Blog implements OnInit, OnDestroy {
   private readonly sanity = inject(SanityService);
   private readonly renderer = inject(Renderer2);
+  private readonly document = inject(DOCUMENT);
+  private readonly seo = inject(SeoService);
+  private readonly response = inject(ServerResponseService);
 
   private readonly _bodyLock = effect(() => {
     if (!this.loading() && !this.error() && !this.blogs().length) {
-      this.renderer.setStyle(document.body, 'overflow', 'hidden');
+      this.renderer.setStyle(this.document.body, 'overflow', 'hidden');
     } else {
-      this.renderer.removeStyle(document.body, 'overflow');
+      this.renderer.removeStyle(this.document.body, 'overflow');
     }
   });
 
-  private readonly mql =
-    typeof window !== 'undefined' ? window.matchMedia('(max-width: 639px)') : null;
+  private mql: MediaQueryList | null = null;
   private readonly onMql = (e: MediaQueryListEvent) => this.tagLimit.set(e.matches ? 2 : 4);
-  readonly tagLimit = signal(this.mql?.matches ? 2 : 4);
+  readonly tagLimit = signal(4);
 
   constructor() {
-    this.mql?.addEventListener('change', this.onMql);
+    afterNextRender(() => {
+      this.mql = window.matchMedia('(max-width: 639px)');
+      this.tagLimit.set(this.mql.matches ? 2 : 4);
+      this.mql.addEventListener('change', this.onMql);
+    });
   }
   ngOnDestroy() {
     this.mql?.removeEventListener('change', this.onMql);
-    this.renderer.removeStyle(document.body, 'overflow');
+    this.renderer.removeStyle(this.document.body, 'overflow');
   }
 
   readonly blogs = signal<BlogSummary[]>([]);
@@ -184,6 +195,7 @@ export class Blog implements OnInit, OnDestroy {
   });
 
   ngOnInit(): void {
+    this.seo.setStaticPage('blog');
     this.sanity
       .getBlogs()
       .then(({ blogs }) => {
@@ -191,6 +203,11 @@ export class Blog implements OnInit, OnDestroy {
         this.loading.set(false);
       })
       .catch(() => {
+        this.response.setStatus(503);
+        this.seo.setNoIndex(
+          'Temporarily unavailable — Salim Al Mersally',
+          'The site is temporarily unavailable. Please try again shortly.',
+        );
         this.error.set(true);
         this.loading.set(false);
       });

@@ -9,6 +9,7 @@ export interface BlogNavItem {
 
 export interface BlogDetail {
   _id: string;
+  _updatedAt: string;
   title: string;
   slug: string;
   description: string;

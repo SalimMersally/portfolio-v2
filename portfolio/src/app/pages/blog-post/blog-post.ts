@@ -14,7 +14,7 @@ import {
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ViewportScroller } from '@angular/common';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
-import { ActivatedRoute, Router, RouterLink } from '@angular/router';
+import { ActivatedRoute, RouterLink } from '@angular/router';
 import { LoadingDots } from '../../shared/components/loading-dots/loading-dots';
 import { BlogDetail } from '../../core/models/blog-detail.model';
 import { SanityService } from '../../core/services/sanity.service';
@@ -34,6 +34,10 @@ import yaml from 'highlight.js/lib/languages/yaml';
 import plaintext from 'highlight.js/lib/languages/plaintext';
 import { toHTML } from '@portabletext/to-html';
 import { PostToc, TocSection } from './post-toc';
+import { SeoService } from '../../core/services/seo.service';
+import { ServerResponseService } from '../../core/services/server-response.service';
+import { ErrorPage } from '../error/error-page';
+import { NotFound } from '../not-found/not-found';
 
 interface RenderedBody {
   html: string;
@@ -183,20 +187,22 @@ function slugifyHeading(text: string): string {
   templateUrl: './blog-post.html',
   styleUrl: './blog-post.scss',
   encapsulation: ViewEncapsulation.None,
-  imports: [RouterLink, LoadingDots, PostToc],
+  imports: [RouterLink, LoadingDots, PostToc, ErrorPage, NotFound],
 })
 export class BlogPost implements OnInit {
   private readonly sanity = inject(SanityService);
-  private readonly router = inject(Router);
   private readonly route = inject(ActivatedRoute);
   private readonly sanitizer = inject(DomSanitizer);
   private readonly elRef = inject(ElementRef<HTMLElement>);
   private readonly injector = inject(Injector);
   private readonly destroyRef = inject(DestroyRef);
   private readonly viewportScroller = inject(ViewportScroller);
+  private readonly seo = inject(SeoService);
+  private readonly response = inject(ServerResponseService);
 
   readonly blog = signal<BlogDetail | null>(null);
-  readonly loading = signal(true);
+  readonly state = signal<'loading' | 'ready' | 'not-found' | 'error'>('loading');
+  readonly loading = computed(() => this.state() === 'loading');
   readonly wideMode = signal(false);
 
   /** `owner/repo[/tree/branch/path]` label derived from the post's GitHub URL. */
@@ -241,21 +247,40 @@ export class BlogPost implements OnInit {
   ngOnInit(): void {
     this.route.params.pipe(takeUntilDestroyed(this.destroyRef)).subscribe((params) => {
       const slug = params['slug'] as string;
-      this.loading.set(true);
+      this.state.set('loading');
       this.blog.set(null);
       this.sanity
         .getBlogBySlug(slug)
         .then((blog) => {
           if (!blog) {
-            this.router.navigate(['/not-found']);
+            this.showNotFound();
             return;
           }
+          this.seo.setBlogPost(blog);
           this.blog.set(blog);
-          this.loading.set(false);
+          this.state.set('ready');
           this.scrollToInitialFragment();
         })
-        .catch(() => this.router.navigate(['/not-found']));
+        .catch(() => this.showError());
     });
+  }
+
+  private showNotFound(): void {
+    this.response.setStatus(404);
+    this.seo.setNoIndex(
+      'Page not found — Salim Al Mersally',
+      'The requested page could not be found.',
+    );
+    this.state.set('not-found');
+  }
+
+  private showError(): void {
+    this.response.setStatus(503);
+    this.seo.setNoIndex(
+      'Temporarily unavailable — Salim Al Mersally',
+      'The site is temporarily unavailable. Please try again shortly.',
+    );
+    this.state.set('error');
   }
 
   setWide(wide: boolean): void {

@@ -1,4 +1,4 @@
-@if (data(); as d) {
+@if (state() === 'ready' && data(); as d) {
   <main class="home-main section-stack">
     <app-introduction [profile]="d.profile" />
     <app-services [services]="d.services" />
@@ -6,6 +6,8 @@
     <app-about [about]="d.about" />
     <app-contact [profile]="d.profile" />
   </main>
+} @else if (state() === 'error') {
+  <app-error-page />
 } @else {
   <app-loading-dots [fullHeight]="true" />
 }

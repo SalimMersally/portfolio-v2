@@ -1,4 +1,5 @@
-import { Component, computed, input, signal } from '@angular/core';
+import { isPlatformBrowser } from '@angular/common';
+import { Component, computed, inject, input, PLATFORM_ID, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { BRAND_INSTAGRAM_URL, Profile } from '../../core/models/profile.model';
 import { RevealDirective } from '../../shared/directives/reveal.directive';
@@ -21,6 +22,7 @@ export function buildMailtoHref(
   imports: [FormsModule, RevealDirective],
 })
 export class Contact {
+  private readonly isBrowser = isPlatformBrowser(inject(PLATFORM_ID));
   readonly profile = input.required<Profile>();
   readonly instagramHref = computed(() => this.profile().instagram || BRAND_INSTAGRAM_URL);
 
@@ -28,7 +30,7 @@ export class Contact {
   readonly email = signal('');
   readonly message = signal('');
   sendMessage(): void {
-    if (!this.name() || !this.email() || !this.message()) return;
+    if (!this.isBrowser || !this.name() || !this.email() || !this.message()) return;
     window.location.href = buildMailtoHref(
       this.profile().email,
       this.name(),

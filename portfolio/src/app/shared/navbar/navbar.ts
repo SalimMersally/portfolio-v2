@@ -1,4 +1,5 @@
-import { Component, HostListener, inject, signal } from '@angular/core';
+import { isPlatformBrowser } from '@angular/common';
+import { Component, HostListener, inject, PLATFORM_ID, signal } from '@angular/core';
 import { RouterLink, RouterLinkActive } from '@angular/router';
 import { ThemeService } from '../../core/services/theme.service';
 
@@ -9,12 +10,14 @@ import { ThemeService } from '../../core/services/theme.service';
   imports: [RouterLink, RouterLinkActive],
 })
 export class Navbar {
+  private readonly isBrowser = isPlatformBrowser(inject(PLATFORM_ID));
   protected readonly theme = inject(ThemeService);
   protected readonly scrolled = signal(false);
   protected readonly mobileOpen = signal(false);
 
   @HostListener('window:scroll')
   onScroll(): void {
+    if (!this.isBrowser) return;
     this.scrolled.set(window.scrollY > 20);
   }
 

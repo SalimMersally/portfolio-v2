@@ -5,6 +5,8 @@ node_modules/
 /portfolio/dist/
 /portfolio/.angular/
 /portfolio/coverage/
+/portfolio/.netlify/
+/.netlify/
 
 # Sanity Studio build output
 /sanity-studio/dist/

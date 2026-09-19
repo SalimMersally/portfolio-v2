@@ -1,4 +1,14 @@
-import { Component, computed, ElementRef, inject, input, output, signal } from '@angular/core';
+import { isPlatformBrowser } from '@angular/common';
+import {
+  Component,
+  computed,
+  ElementRef,
+  inject,
+  input,
+  output,
+  PLATFORM_ID,
+  signal,
+} from '@angular/core';
 
 export interface CalDay {
   iso: string;
@@ -20,6 +30,7 @@ export class DateRangePicker {
   readonly toChange = output<string>();
 
   private readonly host = inject(ElementRef<HTMLElement>);
+  private readonly isBrowser = isPlatformBrowser(inject(PLATFORM_ID));
 
   readonly isOpen = signal(false);
   readonly panelLeft = signal('0');
@@ -144,6 +155,7 @@ export class DateRangePicker {
   }
 
   private adjustPanel(): void {
+    if (!this.isBrowser) return;
     const PANEL_W = 288; // matches CSS width
     const rootEl = this.host.nativeElement.firstElementChild as HTMLElement;
     const rootLeft = rootEl.getBoundingClientRect().left;

@@ -1,21 +1,27 @@
-import { Injectable } from '@angular/core';
-import { createClient, SanityClient } from '@sanity/client';
-import { environment } from '../../../environments/environment';
+import {
+  inject,
+  Injectable,
+  makeStateKey,
+  PendingTasks,
+  PLATFORM_ID,
+  TransferState,
+} from '@angular/core';
+import { isPlatformServer } from '@angular/common';
+import { QueryParams, SanityClient } from '@sanity/client';
 import { PortfolioData } from '../models/portfolio-data.model';
 import { BlogSummary } from '../models/blog-summary.model';
 import { BlogDetail, BlogNavItem } from '../models/blog-detail.model';
+import { SANITY_CLIENT } from './sanity-client.token';
 
 @Injectable({ providedIn: 'root' })
 export class SanityService {
-  private readonly client: SanityClient = createClient({
-    projectId: environment.sanityProjectId,
-    dataset: environment.sanityDataset,
-    apiVersion: environment.sanityApiVersion,
-    useCdn: true,
-  });
+  private readonly client: SanityClient = inject(SANITY_CLIENT);
+  private readonly transferState = inject(TransferState);
+  private readonly pendingTasks = inject(PendingTasks);
+  private readonly platformId = inject(PLATFORM_ID);
 
   getAllPortfolioData(): Promise<PortfolioData> {
-    return this.client.fetch<PortfolioData>(`{
+    return this.fetchTransferred<PortfolioData>('sanity:portfolio', `{
       "profile": *[_type == "profile"][0] {
         name, title, tagline,
         "cvUrl": cv.asset->url,
@@ -56,9 +62,9 @@ export class SanityService {
   }
 
   getBlogs(): Promise<{ blogs: BlogSummary[] }> {
-    return this.client.fetch(`{
+    return this.fetchTransferred('sanity:blogs', `{
       "blogs": *[_type == "post"] | order(publishedAt desc) {
-        _id, title, "slug": slug.current,
+        _id, _updatedAt, title, "slug": slug.current,
         description, tags, publishedAt, readTime,
         "series": series-> { _id, title, "slug": slug.current },
         seriesOrder
@@ -67,9 +73,10 @@ export class SanityService {
   }
 
   async getBlogBySlug(slug: string): Promise<BlogDetail | null> {
-    const blog = await this.client.fetch<BlogDetail | null>(
+    const blog = await this.fetchTransferred<BlogDetail | null>(
+      `sanity:blog:${slug}`,
       `*[_type == "post" && slug.current == $slug][0] {
-        _id, title, "slug": slug.current,
+        _id, _updatedAt, title, "slug": slug.current,
         description, tags, publishedAt, readTime, mediumLink, githubRepo,
         "body": body[]{
           ...,
@@ -83,11 +90,12 @@ export class SanityService {
 
     if (!blog || !blog.series) return blog;
 
-    const nav = await this.client.fetch<{
+    const nav = await this.fetchTransferred<{
       prevPost: BlogNavItem | null;
       nextPost: BlogNavItem | null;
       seriesTotal: number;
     }>(
+      `sanity:blog-nav:${blog.series._id}:${blog.seriesOrder ?? 0}`,
       `{
         "prevPost": *[_type == "post" && references($seriesId) && seriesOrder == $order - 1][0] {
           title, "slug": slug.current, seriesOrder
@@ -106,5 +114,27 @@ export class SanityService {
       nextPost: nav.nextPost ?? undefined,
       seriesTotal: nav.seriesTotal,
     };
+  }
+
+  private fetchTransferred<T>(
+    keyName: string,
+    query: string,
+    params: QueryParams = {},
+  ): Promise<T> {
+    const key = makeStateKey<T>(keyName);
+    if (this.transferState.hasKey(key)) {
+      const value = this.transferState.get(key, undefined as T);
+      this.transferState.remove(key);
+      return Promise.resolve(value);
+    }
+
+    const complete = this.pendingTasks.add();
+    return this.client
+      .fetch<T>(query, params)
+      .then((value) => {
+        if (isPlatformServer(this.platformId)) this.transferState.set(key, value);
+        return value;
+      })
+      .finally(complete);
   }
 }

@@ -1,4 +1,4 @@
-@if (data(); as d) {
+@if (state() === 'ready' && data(); as d) {
   <main class="work-main">
     <div class="container">
       <header class="work-hero">
@@ -43,6 +43,8 @@
       <app-books [books]="d.books" />
     </div>
   </main>
+} @else if (state() === 'error') {
+  <app-error-page />
 } @else {
   <app-loading-dots [fullHeight]="true" />
 }

@@ -1,3 +1,4 @@
+import { RESPONSE_INIT } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { ActivatedRoute, provideRouter } from '@angular/router';
 import { PortableTextBlock } from '@portabletext/types';
@@ -24,6 +25,7 @@ function codeBlock(key: string, language: string, code: string): PortableTextBlo
 function postWith(body: PortableTextBlock[]): BlogDetail {
   return {
     _id: 'post-1',
+    _updatedAt: '2026-09-17T10:20:30.456Z',
     title: 'Structured article',
     slug: 'structured-article',
     description: 'A test article with a useful outline.',
@@ -54,6 +56,52 @@ async function renderPost(body: PortableTextBlock[]) {
   fixture.detectChanges();
   return { element: fixture.nativeElement as HTMLElement, fixture };
 }
+
+async function renderOutcome(result: BlogDetail | null | Error) {
+  const response = {} as ResponseInit;
+  const getBlogBySlug =
+    result instanceof Error ? vi.fn().mockRejectedValue(result) : vi.fn().mockResolvedValue(result);
+
+  await TestBed.configureTestingModule({
+    imports: [BlogPost],
+    providers: [
+      provideRouter([]),
+      { provide: ActivatedRoute, useValue: { params: of({ slug: 'missing' }) } },
+      { provide: SanityService, useValue: { getBlogBySlug } },
+      { provide: RESPONSE_INIT, useValue: response },
+    ],
+  }).compileComponents();
+
+  const fixture = TestBed.createComponent(BlogPost);
+  fixture.detectChanges();
+  await fixture.whenStable();
+  fixture.detectChanges();
+  await fixture.whenStable();
+  fixture.detectChanges();
+  return { element: fixture.nativeElement as HTMLElement, response };
+}
+
+describe('BlogPost request outcomes', () => {
+  it('renders the requested URL as noindex and 404 when the post is missing', async () => {
+    const { element, response } = await renderOutcome(null);
+
+    expect(response.status).toBe(404);
+    expect(document.querySelector('meta[name="robots"]')?.getAttribute('content')).toBe(
+      'noindex, nofollow',
+    );
+    expect(element.textContent).toContain('Page not found');
+  });
+
+  it('renders the requested URL as noindex and 503 when Sanity is unavailable', async () => {
+    const { element, response } = await renderOutcome(new Error('offline'));
+
+    expect(response.status).toBe(503);
+    expect(document.querySelector('meta[name="robots"]')?.getAttribute('content')).toBe(
+      'noindex, nofollow',
+    );
+    expect(element.textContent).toContain('Something went wrong');
+  });
+});
 
 describe('BlogPost table of contents', () => {
   it('renders h2, h3, and h4 entries as a nested outline while excluding h1', async () => {
