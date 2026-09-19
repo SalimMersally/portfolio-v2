@@ -23,9 +23,7 @@
 .article-tags,
 .series-breadcrumb,
 .article-repo-link,
-.series-nav-item,
-.crosspost-links,
-.crosspost-chip {
+.series-nav-item {
   display: flex;
   align-items: center;
 }
@@ -44,9 +42,7 @@
 .article-date,
 .article-read,
 .article-repo-link,
-.series-nav-dir,
-.crosspost-label,
-.crosspost-chip {
+.series-nav-dir {
   font-family: var(--font-mono);
 }
 
@@ -406,7 +402,9 @@
   flex-direction: column;
   gap: 2rem;
   margin-top: 4rem;
-  padding-bottom: 5rem;
+  /* 5rem when the article ended here; the comments band now follows, so this
+     is an inter-section gap rather than the page's trailing space. */
+  padding-bottom: 3rem;
 }
 
 .end-mark {
@@ -451,8 +449,7 @@
   flex-direction: column;
 }
 
-.series-nav-dir,
-.crosspost-label {
+.series-nav-dir {
   color: var(--color-text-muted);
   font-size: var(--text-2xs);
   letter-spacing: 0.07em;
@@ -466,19 +463,6 @@
 
 .series-nav-arrow {
   color: var(--color-action-text);
-}
-
-.crosspost-links {
-  justify-content: center;
-  gap: 0.7rem;
-}
-
-.crosspost-chip {
-  gap: 0.4rem;
-  padding: 0.35rem 0.6rem;
-  border: 1px solid var(--color-border);
-  color: var(--color-accent-text);
-  font-size: var(--text-2xs);
 }
 
 @media (max-width: 640px) {

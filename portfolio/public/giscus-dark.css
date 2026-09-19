@@ -1,0 +1,209 @@
+/* Giscus dark theme for salimalmersally.com.
+ *
+ * Palette values are duplicated literally from src/styles/_variables.scss — the
+ * giscus iframe is a separate document and cannot read the parent page's CSS
+ * custom properties. Keep the two in sync by hand when the palette changes.
+ *
+ * Every variable giscus's own themes define is set here. An undefined one does
+ * not fall back to something sensible: it renders as unstyled, near-invisible
+ * UI, the same failure as serving no stylesheet at all.
+ *
+ * Written properties-only rather than forked from giscus's custom_example.css,
+ * which ships `.gsc-reactions-count { display: none }` and would hide the
+ * reaction count this feature exists to show.
+ */
+
+/* The iframe is a separate document and does not inherit the parent page's
+   @font-face rules, so the site's faces are redeclared here. Relative URLs in
+   this file resolve against its own origin, and /fonts/* carries CORS headers
+   (see netlify.toml) because the fetch is cross-origin from giscus.app. */
+@font-face {
+  font-family: 'Inter';
+  src: url('/fonts/InterVariable.woff2') format('woff2');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'IBM Plex Mono';
+  src: url('/fonts/IBMPlexMono-Regular.woff2') format('woff2');
+  font-weight: 400 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'IBM Plex Mono';
+  src: url('/fonts/IBMPlexMono-Bold.woff2') format('woff2');
+  font-weight: 600 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+main {
+  /* Surfaces — --color-bg / --color-surface / --color-surface-2 */
+  --color-canvas-default: #102a43;
+  --color-canvas-overlay: #15324e;
+  --color-canvas-inset: #15324e;
+  --color-canvas-subtle: #1c3c5b;
+
+  /* Text — --color-text / --color-text-muted */
+  --color-fg-default: #fffdfa;
+  --color-fg-muted: #b6c0cf;
+  --color-fg-subtle: #b6c0cf;
+
+  /* Borders — --color-border */
+  --color-border-default: #365773;
+  --color-border-muted: #365773;
+  --color-neutral-muted: rgb(54 87 115 / 0.45);
+  --color-primer-shadow-inset: 0 0 #0000;
+
+  /* Links and accents — --color-accent* */
+  --color-accent-fg: #8ab4ff;
+  --color-accent-emphasis: #6e9eff;
+  --color-accent-muted: rgb(110 158 255 / 0.4);
+  --color-accent-subtle: rgb(110 158 255 / 0.14);
+
+  /* Buttons */
+  --color-btn-text: #fffdfa;
+  --color-btn-bg: #15324e;
+  --color-btn-border: #365773;
+  --color-btn-hover-bg: #1c3c5b;
+  --color-btn-hover-border: #365773;
+  --color-btn-active-bg: #1c3c5b;
+  --color-btn-active-border: #365773;
+  --color-btn-selected-bg: #1c3c5b;
+  --color-btn-shadow: 0 0 #0000;
+  --color-btn-inset-shadow: 0 0 #0000;
+
+  /* "Sign in with GitHub" is this section's one CTA, so it wears the site's
+     action colour (--color-action on --color-on-action), as .contact-primary
+     does — not GitHub green. */
+  --color-btn-primary-text: #102a43;
+  --color-btn-primary-bg: #f36f52;
+  --color-btn-primary-border: #f36f52;
+  --color-btn-primary-hover-bg: #ff896f;
+  --color-btn-primary-hover-border: #ff896f;
+  --color-btn-primary-selected-bg: #ff896f;
+  --color-btn-primary-selected-shadow: 0 0 #0000;
+  --color-btn-primary-shadow: 0 0 #0000;
+  --color-btn-primary-inset-shadow: 0 0 #0000;
+  --color-btn-primary-disabled-text: rgb(16 42 67 / 0.5);
+  --color-btn-primary-disabled-bg: rgb(243 111 82 / 0.55);
+  --color-btn-primary-disabled-border: rgb(243 111 82 / 0.55);
+
+  /* Segmented controls — the Write/Preview tabs and the Oldest/Newest toggle */
+  --color-segmented-control-bg: #1c3c5b;
+  --color-segmented-control-button-bg: #15324e;
+  --color-segmented-control-button-selected-border: #365773;
+  --color-action-list-item-default-hover-bg: rgb(54 87 115 / 0.45);
+
+  /* Reactions */
+  --color-social-reaction-bg-hover: #1c3c5b;
+  --color-social-reaction-bg-reacted-hover: rgb(110 158 255 / 0.14);
+
+  /* Status */
+  --color-success-fg: #63c792;
+  --color-danger-fg: #ff8d7c;
+  --color-danger-muted: rgb(255 141 124 / 0.4);
+  --color-danger-subtle: rgb(255 141 124 / 0.1);
+  --color-attention-fg: #c69026;
+  --color-attention-muted: rgb(198 144 38 / 0.4);
+  --color-attention-subtle: rgb(198 144 38 / 0.1);
+
+  /* Code in comments, mapped to the same tokens the articles use so a pasted
+     snippet matches the surrounding post. See blog-post.scss's hljs block. */
+  --color-prettylights-syntax-comment: #a7b5c8;
+  --color-prettylights-syntax-keyword: #8ab4ff;
+  --color-prettylights-syntax-entity-tag: #8ab4ff;
+  --color-prettylights-syntax-storage-modifier-import: #fffdfa;
+  --color-prettylights-syntax-string: #83d4a8;
+  --color-prettylights-syntax-string-regexp: #83d4a8;
+  --color-prettylights-syntax-constant-other-reference-link: #83d4a8;
+  --color-prettylights-syntax-entity: #91b6ff;
+  --color-prettylights-syntax-markup-heading: #91b6ff;
+  --color-prettylights-syntax-constant: #efb176;
+  --color-prettylights-syntax-variable: #efb176;
+  --color-prettylights-syntax-markup-list: #efb176;
+  --color-prettylights-syntax-markup-bold: #fffdfa;
+  --color-prettylights-syntax-markup-italic: #fffdfa;
+  --color-prettylights-syntax-meta-diff-range: #91b6ff;
+  --color-prettylights-syntax-brackethighlighter-angle: #b6c0cf;
+  --color-prettylights-syntax-brackethighlighter-unmatched: #ff8d7c;
+  --color-prettylights-syntax-sublimelinter-gutter-mark: #6f89a7;
+  --color-prettylights-syntax-markup-deleted-text: #ffd8d3;
+  --color-prettylights-syntax-markup-deleted-bg: #78191b;
+  --color-prettylights-syntax-markup-inserted-text: #b4f1b4;
+  --color-prettylights-syntax-markup-inserted-bg: #1b4721;
+  --color-prettylights-syntax-markup-changed-text: #ffddb0;
+  --color-prettylights-syntax-markup-changed-bg: #682d0f;
+  --color-prettylights-syntax-markup-ignored-text: #fffdfa;
+  --color-prettylights-syntax-markup-ignored-bg: #255ab2;
+  --color-prettylights-syntax-invalid-illegal-text: #fffdfa;
+  --color-prettylights-syntax-invalid-illegal-bg: #922323;
+  --color-prettylights-syntax-carriage-return-text: #fffdfa;
+  --color-prettylights-syntax-carriage-return-bg: #ad2e2c;
+}
+
+/* --font-body / --code-bg, matching the article's prose and code blocks. */
+body,
+main {
+  font-family: 'Inter', system-ui, sans-serif;
+}
+
+main .markdown-body pre,
+main .markdown-body code {
+  background-color: #0b1a30;
+  font-family: 'IBM Plex Mono', ui-monospace, monospace;
+}
+
+/* --- Structural pass ------------------------------------------------------
+   Kept deliberately small. Giscus is explicit that it is under active
+   development, so every selector here is a class that could be renamed; each
+   rule degrades to a cosmetic loss, never a broken widget.
+
+   Corner radii are intentionally NOT overridden: giscus already uses 4px on
+   its boxes and textareas, which is exactly --radius. */
+
+/* Reactions are the one clearly foreign shape: giscus draws them as pills
+   (border-radius 9999px), while every chip on the site is a 4px rectangle
+   (.article-tag, .crosspost-chip, .series-bc-badge). */
+main .gsc-direct-reaction-button,
+main .gsc-reactions-button,
+main .gsc-upvote-button,
+main .gsc-social-reaction-summary-item {
+  border-radius: 4px; /* --radius */
+}
+
+/* Counts and meta in mono, matching .article-date, .article-read and
+   .crosspost-label, which set every piece of article meta in IBM Plex Mono. */
+main .gsc-comments-count,
+main .gsc-replies-count,
+main .gsc-comment-replies-count,
+main .gsc-reactions-count,
+main .gsc-social-reaction-summary-item-count,
+main .gsc-direct-reaction-button {
+  font-family: 'IBM Plex Mono', ui-monospace, monospace;
+}
+
+/* Giscus centres the reactions row (justify-content: center) and sets its count
+   at 16px/600 — louder than the COMMENTS label above it, and on a different
+   axis from every other element on the page. Both are pulled back into the
+   site's left-aligned, quiet-meta language; "1 reaction" is treated like
+   .article-read ("5 min read"), which is the closest thing the site has. */
+main .gsc-reactions {
+  /* This is a COLUMN flex, so justify-content acts on the vertical axis and
+     does nothing here. align-items is the horizontal one, and it also shrinks
+     the children to their content width, which defeats the `justify-center`
+     Tailwind utility on the button row — that utility has no gsc- class to
+     target, so overriding it directly is not an option. */
+  align-items: flex-start;
+}
+
+main .gsc-reactions-count {
+  color: var(--color-fg-muted);
+  font-size: 12px; /* --text-2xs */
+  font-weight: 400;
+  text-align: left;
+}

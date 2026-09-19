@@ -34,6 +34,7 @@ import yaml from 'highlight.js/lib/languages/yaml';
 import plaintext from 'highlight.js/lib/languages/plaintext';
 import { toHTML } from '@portabletext/to-html';
 import { PostToc, TocSection } from './post-toc';
+import { PostComments } from './post-comments';
 import { SeoService } from '../../core/services/seo.service';
 import { ServerResponseService } from '../../core/services/server-response.service';
 import { ErrorPage } from '../error/error-page';
@@ -187,7 +188,7 @@ function slugifyHeading(text: string): string {
   templateUrl: './blog-post.html',
   styleUrl: './blog-post.scss',
   encapsulation: ViewEncapsulation.None,
-  imports: [RouterLink, LoadingDots, PostToc, ErrorPage, NotFound],
+  imports: [RouterLink, LoadingDots, PostToc, ErrorPage, NotFound, PostComments],
 })
 export class BlogPost implements OnInit {
   private readonly sanity = inject(SanityService);

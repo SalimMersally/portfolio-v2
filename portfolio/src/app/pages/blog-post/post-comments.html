@@ -1,0 +1,16 @@
+<section class="post-comments" aria-label="Discussion">
+  <div #giscusHost class="giscus-host"></div>
+
+  <!-- Sits directly under the compose box, which is where a reader decides
+       whether to post — not at the top where it would be forgotten. -->
+  <p class="comments-note">
+    @if (failed()) {
+      Comments could not load.
+      <a [href]="discussionsUrl" target="_blank" rel="noopener noreferrer">
+        Read the thread on GitHub</a
+      >.
+    } @else {
+      Your comment posts publicly to GitHub Discussions.
+    }
+  </p>
+</section>

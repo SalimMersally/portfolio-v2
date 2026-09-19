@@ -36,3 +36,29 @@
   for = "/*.css"
   [headers.values]
     Cache-Control = "public, max-age=31536000, immutable"
+
+# Giscus fetches these cross-origin from giscus.app, so they need CORS.
+# Two explicit blocks rather than a partial-segment glob, which Netlify
+# matches less reliably than whole path segments.
+#
+# Cache-Control is restated here to override the "/*.css" immutable rule above.
+# That rule suits Angular's content-hashed bundles; these filenames are stable,
+# so an immutable year would make a palette change invisible to visitors.
+[[headers]]
+  for = "/giscus-light.css"
+  [headers.values]
+    Access-Control-Allow-Origin = "*"
+    Cache-Control = "public, max-age=3600"
+
+[[headers]]
+  for = "/giscus-dark.css"
+  [headers.values]
+    Access-Control-Allow-Origin = "*"
+    Cache-Control = "public, max-age=3600"
+
+# The giscus iframe redeclares the site's @font-face rules and fetches these
+# from giscus.app's origin, so they need CORS like the theme files do.
+[[headers]]
+  for = "/fonts/*"
+  [headers.values]
+    Access-Control-Allow-Origin = "*"

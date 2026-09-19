@@ -1,0 +1,37 @@
+:host {
+  display: block;
+}
+
+/* Reads as another band in the article footer, matching .series-nav's
+   hairline rhythm rather than opening with a heading of its own.
+
+   No margin-top: .article-end above already carries padding-bottom: 5rem, which
+   used to be the article's trailing space and now separates it from this band.
+   Adding a margin here compounds the two into ~120px of dead air.
+
+   padding-bottom restores that trailing space at the new end of the page —
+   without it the compose box butts straight into the footer. Same 5rem, so the
+   article's closing rhythm is unchanged, just moved down past the comments. */
+.post-comments {
+  padding-bottom: 5rem;
+  border-top: 1px solid var(--color-border);
+}
+
+/* Holds space before the iframe reports its height, without leaving a tall
+   empty band if giscus is slow. */
+.giscus-host {
+  margin-top: var(--text-xs);
+  min-height: 7rem;
+}
+
+.comments-note {
+  margin-top: 1.25rem;
+  color: var(--color-text-muted);
+  font-family: var(--font-body);
+  font-size: var(--text-xs);
+
+  a {
+    color: var(--color-accent-text);
+    text-decoration: underline;
+  }
+}
